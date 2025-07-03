@@ -1,0 +1,258 @@
+{
+    "contract_address": "0x418f3aC3465FC704d0685fcAC14fE51802A9E36E",
+    "abi": [
+        {
+            "inputs": [],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "resultId",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "moleculeId",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "researcher",
+                    "type": "address"
+                }
+            ],
+            "name": "ResultRecorded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "resultId",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "bool",
+                    "name": "verified",
+                    "type": "bool"
+                }
+            ],
+            "name": "ResultVerified",
+            "type": "event"
+        },
+        {
+            "inputs": [],
+            "name": "getResultCount",
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "count",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "offset",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "limit",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getResultIds",
+            "outputs": [
+                {
+                    "internalType": "bytes32[]",
+                    "name": "ids",
+                    "type": "bytes32[]"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultId",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "getScreeningResult",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "moleculeDataHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "researcher",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "moleculeId",
+                    "type": "string"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "verified",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "moleculeDataHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "string",
+                    "name": "moleculeId",
+                    "type": "string"
+                }
+            ],
+            "name": "recordScreeningResult",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultId",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "resultIds",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "screeningResults",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "moleculeDataHash",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "timestamp",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "address",
+                    "name": "researcher",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "moleculeId",
+                    "type": "string"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "verified",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "resultId",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "verified",
+                    "type": "bool"
+                }
+            ],
+            "name": "verifyResult",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ]
+}

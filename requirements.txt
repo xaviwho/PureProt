@@ -1,0 +1,11 @@
+# Core requirements for Verifiable Drug Screening System
+web3>=7.12.0
+numpy>=1.22.0
+argparse>=1.4.0
+rdkit>=1.4.0
+py-solc-x>=1.1.1
+
+# For future integration with molecular modeling
+# rdkit>=2022.9.5
+# scikit-learn>=1.2.0
+# torch>=2.0.0

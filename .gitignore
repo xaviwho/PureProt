@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# Local configurations and secrets
+.env
+local_deployment_info.json
+deployment_info.json
+
+# Logs and data
+*.log
+test_metrics.json
+
+# Charts
+charts/
