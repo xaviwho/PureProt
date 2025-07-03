@@ -17,6 +17,7 @@ from pathlib import Path
 import argparse
 import random
 import string
+import pandas as pd
 from dotenv import load_dotenv
 
 # Import PureProt components
@@ -40,6 +41,7 @@ class EndToEndTest:
     
     def __init__(self):
         self.pipeline = ScreeningPipeline()
+        self.model_path = Path(__file__).parent / "modeling" / "binding_affinity_model.joblib"
         
         # Check if we're using local or remote blockchain
         local_deployment = os.path.exists(os.path.join(os.path.dirname(__file__), "local_deployment_info.json"))
@@ -55,6 +57,7 @@ class EndToEndTest:
         
         self.connector = None
         self.results = []
+        self.screening_results = []
         self.metrics = {
             "screening_times": [],
             "blockchain_times": [],
@@ -148,8 +151,17 @@ class EndToEndTest:
             else:
                 result["screening_success"] = True
                 result["screening_result"] = screening_result
-                logger.info(f"Screening successful: Binding affinity = {screening_result['binding_affinity']}, "
-                          f"Toxicity = {screening_result['toxicity_score']}")
+                
+                pIC50 = screening_result.get('predicted_pIC50', 'N/A')
+                passes_lipinski = screening_result.get('passes_lipinski', 'N/A')
+                logger.info(f"Screening successful: pIC50 = {pIC50}, Passes Lipinski = {passes_lipinski}")
+
+                # Store all screening results for the final report
+                self.screening_results.append({
+                    "molecule_id": molecule_id,
+                    "smiles": smiles,
+                    **screening_result
+                })
         except Exception as e:
             logger.error(f"Screening exception: {e}")
             result["screening_success"] = False
@@ -162,6 +174,7 @@ class EndToEndTest:
             start_blockchain = time.time()
             try:
                 # Structure the data for blockchain recording
+                # The keys should match what the smart contract and verification logic expect
                 structured_result = {
                     "molecule_id": molecule_id,
                     "molecule_data": {
@@ -169,8 +182,10 @@ class EndToEndTest:
                         "target_id": target_id
                     },
                     "results": {
-                        "binding_affinity": screening_result['binding_affinity'],
-                        "toxicity_score": screening_result['toxicity_score']
+                        "predicted_pIC50": screening_result.get('predicted_pIC50'),
+                        "passes_lipinski": screening_result.get('passes_lipinski'),
+                        "molecular_weight": screening_result.get('molecular_weight'),
+                        "logp": screening_result.get('logp')
                     }
                 }
                 
@@ -287,6 +302,20 @@ class EndToEndTest:
             json.dump(self.metrics, f, indent=2)
         logger.info("\nDetailed metrics saved to test_metrics.json")
 
+    def save_screening_results(self):
+        """Save the detailed screening results to a CSV file."""
+        if not self.screening_results:
+            logger.info("No screening results to save.")
+            return
+
+        results_df = pd.DataFrame(self.screening_results)
+        results_file = "screening_results.csv"
+        try:
+            results_df.to_csv(results_file, index=False)
+            logger.info(f"Screening results saved to {results_file}")
+        except Exception as e:
+            logger.error(f"Failed to save screening results: {e}")
+
     def generate_charts(self):
         """Generate charts visualizing the test results."""
         # Create charts directory if it doesn't exist
@@ -340,34 +369,41 @@ class EndToEndTest:
         logger.info(f"Charts saved to {charts_dir} directory")
 
 def generate_test_data(num_molecules: int) -> Dict[str, str]:
-    """Generate a dictionary of random, valid SMILES strings for testing."""
-    logger.info(f"Generating {num_molecules} molecules from a predefined list for testing...")
+    """Generate a dictionary of molecules from the bioactivity dataset for testing."""
+    logger.info(f"Loading {num_molecules} molecules from the bioactivity dataset for testing...")
     
-    # A list of simple, valid SMILES strings
-    valid_smiles_pool = [
-        "CC",                   # Ethane
-        "CCO",                  # Ethanol
-        "C=C",                  # Ethene
-        "CC(=O)O",              # Acetic Acid
-        "C1=CC=CC=C1",          # Benzene
-        "NC(=O)N",              # Urea
-        "CC(C)C",               # Isobutane
-        "C#N",                  # Hydrogen Cyanide
-        "CS(=O)C",              # DMSO
-        "c1ccccc1O",            # Phenol
-        "ClC(Cl)Cl",            # Chloroform
-        "O=C=O"                 # Carbon Dioxide
-    ]
+    data_file = Path(__file__).parent / "modeling" / "data" / "molecules_for_screening.csv"
     
-    molecules = {}
-    for i in range(num_molecules):
-        molecule_id = f"MOL{i+1:04d}"
-        # Randomly select a SMILES string from the pool
-        smiles_string = random.choice(valid_smiles_pool)
-        molecules[molecule_id] = smiles_string
+    try:
+        df = pd.read_csv(data_file)
+
+        # --- Column Validation ---
+        required_columns = ['molecule_chembl_id', 'canonical_smiles']
+        for col in required_columns:
+            if col not in df.columns:
+                logger.error(f"Required column '{col}' not found in the dataset at {data_file}.")
+                return {}
+
+        # Ensure we have enough molecules
+        if len(df) < num_molecules:
+            logger.warning(f"Dataset has only {len(df)} molecules, but {num_molecules} were requested. Using all available molecules.")
+            num_molecules = len(df)
         
-    logger.info("Test data generation complete.")
-    return molecules
+        # Get a random sample of molecules from the dataset
+        sample_df = df.sample(n=num_molecules, random_state=42) # Use a fixed random_state for reproducibility
+        
+        # Use the real ChEMBL ID for traceability
+        molecules = dict(zip(sample_df.molecule_chembl_id, sample_df.canonical_smiles))
+            
+        logger.info(f"Test data generation complete with {len(molecules)} molecules.")
+        return molecules
+
+    except FileNotFoundError:
+        logger.error(f"Bioactivity data file not found at {data_file}. Cannot generate test data.")
+        return {}
+    except Exception as e:
+        logger.error(f"Failed to generate test data from dataset: {e}")
+        return {}
 
 def main(args):
     """Main function to run end-to-end tests."""
@@ -391,6 +427,9 @@ def main(args):
     
     # Print summary
     test.print_summary()
+
+    # Save screening results
+    test.save_screening_results()
     
     # Generate charts
     try:
