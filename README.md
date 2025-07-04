@@ -1,4 +1,4 @@
-# Verifiable Virtual Drug Screening with Blockchain & AI
+# Blockchain-Secured AI Pipeline for Screening Amyloid-beta A4 Inhibitors in Alzheimer's Drug Discovery
 
 ## Overview
 
