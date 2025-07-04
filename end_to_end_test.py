@@ -420,7 +420,8 @@ def main(args):
     molecules = generate_test_data(args.num_tests)
     
     # For this test, we'll use a single, consistent target to measure scalability
-    targets = ["TARGET_SCALABILITY_01"]
+    # Use the official biological target for the publication
+    targets = ["Amyloid-beta A4 protein"]
     
     # Run tests
     test.run_batch_test(molecules, targets, repeat=1) # Repeat set to 1 for scalability
