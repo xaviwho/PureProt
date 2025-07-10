@@ -1,0 +1,82 @@
+[
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    },
+    {
+        "success": false,
+        "error": "{'message': 'insufficient funds for gas * price + value', 'stack': 'Error: insufficient funds for gas * price + value\\n    at TransactionPool.prepareTransaction (/usr/lib/node_modules/ganache/dist/node/1.js:2:187813)', 'code': -32003}"
+    }
+]

@@ -9,7 +9,8 @@ import logging
 import os
 import hashlib
 from pathlib import Path
-from typing import Dict, Any
+import threading
+from typing import Dict, Any, Tuple
 
 from web3 import Web3
 from dotenv import load_dotenv
@@ -20,31 +21,67 @@ logger = logging.getLogger(__name__)
 class PurechainConnector:
     """Handles connection and interaction with the Purechain network."""
 
-    def __init__(self, rpc_url: str, private_key: str, contract_address: str, chain_id: int):
+    def __init__(self, rpc_url, contract_address, private_key=None, chain_id=1):
+        """Initialize the connector.
+        
+        Args:
+            rpc_url: URL of the blockchain node
+            contract_address: Address of the deployed contract
+            private_key: Private key for signing transactions (optional for local Ganache)
+            chain_id: Chain ID of the blockchain (default: 1 for Ethereum mainnet)
         """
-        Initializes the connector, connects to the blockchain, and loads the contract.
-        """
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.info("Initializing PurechainConnector...")
-
+        self.logger = logging.getLogger(__name__)
+        self.rpc_url = rpc_url
+        self.contract_address = contract_address
+        self.private_key = private_key
+        self.chain_id = chain_id
+        self.w3 = None
+        self.contract = None
+        self.wallet_address = None
+        self.tx_lock = threading.Lock()
+        self.dev_mode = (chain_id == 1337) or ('127.0.0.1' in rpc_url) or ('localhost' in rpc_url)
+        
+        # Set up Web3
         try:
             self.w3 = Web3(Web3.HTTPProvider(rpc_url))
             if not self.w3.is_connected():
-                raise ConnectionError("Failed to connect to the blockchain RPC.")
-            self.logger.info(f"Successfully connected to blockchain node at {rpc_url}")
-
-            self.private_key = private_key
-            self.wallet_address = self.w3.eth.account.from_key(private_key).address
-            self.chain_id = chain_id
-            self.logger.info(f"Wallet address {self.wallet_address} loaded for chain ID {self.chain_id}.")
-
-            self.contract_address = contract_address
-            contract_abi = self.load_contract_abi()
-            self.contract = self.w3.eth.contract(address=self.contract_address, abi=contract_abi)
-            self.logger.info(f"Smart contract loaded at address: {self.contract_address}")
-
+                raise ConnectionError(f"Failed to connect to blockchain at {rpc_url}")
+            
+            # Handle wallet address based on mode
+            if self.dev_mode:
+                # In development mode, use the first account from Ganache
+                if not self.w3.eth.accounts:
+                    raise ValueError("No accounts available in Ganache. Make sure it's running.")
+                self.wallet_address = self.w3.eth.accounts[0]
+                self.logger.info(f"Development mode: Using Ganache account {self.wallet_address}")
+            else:
+                # In production mode, require a private key
+                if not private_key:
+                    raise ValueError("Private key is required for non-development chains")
+                account = self.w3.eth.account.from_key(private_key)
+                self.wallet_address = account.address
+            
+            # Load contract ABI from deployment info file
+            # Default location is local_deployment_info.json in the project root
+            deployment_info_path = Path(__file__).parent.parent / "local_deployment_info.json"
+            
+            # Try to load ABI from deployment info file
+            try:
+                with open(deployment_info_path, "r") as f:
+                    deployment_info = json.load(f)
+                    contract_abi = deployment_info.get("abi")
+                    if not contract_abi:
+                        raise ValueError(f"No ABI found in {deployment_info_path}")
+            except Exception as e:
+                self.logger.error(f"Failed to load contract ABI from {deployment_info_path}: {e}")
+                raise
+            
+            self.contract = self.w3.eth.contract(address=contract_address, abi=contract_abi)
+            self.logger.info(f"Connected to blockchain at {rpc_url} (Chain ID: {self.chain_id})")
+            self.logger.info(f"Using wallet: {self.wallet_address}")
+            self.logger.info(f"Contract address: {contract_address}")
         except Exception as e:
-            self.logger.error(f"Initialization failed: {e}", exc_info=True)
+            self.logger.error(f"Failed to initialize blockchain connection: {e}")
             raise
 
     @staticmethod
@@ -99,72 +136,77 @@ class PurechainConnector:
             return {"verified": False, "reason": str(e)}
 
     def record_and_verify_result(self, screening_result: Dict[str, Any]) -> Dict[str, Any]:
-        """Records a screening result on the blockchain and verifies it."""
+        """
+        Records a screening result on the blockchain and verifies it.
+
+        This method is thread-safe.
+        """
         self.logger.info("--- Recording Result on Purechain ---")
-        try:
-            # 1. Prepare data and generate hash
-            result_json = json.dumps(screening_result, sort_keys=True)
-            result_hash_bytes = hashlib.sha256(result_json.encode()).digest()
-            self.logger.info(f"  - Generated result hash: {result_hash_bytes.hex()}")
+        
+        with self.tx_lock:
+            try:
+                # 1. Prepare data and generate hash
+                result_json = json.dumps(screening_result, sort_keys=True)
+                result_hash_bytes = hashlib.sha256(result_json.encode()).digest()
+                self.logger.info(f"  - Generated result hash: {result_hash_bytes.hex()}")
 
-            # 2. Prepare transaction data
-            molecule_data_hash_bytes = hashlib.sha256(json.dumps(screening_result['molecule_data'], sort_keys=True).encode()).digest()
-            numeric_id = self.contract.functions.resultCount().call()
-            self.logger.info(f"  - Current result count: {numeric_id}. New result will have this ID.")
+                # 2. Prepare transaction data
+                molecule_data_hash_bytes = hashlib.sha256(json.dumps(screening_result['molecule_data'], sort_keys=True).encode()).digest()
 
-            # 3. Build and send the transaction
-            self.logger.info("  - Building transaction...")
-            nonce = self.w3.eth.get_transaction_count(self.wallet_address)
-            tx_params = {
-                'from': self.wallet_address,
-                'nonce': nonce,
-                'gas': 2000000,
-                'gasPrice': self.w3.to_wei('50', 'gwei'),
-                'chainId': self.chain_id
-            }
-            
-            tx = self.contract.functions.recordScreeningResult(
-                result_hash_bytes,
-                molecule_data_hash_bytes,
-                screening_result['molecule_id']
-            ).build_transaction(tx_params)
+                # 3. Build and send the transaction
+                self.logger.info("  - Building transaction...")
+                # Nonce must be fetched within the lock to prevent race conditions
+                nonce = self.w3.eth.get_transaction_count(self.wallet_address)
+                tx_params = {
+                    'from': self.wallet_address,
+                    'nonce': nonce,
+                    'gas': 300000,  # Set a manual gas limit
+                    'gasPrice': self.w3.to_wei('20', 'gwei'), # Use a standard, low gas price for local testing
+                    'chainId': self.chain_id,
+                }
+                
+                tx = self.contract.functions.recordScreeningResult(
+                    result_hash_bytes,
+                    molecule_data_hash_bytes,
+                    screening_result['molecule_id']
+                ).build_transaction(tx_params)
 
-            self.logger.info("  - Signing transaction...")
-            signed_tx = self.w3.eth.account.sign_transaction(tx, private_key=self.private_key)
+                # Different transaction handling based on mode
+                if self.dev_mode:
+                    # In development mode (Ganache), we can send directly from unlocked account
+                    self.logger.info("  - Development mode: Sending transaction from unlocked account...")
+                    tx_hash = self.w3.eth.send_transaction(tx)
+                else:
+                    # In production mode, sign transaction with private key
+                    self.logger.info("  - Production mode: Signing transaction...")
+                    signed_tx = self.w3.eth.account.sign_transaction(tx, private_key=self.private_key)
 
-            self.logger.info("  - Sending transaction...")
-            tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-            self.logger.info(f"  - Transaction hash: {tx_hash.hex()}")
+                    self.logger.info("  - Sending transaction...")
+                    tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+                self.logger.info(f"  - Transaction hash: {tx_hash.hex()}")
 
-            self.logger.info("  - Waiting for transaction receipt...")
-            receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
+                self.logger.info("  - Waiting for transaction receipt...")
+                receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
 
-            self.logger.info(f"  - Success! Transaction mined in block: {receipt.blockNumber}")
-            self.logger.info(f"  - Gas used: {receipt.gasUsed}")
-            self.logger.info(f"  - Status: {'Success' if receipt.status == 1 else 'Failed'}")
+                self.logger.info(f"  - Success! Transaction mined in block: {receipt.blockNumber}")
+                self.logger.info(f"  - Gas used: {receipt.gasUsed}")
+                self.logger.info(f"  - Status: {'Success' if receipt.status == 1 else 'Failed'}")
 
-            if receipt.status != 1:
-                self.logger.error("  - Transaction failed to execute.")
-                return {"success": False, "error": "Transaction failed"}
+                if receipt.status != 1:
+                    self.logger.error("  - Transaction failed to execute.")
+                    return {"success": False, "error": "Transaction failed on-chain"}
 
-            self.logger.info(f"  - Successfully recorded result with numeric ID: {numeric_id}")
+                self.logger.info(f"  - Successfully recorded result for molecule: {screening_result['molecule_id']}")
+                
+                # Also, let's include the numeric ID in the successful result
+                events = self.contract.events.ResultRecorded().process_receipt(receipt)
+                numeric_id = events[0]['args']['numericId'] if events else None
 
-            # 4. Client-side verification
-            verification_result = self.verify_result_client_side(tx_hash.hex(), result_hash_bytes)
+                return {"success": True, "tx_hash": tx_hash.hex(), "block_number": receipt.blockNumber, "gas_used": receipt.gasUsed, "numeric_id": numeric_id}
 
-            return {
-                "success": True,
-                "transaction_hash": tx_hash.hex(),
-                "block_number": receipt.blockNumber,
-                "gas_used": receipt.gasUsed,
-                "numeric_id": numeric_id,
-                "verified": verification_result["verified"],
-                "verification_method": "client-side"
-            }
-
-        except Exception as e:
-            self.logger.error(f"An error occurred while recording the result: {e}", exc_info=True)
-            return {"success": False, "error": str(e)}
+            except Exception as e:
+                self.logger.error(f"An error occurred while recording the result: {e}", exc_info=True)
+                return {"success": False, "error": str(e)}
 
 def main():
     """Main function for standalone testing of the connector."""

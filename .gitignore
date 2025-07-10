@@ -15,6 +15,7 @@ dist/
 # Local configurations and secrets
 .env
 local_deployment_info.json
+!local_deployment_info.json
 deployment_info.json
 
 # Logs and data

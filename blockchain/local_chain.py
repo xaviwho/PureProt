@@ -64,7 +64,8 @@ def start_local_chain():
         "--wallet.deterministic",  # Use deterministic addresses
         "--database.dbPath=./.ganache-db",  # Persist blockchain data
         "--miner.blockTime=0",  # Mine blocks instantly
-        "--chain.chainId=1337"  # Set chain ID via chain namespace (Ganache 7.x syntax)
+        "--chain.chainId=1337",  # Set chain ID via chain namespace (Ganache 7.x syntax)
+        "--wallet.defaultBalance=1000"  # Set default balance to 1000 ETH
     ]
     
     print(f"Executing: {' '.join(ganache_command)}")
@@ -214,8 +215,13 @@ def deploy_contract(w3, abi, bytecode):
 
 def save_deployment_info(contract_address, abi, deployment_info_path):
     """Save deployment information to a JSON file."""
+    # Use the first default Ganache private key for testing
+    # IMPORTANT: This is a default, public key for development ONLY.
+    private_key = "0xab131a65d4122542484be348e06a68a749dbe6821431f8cdb7be5f92b70063b9"
+
     deployment_info = {
         "address": contract_address,
+        "private_key": private_key,
         "abi": abi
     }
     

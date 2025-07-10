@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 # Import RDKit for real molecular modeling
 try:
     from rdkit import Chem
-    from rdkit.Chem import Descriptors, Lipinski, AllChem
+    from rdkit.Chem import Descriptors, Lipinski, AllChem, rdFingerprintGenerator
     RDKIT_AVAILABLE = True
 except ImportError:
     logger.critical("RDKit not available. This module cannot function without it. Please install RDKit.")
@@ -89,7 +89,12 @@ class BindingAffinityModel:
         mol = Chem.MolFromSmiles(smiles)
         if mol is None:
             return None
-        return AllChem.GetMorganFingerprintAsBitVect(mol, 2, nBits=2048)
+        fp_gen = rdFingerprintGenerator.GetMorganGenerator(radius=2, fpSize=2048)
+        return fp_gen.GetFingerprint(mol)
+
+    def get_version(self) -> str:
+        """Return the version of the model."""
+        return "1.0.0"
 
     def predict(self, smiles: str, target_id: Optional[str] = None) -> Optional[float]:
         """Predict binding affinity (pIC50) for a given SMILES string."""

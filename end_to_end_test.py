@@ -19,10 +19,10 @@ import random
 import string
 import pandas as pd
 from dotenv import load_dotenv
-
 # Import PureProt components
 from modeling.molecular_modeling import ScreeningPipeline
 from blockchain.purechain_connector import PurechainConnector
+from blockchain.deploy import deploy_contract, compile_contract, save_deployment_info
 
 # Configure logging
 import logging
@@ -30,7 +30,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[
-        logging.FileHandler("end_to_end_test.log"),
         logging.StreamHandler()
     ]
 )
@@ -78,7 +77,39 @@ class EndToEndTest:
         load_dotenv()
 
         try:
-            # 1. Load contract address from deployment info file
+            # For local testing, always redeploy the contract to ensure a fresh state
+            if "127.0.0.1" in self.blockchain_url or "localhost" in self.blockchain_url:
+                logger.info("Local deployment detected. Redeploying contract directly...")
+                try:
+                    contract_path = Path(__file__).parent / "blockchain" / "DrugScreeningVerifier.sol"
+                    output_path = self.deployment_file
+
+                    # Compile contract
+                    abi, bytecode = compile_contract(str(contract_path))
+
+                    # Deploy contract using development mode (use Ganache's first account)
+                    # No private key needed as we're using Ganache's unlocked accounts
+                    new_address = deploy_contract(
+                        rpc_url=self.blockchain_url,
+                        chain_id=1337,
+                        abi=abi,
+                        bytecode=bytecode,
+                        dev_mode=True
+                    )
+
+                    if not new_address:
+                        logger.error("Contract deployment failed. Aborting test.")
+                        return False
+
+                    # Save new deployment info
+                    save_deployment_info(new_address, abi, str(output_path))
+                    logger.info("Contract deployed and info saved successfully for test run.")
+
+                except Exception as e:
+                    logger.error(f"An exception occurred during automated contract deployment: {e}", exc_info=True)
+                    return False
+
+            # 1. Load contract address from deployment info file (now guaranteed to be fresh for local tests)
             with open(self.deployment_file, 'r') as f:
                 deployment_info = json.load(f)
             contract_address = deployment_info.get("address")
@@ -86,15 +117,14 @@ class EndToEndTest:
                 logger.error(f"Contract address not found in {self.deployment_file}")
                 return False
 
-            # 2. Get private key from environment or use a default for local testing
-            private_key = os.getenv("TEST_PRIVATE_KEY")
-            if not private_key:
-                if "127.0.0.1" in self.blockchain_url or "localhost" in self.blockchain_url:
-                    private_key = "0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d" # Default Ganache key
-                    logger.warning("TEST_PRIVATE_KEY not set. Using default Ganache private key.")
-                else:
-                    logger.error("TEST_PRIVATE_KEY environment variable not set for remote connection.")
-                    return False
+            # 2. For local testing, we don't need a private key as we'll use Ganache's unlocked first account
+            # For remote connections, we still need the private key from environment
+            is_local = "127.0.0.1" in self.blockchain_url or "localhost" in self.blockchain_url
+            private_key = None if is_local else os.getenv("TEST_PRIVATE_KEY")
+            
+            if not is_local and not private_key:
+                logger.error("TEST_PRIVATE_KEY environment variable not set for remote connection.")
+                return False
             
             # 3. Determine Chain ID
             if "127.0.0.1" in self.blockchain_url or "localhost" in self.blockchain_url:
@@ -442,6 +472,6 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run PureProt End-to-End Tests.")
-    parser.add_argument("--num_tests", type=int, default=10, help="Number of molecules to generate for testing.")
+    parser.add_argument("--num_tests", type=int, default=100, help="Number of molecules to generate for testing.")
     args = parser.parse_args()
     main(args)

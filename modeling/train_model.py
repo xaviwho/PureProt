@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import SVR
 from sklearn.metrics import r2_score
 import joblib
 import pathlib
@@ -50,10 +50,10 @@ def train_and_save_model():
     print("Splitting data into training and testing sets...")
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # Initialize and train the Random Forest Regressor model
-    print("Training the Random Forest model...")
-    # n_estimators=100 is a good default. random_state ensures reproducibility.
-    model = RandomForestRegressor(n_estimators=100, random_state=42, oob_score=True)
+    # Initialize and train the Support Vector Regressor (SVR) model
+    print("Training the SVR model...")
+    # SVR with a radial basis function (RBF) kernel is a good default
+    model = SVR()
     model.fit(X_train, y_train)
     print("Model training complete.")
 
@@ -61,15 +61,12 @@ def train_and_save_model():
     print("Evaluating model performance...")
     y_pred = model.predict(X_test)
     r2 = r2_score(y_test, y_pred)
-    oob = model.oob_score_
     
     print("-" * 30)
     print(f"Model Performance on Test Set:")
     print(f"R-squared (R²): {r2:.4f}")
-    print(f"Out-of-Bag (OOB) Score: {oob:.4f}")
     print("-" * 30)
     print("\nAn R-squared value close to 1.0 indicates that the model predicts the data well.")
-    print("The OOB score is a cross-validation estimate of performance on unseen data.")
 
 
     # Save the trained model to a file
