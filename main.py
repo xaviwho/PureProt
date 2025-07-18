@@ -15,7 +15,7 @@ from typing import Dict, Any, List, Optional
 from workflow.verification_workflow import VerifiableDrugScreening
 
 # Purechain configuration
-PURECHAIN_RPC_URL = "http://43.200.53.250:8548"
+PURECHAIN_RPC_URL = "https://purechainnode.com:8547"
 PURECHAIN_CHAIN_ID = 900520900520
 PURECHAIN_CURRENCY = "PCC"
 
@@ -25,27 +25,36 @@ class DrugScreeningCLI:
     
     def __init__(self):
         """Initialize the CLI system."""
-        self.workflow = VerifiableDrugScreening(PURECHAIN_RPC_URL)
+        self.workflow = VerifiableDrugScreening(
+            rpc_url=PURECHAIN_RPC_URL, 
+            chain_id=PURECHAIN_CHAIN_ID
+        )
         self.connected = False
         self.results_file = "screening_results.json"
+        # Automatically load previous results if they exist
+        if os.path.exists(self.results_file):
+            self.workflow.load_results(self.results_file)
     
     def connect(self) -> bool:
         """Connect to blockchain and initialize workflow.
-        
+
         Returns:
             bool: True if connection successful, False otherwise
         """
         print(f"Connecting to Purechain at {PURECHAIN_RPC_URL}...")
         start_time = time.time()
-        
-        if self.workflow.connect_wallet():
+
+        try:
+            # The connection is established in the VerifiableDrugScreening constructor.
+            # If the CLI object initializes without error, the connection is ready.
             self.connected = True
             elapsed = time.time() - start_time
-            print(f"✓ Connected to Purechain (Chain ID: {PURECHAIN_CHAIN_ID}, Currency: {PURECHAIN_CURRENCY})")
+            print(f"Success: Connected to Purechain (Chain ID: {PURECHAIN_CHAIN_ID}, Currency: {PURECHAIN_CURRENCY})")
+            print(f"  Wallet address: {self.workflow.blockchain.wallet_address}")
             print(f"  Connection established in {elapsed:.2f} seconds")
             return True
-        else:
-            print("✗ Failed to connect to blockchain")
+        except Exception as e:
+            print(f"Failed to connect to blockchain: {e}")
             return False
     
     def screen(self, molecule_id: str, smiles: str, target_id: str = "default") -> Dict[str, Any]:
@@ -75,15 +84,15 @@ class DrugScreeningCLI:
             print("\nScreening Results:")
             print(f"  Molecule: {result['molecule_id']}")
             print(f"  Target: {result['target_id']}")
-            print(f"  Binding Affinity: {result['binding_affinity']} kcal/mol")
-            print(f"  Toxicity Score: {result['toxicity_score']}")
+            print(f"  Predicted pIC50: {result.get('screening_data', {}).get('predicted_pIC50', 'N/A')}")
+            print(f"  Lipinski Violations: {result.get('molecule_data', {}).get('lipinski_violations', 'N/A')}")
             print(f"  Job ID: {result['job_id']}")
             
             if "verification" in result and "tx_hash" in result["verification"]:
-                print(f"  Blockchain Verification: ✓")
+                print(f"  Blockchain Verification: Success")
                 print(f"  Transaction Hash: {result['verification']['tx_hash']}")
             else:
-                print(f"  Blockchain Verification: ✗")
+                print(f"  Blockchain Verification: Failed")
         else:
             print(f"Error: {result['error']}")
         
@@ -121,8 +130,10 @@ class DrugScreeningCLI:
             # Print summary
             print("\nBatch Screening Summary:")
             for mol_id, result in results.items():
-                verification_status = "✓" if "verification" in result and "tx_hash" in result["verification"] else "✗"
-                print(f"  {mol_id}: {result['binding_affinity']} kcal/mol, toxicity {result['toxicity_score']} [{verification_status}]")
+                verification_status = "Success" if "verification" in result and "tx_hash" in result["verification"] else "Failed"
+                pIC50 = result.get('screening_data', {}).get('predicted_pIC50', 'N/A')
+                violations = result.get('molecule_data', {}).get('lipinski_violations', 'N/A')
+                print(f"  {mol_id}: pIC50={pIC50}, Lipinski Violations={violations} [{verification_status}]")
             
             # Auto-save results
             self.workflow.save_results(self.results_file)
@@ -155,12 +166,17 @@ class DrugScreeningCLI:
         
         # Print verification result
         if "error" not in verification:
-            status = "✓ Verified" if verification["verified"] else "✗ Failed"
-            print("\nVerification Result:")
-            print(f"  Status: {status}")
-            print(f"  Job ID: {verification['job_id']}")
-            print(f"  Molecule ID: {verification['molecule_id']}")
-            print(f"  Time: {verification['verification_time']}")
+            if verification.get("verified"):
+                print("\nVerification Result:")
+                print("  Status: Success")
+                print(f"  Job ID: {job_id}")
+                print(f"  Transaction Hash: {tx_hash}")
+                print("  Note: The local result hash matches the on-chain hash.")
+            else:
+                print("\nVerification Result:")
+                print("  Status: Failed")
+                reason = verification.get("reason", "No reason provided.")
+                print(f"  Reason: {reason}")
         else:
             print(f"Error: {verification['error']}")
         
@@ -200,13 +216,13 @@ class DrugScreeningCLI:
             print("\nJob History:")
             for job_id, result in history.items():
                 mol_id = result.get("molecule_id", "unknown")
-                binding = result.get("binding_affinity", "N/A")
-                toxicity = result.get("toxicity_score", "N/A")
+                pIC50 = result.get('screening_data', {}).get('predicted_pIC50', 'N/A')
+                violations = result.get('molecule_data', {}).get('lipinski_violations', 'N/A')
                 
-                verification = "✓" if "verification" in result and "tx_hash" in result["verification"] else "✗"
-                timestamp = result.get("submission_time", "N/A")
+                verification = "Success" if "verification" in result and "tx_hash" in result["verification"] else "Failed"
+                timestamp = result.get("timestamp", "N/A")
                 
-                print(f"  {job_id[:8]}... | {mol_id} | BA: {binding} | Tox: {toxicity} | {verification} | {timestamp}")
+                print(f"  {job_id[:8]}... | {mol_id} | pIC50: {pIC50} | Violations: {violations} | {verification} | {timestamp}")
         else:
             print("No job history available")
 

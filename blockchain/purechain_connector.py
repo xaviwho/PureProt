@@ -161,9 +161,14 @@ class PurechainConnector:
                     'from': self.wallet_address,
                     'nonce': nonce,
                     'gas': 300000,  # Set a manual gas limit
-                    'gasPrice': self.w3.to_wei('20', 'gwei'), # Use a standard, low gas price for local testing
                     'chainId': self.chain_id,
                 }
+
+                # Set gas price to zero for Purechain (gas-free)
+                if self.chain_id == 900520900520:
+                    tx_params['gasPrice'] = 0
+                else:
+                    tx_params['gasPrice'] = self.w3.to_wei('20', 'gwei') # Default for other chains
                 
                 tx = self.contract.functions.recordScreeningResult(
                     result_hash_bytes,
