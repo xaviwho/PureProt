@@ -1,103 +1,130 @@
-# Blockchain-Secured AI Pipeline for Screening Amyloid-beta A4 Inhibitors in Alzheimer's Drug Discovery
+# PureProt: An AI-Blockchain Enabled Virtual Screening Tool for Drug Discovery
 
 ## Overview
 
-This project implements a verifiable drug screening system that integrates AI-enhanced molecular modeling with blockchain verification. The system allows researchers to perform virtual drug screening with transparent, reproducible, and immutable results secured by the Purechain blockchain.
+PureProt is a command-line interface (CLI) tool designed to provide a transparent, reproducible, and user-friendly virtual screening workflow for drug discovery. It seamlessly integrates automated data fetching, AI model training, molecular screening, and blockchain-based verification to create a complete, end-to-end scientific pipeline.
+
+This tool is built for researchers who need to perform virtual screenings and wish to maintain a verifiable, immutable record of their results. By leveraging the Purechain blockchain, every screening job can be recorded and later verified, ensuring the integrity and auditability of the scientific process.
 
 ## Features
 
-- **Blockchain-Verified Results**: All screening results are hashed and stored on the Purechain blockchain for verification and auditability
-- **AI-Enhanced Molecular Modeling**: Simulated molecular feature extraction, binding affinity prediction, and toxicity screening
-- **Command-Line Interface**: Easy-to-use CLI for running screening jobs and verifying results
-- **Verifiable Workflow**: Complete integration between off-chain AI computations and on-chain verification
-- **Comprehensive Testing**: Unit and integration tests for all components
+- **End-to-End Workflow**: A complete pipeline from data acquisition to verifiable results.
+- **Automated Data Fetching**: Download and prepare bioactivity data from the ChEMBL database with a single command.
+- **Custom AI Model Training**: Train your own Support Vector Regression (SVR) models on custom datasets.
+- **Dynamic Model Loading**: Screen molecules using either the default model or your own custom-trained models.
+- **RDKit-Powered Screening**: Performs binding affinity prediction and calculates drug-like properties (Lipinski's Rule of Five) using RDKit.
+- **Blockchain Verification**: Records a hash of each screening result on the Purechain blockchain, allowing anyone to verify the result's integrity.
+- **Persistent Job History**: Automatically saves all screening results to `pureprot_results.json`, creating a stateful history of all your work.
+- **User-Friendly CLI**: A simple and intuitive command-line interface makes the entire workflow accessible.
 
 ## Project Structure
 
 ```
 .
-├── blockchain/              # Blockchain interaction components
-│   ├── purechain_connector.py            # Purechain blockchain connector
-│   ├── deploy.py                         # Smart contract deployment script
-│   └── DrugScreeningVerifier.sol         # Solidity smart contract
-├── docs/                   # Project documentation
-│   └── ai_modeling_pipeline.md           # Explanation of the AI pipeline
-├── modeling/               # AI molecular modeling components 
-│   └── molecular_modeling.py             # Molecular representation and AI models
-├── workflow/               # Core workflow components
-│   └── verification_workflow.py          # Integration of blockchain and modeling
-├── tests/                  # Test suite
-│   └── test_system.py                   # Unit and integration tests
-├── main.py                 # CLI interface
-├── requirements.txt        # Python dependencies
-└── README.md               # This file
+├── blockchain/
+│   ├── purechain_connector.py      # Handles all interaction with the Purechain blockchain.
+│   └── DrugScreeningVerifier.sol   # The Solidity smart contract for on-chain verification.
+├── modeling/
+│   ├── data_loader.py              # Fetches and prepares data from ChEMBL.
+│   ├── model_trainer.py            # Trains and saves the AI model.
+│   └── molecular_modeling.py       # Core screening pipeline using RDKit and AI models.
+├── workflow/
+│   └── verification_workflow.py    # Integrates the AI screening and blockchain verification.
+├── PureProt.py                     # The main CLI entry point.
+├── pureprot_results.json           # Stores the history of all screening jobs (auto-generated).
+├── requirements.txt                # Python dependencies.
+└── README.md                       # This file.
 ```
 
 ## Installation
 
-1. Set up a Python virtual environment:
+1.  **Clone the repository**
+
+2.  **Create a Python virtual environment**:
+    ```bash
+    python -m venv venv
+    # On Windows
+    venv\Scripts\activate
+    # On macOS/Linux
+    source venv/bin/activate
+    ```
+
+3.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Set up your blockchain wallet**:
+    Create a `.env` file in the root directory and add your wallet's private key:
+    ```
+    TEST_PRIVATE_KEY="your_private_key_here"
+    ```
+    **Note**: This key is used to pay for gas fees when recording results on the blockchain. The Purechain testnet is configured for gas-free transactions.
+
+## A Full Workflow Example
+
+Here is how you can use PureProt to perform a complete, end-to-end virtual screening:
+
+### Step 1: Fetch Data for a Target
+
+First, download and prepare training data for a specific biological target from ChEMBL. We'll use BRAF (CHEMBL4822) as an example.
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python PureProt.py fetch-data "CHEMBL4822" --output "braf_data.csv"
 ```
 
-2. Install dependencies:
+This command creates `braf_data.csv`, a file containing molecules and their known pIC50 values for the BRAF target.
+
+### Step 2: Train a Custom AI Model
+
+Next, train a new AI model on the data you just downloaded.
 
 ```bash
-pip install -r requirements.txt
+python PureProt.py train-model "braf_data.csv" --output "braf_model.joblib"
 ```
 
-## Usage
+This creates `braf_model.joblib`, a trained model file ready for screening.
 
-The system provides a CLI interface with the following commands:
+### Step 3: Screen a Molecule
 
-- **Connect to blockchain**:
-  ```bash
-  python main.py connect
-  ```
-
-- **Screen a single molecule**:
-  ```bash
-  python main.py screen aspirin "CC(=O)OC1=CC=CC=C1C(=O)O" --target "protein1"
-  ```
-
-- **Batch screen molecules from a file**:
-  ```bash
-  python main.py batch molecules.json
-  ```
-
-- **Verify a screening result**:
-  ```bash
-  python main.py verify <job_id> <tx_hash>
-  ```
-
-- **Show job history**:
-  ```bash
-  python main.py history
-  ```
-
-## Configuration
-
-Purechain blockchain configuration is set in `main.py`:
-
-- RPC URL: `http://43.200.53.250:8548`
-- Chain ID: `900520900520`
-- Currency: `PCC`
-
-## Testing
-
-Run the test suite:
+Now, use your custom-trained model to screen a new molecule. The result will be automatically recorded on the blockchain.
 
 ```bash
-python -m unittest tests/test_system.py
+python PureProt.py screen "MyBrafTest-01" --smiles "CNC(=O)c1cc(c(cn1)Oc1ccc(cc1)F)NC(=O)C(C)(C)C" --model "braf_model.joblib"
 ```
 
-## Future Enhancements
+Take note of the `job_id` returned in the output.
 
-- Integration with real molecular modeling libraries (RDKit, PyTorch)
-- Web interface with MetaMask wallet support
-- Smart contract deployment on Purechain mainnet
+### Step 4: Verify the Result
+
+Finally, use the `job_id` to verify that the result stored locally matches the immutable record on the blockchain.
+
+```bash
+python PureProt.py verify "<your_job_id_from_step_3>"
+```
+
+A successful verification will return `"verified": true`.
+
+### Step 5: View Job History
+
+You can view a summary of all your past screening jobs at any time:
+
+```bash
+python PureProt.py history
+```
+
+## CLI Command Reference
+
+-   `info`: Displays project information and command usage.
+-   `connect`: Tests the connection to the Purechain blockchain.
+-   `fetch-data <target_id>`: Fetches and prepares data for a ChEMBL target.
+-   `train-model <dataset_path>`: Trains a new model on a dataset.
+-   `screen <molecule_id>`: Screens a single molecule.
+-   `batch <csv_path>`: Screens a batch of molecules from a CSV file.
+-   `verify <job_id>`: Verifies a screening result from the blockchain.
+-   `history`: Shows the history of all screening jobs.
+
+For more details on any command, run `python PureProt.py [command] --help`.
 - Performance optimizations for batch screening
 
 ## Contributing

@@ -7,6 +7,7 @@ contracts, and sending transactions to record and verify molecular screening dat
 import json
 import logging
 import os
+import time
 import hashlib
 from pathlib import Path
 import threading
@@ -107,19 +108,16 @@ class PurechainConnector:
         """
         Verifies a transaction by decoding its input data, as direct state reads are unavailable.
         """
+        start_time = time.time()
         self.logger.info(f"--- Verifying result for Tx {tx_hash} (Client-Side) ---")
         try:
             tx = self.w3.eth.get_transaction(tx_hash)
-            # The first 4 bytes are the function selector
-            # The arguments are encoded in the rest of the input data
             func_selector, func_params = self.contract.decode_function_input(tx.input)
 
-            # The hash is the second argument ('resultHash') in the recordResult function
             on_chain_hash_bytes = func_params.get('resultHash')
 
             if on_chain_hash_bytes is None:
-                self.logger.warning("Could not find 'resultHash' in decoded transaction input.")
-                return {"verified": False, "reason": "Hash not found in transaction input."}
+                return {"verified": False, "reason": "Hash not found in transaction input.", "duration": time.time() - start_time}
 
             self.logger.info(f"  - Original Hash: {original_hash_bytes.hex()}")
             self.logger.info(f"  - On-chain Hash: {on_chain_hash_bytes.hex()}")
@@ -130,88 +128,67 @@ class PurechainConnector:
             else:
                 self.logger.error("  - FAILURE: On-chain hash does NOT match original hash.")
 
-            return {"verified": verified}
+            return {"verified": verified, "duration": time.time() - start_time}
         except Exception as e:
             self.logger.error(f"Client-side verification failed: {e}", exc_info=True)
-            return {"verified": False, "reason": str(e)}
+            return {"verified": False, "reason": str(e), "duration": time.time() - start_time}
 
-    def record_and_verify_result(self, screening_result: Dict[str, Any]) -> Dict[str, Any]:
+    def record_and_verify_result(self, result_hash_bytes: bytes, molecule_data_hash_bytes: bytes, molecule_id: str) -> Dict[str, Any]:
         """
-        Records a screening result on the blockchain and verifies it.
+        Records a screening result on the blockchain using pre-computed hashes.
 
         This method is thread-safe.
         """
+        start_time = time.time()
         self.logger.info("--- Recording Result on Purechain ---")
-        
+
         with self.tx_lock:
             try:
-                # 1. Prepare data and generate hash
-                result_json = json.dumps(screening_result, sort_keys=True)
-                result_hash_bytes = hashlib.sha256(result_json.encode()).digest()
-                self.logger.info(f"  - Generated result hash: {result_hash_bytes.hex()}")
 
-                # 2. Prepare transaction data
-                molecule_data_hash_bytes = hashlib.sha256(json.dumps(screening_result['molecule_data'], sort_keys=True).encode()).digest()
-
-                # 3. Build and send the transaction
-                self.logger.info("  - Building transaction...")
-                # Nonce must be fetched within the lock to prevent race conditions
                 nonce = self.w3.eth.get_transaction_count(self.wallet_address)
                 tx_params = {
                     'from': self.wallet_address,
                     'nonce': nonce,
-                    'gas': 300000,  # Set a manual gas limit
+                    'gas': 300000,
                     'chainId': self.chain_id,
                 }
 
-                # Set gas price to zero for Purechain (gas-free)
                 if self.chain_id == 900520900520:
                     tx_params['gasPrice'] = 0
                 else:
-                    tx_params['gasPrice'] = self.w3.to_wei('20', 'gwei') # Default for other chains
+                    tx_params['gasPrice'] = self.w3.to_wei('20', 'gwei')
                 
                 tx = self.contract.functions.recordScreeningResult(
-                    result_hash_bytes,
-                    molecule_data_hash_bytes,
-                    screening_result['molecule_id']
+                    result_hash_bytes, molecule_data_hash_bytes, molecule_id
                 ).build_transaction(tx_params)
 
-                # Different transaction handling based on mode
                 if self.dev_mode:
-                    # In development mode (Ganache), we can send directly from unlocked account
-                    self.logger.info("  - Development mode: Sending transaction from unlocked account...")
                     tx_hash = self.w3.eth.send_transaction(tx)
                 else:
-                    # In production mode, sign transaction with private key
-                    self.logger.info("  - Production mode: Signing transaction...")
                     signed_tx = self.w3.eth.account.sign_transaction(tx, private_key=self.private_key)
-
-                    self.logger.info("  - Sending transaction...")
                     tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-                self.logger.info(f"  - Transaction hash: {tx_hash.hex()}")
-
-                self.logger.info("  - Waiting for transaction receipt...")
+                
                 receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
-
-                self.logger.info(f"  - Success! Transaction mined in block: {receipt.blockNumber}")
-                self.logger.info(f"  - Gas used: {receipt.gasUsed}")
-                self.logger.info(f"  - Status: {'Success' if receipt.status == 1 else 'Failed'}")
+                duration = time.time() - start_time
 
                 if receipt.status != 1:
-                    self.logger.error("  - Transaction failed to execute.")
-                    return {"success": False, "error": "Transaction failed on-chain"}
+                    return {"success": False, "error": "Transaction failed on-chain", "duration": duration}
 
-                self.logger.info(f"  - Successfully recorded result for molecule: {screening_result['molecule_id']}")
-                
-                # Also, let's include the numeric ID in the successful result
                 events = self.contract.events.ResultRecorded().process_receipt(receipt)
                 numeric_id = events[0]['args']['numericId'] if events else None
 
-                return {"success": True, "tx_hash": tx_hash.hex(), "block_number": receipt.blockNumber, "gas_used": receipt.gasUsed, "numeric_id": numeric_id}
+                return {
+                    "success": True, 
+                    "tx_hash": tx_hash.hex(), 
+                    "block_number": receipt.blockNumber, 
+                    "gas_used": receipt.gasUsed, 
+                    "numeric_id": numeric_id,
+                    "duration": duration
+                }
 
             except Exception as e:
                 self.logger.error(f"An error occurred while recording the result: {e}", exc_info=True)
-                return {"success": False, "error": str(e)}
+                return {"success": False, "error": str(e), "duration": time.time() - start_time}
 
 def main():
     """Main function for standalone testing of the connector."""

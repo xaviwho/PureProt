@@ -1,0 +1,23 @@
+{
+  "Cc1cccc(-c2n[nH]cc2-c2ccc3ncccc3n2)n1-1752819758": {
+    "molecule_id": "Cc1cccc(-c2n[nH]cc2-c2ccc3ncccc3n2)n1",
+    "target_id": "default",
+    "timestamp": 1752819758,
+    "model_version": "1.0.0",
+    "molecule_data": {
+      "smiles": "Cc1cccc(-c2n[nH]cc2-c2ccc3ncccc3n2)n1",
+      "lipinski_violations": 0
+    },
+    "screening_data": {
+      "predicted_pIC50": 5.3484,
+      "assessment": "UNFAVORABLE - Weak binding and/or poor drug-like properties"
+    },
+    "execution_time": 0.051232337951660156,
+    "job_id": "Cc1cccc(-c2n[nH]cc2-c2ccc3ncccc3n2)n1-1752819758",
+    "verification": {
+      "tx_hash": "ecf027221dcf11abf39a1790b33fa8df0aafb5a43dfef8f480a4685f88f14f0c",
+      "result_id": null,
+      "status": "recorded"
+    }
+  }
+}

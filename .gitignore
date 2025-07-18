@@ -21,6 +21,7 @@ deployment_info.json
 # Logs and data
 *.log
 test_metrics.json
+screening_results.json
 
 # Charts
 charts/

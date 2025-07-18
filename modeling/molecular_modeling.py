@@ -69,18 +69,18 @@ class DrugCandidacyModel:
             return {"error": str(e), "passes_lipinski": False}
 
 
-class BindingAffinityModel:
-    """AI model for predicting binding affinity using a trained Random Forest model."""
+class AIPredictor:
+    """Handles AI-based predictions for molecular properties."""
 
-    def __init__(self):
-        """Load the pre-trained model from file."""
-        model_path = pathlib.Path(__file__).parent / "binding_affinity_model.joblib"
-        try:
-            self.model = joblib.load(model_path)
-            logger.info("Trained binding affinity model loaded successfully.")
-        except FileNotFoundError:
-            logger.error(f"Model file not found at {model_path}. Please run train_model.py first.")
-            self.model = None
+    def __init__(self, model):
+        """Initialize the predictor with a pre-loaded AI model."""
+        if model is None:
+            raise ValueError("AIPredictor requires a valid, pre-loaded model.")
+        self.model = model
+
+
+class BindingAffinityModel(AIPredictor):
+    """AI model for predicting binding affinity using a trained SVR model."""
 
     def _smiles_to_fp(self, smiles: str):
         """Convert a SMILES string to a Morgan fingerprint."""
@@ -116,10 +116,23 @@ class BindingAffinityModel:
 class ScreeningPipeline:
     """Coordinates the full molecular screening process."""
     
-    def __init__(self):
+    def __init__(self, model_path: Optional[str] = None):
         if not RDKIT_AVAILABLE:
             raise ImportError("RDKit is required for the ScreeningPipeline to function.")
-        self.binding_affinity_model = BindingAffinityModel()
+        
+        if model_path is None:
+            # Define a default model path if none is provided
+            model_path = pathlib.Path(__file__).parent / 'model' / 'svr_model.joblib'
+            print(f"No model path provided. Loading default model from: {model_path}")
+
+        try:
+            model = joblib.load(model_path)
+            print(f"AI model loaded successfully from {model_path}")
+        except FileNotFoundError:
+            print(f"Error: Model file not found at {model_path}. Screening will not work.")
+            model = None
+
+        self.binding_affinity_model = BindingAffinityModel(model)
         self.drug_candidacy_model = DrugCandidacyModel()
 
     def screen_molecule(self, molecule_id: str, smiles: str, target_id: str) -> Dict[str, Any]:
