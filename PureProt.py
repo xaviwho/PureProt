@@ -75,6 +75,11 @@ class PureProtCLI:
         train_parser.add_argument("dataset_path", type=str, help="Path to the prepared data CSV file.")
         train_parser.add_argument("--output", type=str, help="Path to save the trained model file (e.g., model.joblib).")
 
+        # --- Convert Command ---
+        convert_parser = self.subparsers.add_parser("convert", help="Convert a .smi file to a PureProt-compatible .csv file.")
+        convert_parser.add_argument("input_path", type=str, help="Path to the input .smi file.")
+        convert_parser.add_argument("output_path", type=str, help="Path for the output .csv file.")
+
     def run(self):
         """Parse arguments and execute the corresponding command."""
         args = self.parser.parse_args()
@@ -98,6 +103,8 @@ class PureProtCLI:
             self.run_fetch_data(args.target_id, args.output)
         elif args.command == "train-model":
             self.run_train_model(args.dataset_path, args.output)
+        elif args.command == "convert":
+            self.run_convert(args.input_path, args.output_path)
         else:
             self.parser.print_help()
 
@@ -128,6 +135,7 @@ class PureProtCLI:
         verify      : Verify a past screening job using its job_id.
         history     : Display the history of all screening jobs.
         benchmark   : Run a performance and reliability benchmark on a dataset.
+        convert     : Convert a .smi file into a PureProt-compatible .csv file.
 
         Example Usage:
         --------------
@@ -233,10 +241,40 @@ class PureProtCLI:
             return
         workflow.show_history()
 
+    def run_convert(self, smi_path: str, csv_path: str):
+        """Converts a .smi file to a .csv file compatible with PureProt."""
+        print(f"--- Converting SMI file: {smi_path} ---")
+        try:
+            with open(smi_path, 'r') as f_in, open(csv_path, 'w', newline='') as f_out:
+                writer = csv.writer(f_out)
+                writer.writerow(['molecule_id', 'smiles'])
+                
+                count = 0
+                for line in f_in:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    
+                    parts = line.split('\t')
+                    if len(parts) >= 2:
+                        smiles = parts[0].strip()
+                        molecule_id = ' '.join(parts[1:]).strip()
+                        writer.writerow([molecule_id, smiles])
+                        count += 1
+                    else:
+                        print(f"Warning: Skipping malformed line: {line}")
+                
+                print(f"\nSuccessfully converted {count} molecules.")
+                print(f"Output saved to: {csv_path}")
+
+        except FileNotFoundError:
+            print(f"Error: The file was not found at {smi_path}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        print("\n--- Conversion Complete ---")
+
+
 if __name__ == "__main__":
     cli = PureProtCLI()
     cli.run()
-
-
-
 

@@ -25,3 +25,14 @@ screening_results.json
 
 # Charts
 charts/
+
+# Generated Results & Data
+*.csv
+!batch_molecules.csv
+*.json
+*.joblib
+*.png
+*.txt
+
+# Redundant Scripts
+convert_smi_to_csv.py
