@@ -30,6 +30,7 @@ charts/
 *.csv
 !batch_molecules.csv
 *.json
+!requirements.txt
 *.joblib
 *.png
 *.txt

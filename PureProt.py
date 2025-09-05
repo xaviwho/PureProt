@@ -16,6 +16,8 @@ from typing import Dict, Any, List, Optional
 from workflow.verification_workflow import VerifiableDrugScreening
 from modeling.data_loader import fetch_and_prepare_data
 from modeling.model_trainer import train_and_save_model
+from modeling.docking_engine import DockingEngine, HybridScreening
+from modeling.molecular_modeling import ScreeningPipeline
 
 # Purechain configuration
 PURECHAIN_RPC_URL = "https://purechainnode.com:8547"
@@ -80,6 +82,26 @@ class PureProtCLI:
         convert_parser.add_argument("input_path", type=str, help="Path to the input .smi file.")
         convert_parser.add_argument("output_path", type=str, help="Path for the output .csv file.")
 
+        # --- Prep Protein Command ---
+        prep_parser = self.subparsers.add_parser("prep-protein", help="Prepare protein structure for docking.")
+        prep_parser.add_argument("pdb_path", type=str, help="Path to input PDB file.")
+        prep_parser.add_argument("--output", type=str, help="Path for output PDBQT file.")
+
+        # --- Dock Command ---
+        dock_parser = self.subparsers.add_parser("dock", help="Perform molecular docking on molecules.")
+        dock_parser.add_argument("csv_path", type=str, help="Path to CSV file containing molecules to dock.")
+        dock_parser.add_argument("--protein", type=str, required=True, help="Path to prepared protein PDBQT file.")
+        dock_parser.add_argument("--center", type=str, required=True, help="Binding site center coordinates (x,y,z).")
+        dock_parser.add_argument("--size", type=str, default="20,20,20", help="Search box size (x,y,z). Default: 20,20,20")
+
+        # --- Hybrid Screen Command ---
+        hybrid_parser = self.subparsers.add_parser("hybrid-screen", help="Perform hybrid AI+docking screening.")
+        hybrid_parser.add_argument("csv_path", type=str, help="Path to CSV file containing molecules to screen.")
+        hybrid_parser.add_argument("--model", type=str, help="Path to custom AI model file.")
+        hybrid_parser.add_argument("--protein", type=str, help="Path to prepared protein PDBQT file for docking.")
+        hybrid_parser.add_argument("--center", type=str, help="Binding site center coordinates (x,y,z).")
+        hybrid_parser.add_argument("--size", type=str, default="20,20,20", help="Search box size (x,y,z). Default: 20,20,20")
+
     def run(self):
         """Parse arguments and execute the corresponding command."""
         args = self.parser.parse_args()
@@ -105,6 +127,12 @@ class PureProtCLI:
             self.run_train_model(args.dataset_path, args.output)
         elif args.command == "convert":
             self.run_convert(args.input_path, args.output_path)
+        elif args.command == "prep-protein":
+            self.run_prep_protein(args.pdb_path, args.output)
+        elif args.command == "dock":
+            self.run_dock(args.csv_path, args.protein, args.center, args.size)
+        elif args.command == "hybrid-screen":
+            self.run_hybrid_screen(args.csv_path, args.model, args.protein, args.center, args.size)
         else:
             self.parser.print_help()
 
@@ -136,6 +164,9 @@ class PureProtCLI:
         history     : Display the history of all screening jobs.
         benchmark   : Run a performance and reliability benchmark on a dataset.
         convert     : Convert a .smi file into a PureProt-compatible .csv file.
+        prep-protein: Prepare a protein structure for molecular docking.
+        dock        : Perform molecular docking on a batch of molecules.
+        hybrid-screen: Perform hybrid AI+docking screening with consensus scoring.
 
         Example Usage:
         --------------
@@ -272,6 +303,155 @@ class PureProtCLI:
         except Exception as e:
             print(f"An error occurred: {e}")
         print("\n--- Conversion Complete ---")
+
+    def run_prep_protein(self, pdb_path: str, output_path: Optional[str] = None):
+        """Prepare protein structure for molecular docking."""
+        print(f"--- Preparing Protein: {pdb_path} ---")
+        
+        if not output_path:
+            output_path = pdb_path.replace('.pdb', '_prepared.pdbqt')
+        
+        try:
+            docking_engine = DockingEngine()
+            prepared_path = docking_engine.prepare_protein(pdb_path, output_path)
+            print(f"Protein prepared successfully: {prepared_path}")
+        except Exception as e:
+            print(f"Error preparing protein: {e}")
+
+    def run_dock(self, csv_path: str, protein_path: str, center_str: str, size_str: str = "20,20,20"):
+        """Perform molecular docking on a batch of molecules."""
+        print(f"--- Molecular Docking ---")
+        print(f"Molecules: {csv_path}")
+        print(f"Protein: {protein_path}")
+        
+        try:
+            # Parse coordinates
+            center = tuple(map(float, center_str.split(',')))
+            size = tuple(map(float, size_str.split(',')))
+            
+            # Initialize docking engine
+            docking_engine = DockingEngine(protein_path)
+            docking_engine.set_binding_site(center, size)
+            
+            # Load molecules
+            with open(csv_path, 'r') as f:
+                reader = csv.DictReader(f)
+                molecules = list(reader)
+            
+            print(f"Docking {len(molecules)} molecules...")
+            
+            # Perform docking
+            results = docking_engine.batch_dock(molecules)
+            
+            # Save results
+            output_path = csv_path.replace('.csv', '_docking_results.csv')
+            df = pd.DataFrame(results)
+            df.to_csv(output_path, index=False)
+            
+            print(f"\nDocking complete. Results saved to: {output_path}")
+            
+            # Show summary
+            successful = [r for r in results if r.get('status') == 'success']
+            print(f"Successfully docked: {len(successful)}/{len(results)} molecules")
+            
+            if successful:
+                scores = [r['docking_score'] for r in successful]
+                print(f"Best docking score: {min(scores):.2f}")
+                print(f"Average docking score: {sum(scores)/len(scores):.2f}")
+                
+        except Exception as e:
+            print(f"Error during docking: {e}")
+
+    def run_hybrid_screen(self, csv_path: str, model_path: Optional[str] = None, 
+                         protein_path: Optional[str] = None, center_str: Optional[str] = None, 
+                         size_str: str = "20,20,20"):
+        """Perform hybrid AI+docking screening with consensus scoring."""
+        print(f"--- Hybrid AI+Docking Screening ---")
+        print(f"Molecules: {csv_path}")
+        
+        try:
+            # Initialize AI pipeline
+            ai_pipeline = None
+            if model_path:
+                ai_pipeline = ScreeningPipeline(model_path)
+                print(f"AI model loaded: {model_path}")
+            
+            # Initialize docking engine
+            docking_engine = None
+            if protein_path and center_str:
+                center = tuple(map(float, center_str.split(',')))
+                size = tuple(map(float, size_str.split(',')))
+                docking_engine = DockingEngine(protein_path)
+                docking_engine.set_binding_site(center, size)
+                print(f"Docking configured: {protein_path}")
+            
+            if not ai_pipeline and not docking_engine:
+                print("Error: At least one method (AI model or docking) must be specified")
+                return
+            
+            # Initialize hybrid screening
+            hybrid = HybridScreening(ai_pipeline, docking_engine)
+            
+            # Load molecules
+            with open(csv_path, 'r') as f:
+                reader = csv.DictReader(f)
+                molecules = list(reader)
+            
+            print(f"Screening {len(molecules)} molecules with hybrid approach...")
+            
+            # Perform hybrid screening
+            results = []
+            for i, mol in enumerate(molecules):
+                mol_id = mol.get('molecule_id', f'mol_{i}')
+                smiles = mol.get('smiles', '')
+                
+                print(f"Processing {mol_id} ({i+1}/{len(molecules)})")
+                result = hybrid.hybrid_screen(mol_id, smiles)
+                results.append(result)
+            
+            # Save results
+            output_path = csv_path.replace('.csv', '_hybrid_results.csv')
+            df = pd.DataFrame(results)
+            df.to_csv(output_path, index=False)
+            
+            print(f"\nHybrid screening complete. Results saved to: {output_path}")
+            
+            # Show summary
+            consensus_scores = [r.get('consensus_score') for r in results if r.get('consensus_score') is not None]
+            if consensus_scores:
+                print(f"Consensus scores calculated for {len(consensus_scores)} molecules")
+                print(f"Best consensus score: {max(consensus_scores):.3f}")
+                print(f"Average consensus score: {sum(consensus_scores)/len(consensus_scores):.3f}")
+            
+            # Record results on blockchain if available
+            try:
+                workflow = VerifiableDrugScreening(rpc_url=PURECHAIN_RPC_URL, chain_id=PURECHAIN_CHAIN_ID)
+                workflow.load_results(self.results_file)
+                
+                for result in results:
+                    if result.get('consensus_score') is not None:
+                        # Create blockchain record for hybrid result
+                        blockchain_data = {
+                            'screening_type': 'hybrid',
+                            'ai_prediction': result.get('predicted_pIC50'),
+                            'docking_score': result.get('docking_score'),
+                            'consensus_score': result.get('consensus_score'),
+                            'drug_like': result.get('drug_like', False)
+                        }
+                        
+                        # Record on blockchain (simplified)
+                        mol_id = result['molecule_id']
+                        smiles = result['smiles']
+                        workflow.run_screening_job(mol_id, smiles, custom_data=blockchain_data)
+                
+                workflow.save_results(self.results_file)
+                print("Results recorded on blockchain for verification")
+                
+            except Exception as e:
+                print(f"Warning: Could not record on blockchain: {e}")
+                
+        except Exception as e:
+            print(f"Error during hybrid screening: {e}")
 
 
 if __name__ == "__main__":

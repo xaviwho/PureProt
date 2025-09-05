@@ -161,19 +161,6 @@ class ScreeningPipeline:
         return result
 
 
-        # Combine results
-        result = {
-            "molecule_id": molecule_id,
-            "smiles": smiles,
-            "target_id": target_id,
-            "features": features,
-            "binding_affinity": binding_affinity,
-            "toxicity_score": toxicity_score,
-        }
-        result.update(drug_candidacy_metrics)
-        return result
-
-
 # Example usage
 def main():
     # Configure logging for standalone script execution
