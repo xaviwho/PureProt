@@ -21,32 +21,64 @@ logger = logging.getLogger(__name__)
 
 class PurechainConnector:
     """Handles connection and interaction with the Purechain network."""
+    
+    # Official PureChain Network Configuration
+    PURECHAIN_TESTNET = {
+        'rpc_url': 'https://purechainnode.com:8547',
+        'chain_id': 900520900520,
+        'gas_price': 0  # Zero gas fees!
+    }
+    
+    PURECHAIN_MAINNET = {
+        'rpc_url': 'https://purechainnode.com:8547',
+        'chain_id': 900520900520,
+        'gas_price': 0  # Zero gas fees!
+    }
 
-    def __init__(self, rpc_url, contract_address, private_key=None, chain_id=1):
+    def __init__(self, rpc_url=None, contract_address=None, private_key=None, chain_id=None, network='testnet'):
         """Initialize the connector.
         
         Args:
-            rpc_url: URL of the blockchain node
+            rpc_url: URL of the blockchain node (optional, uses PureChain default if not provided)
             contract_address: Address of the deployed contract
             private_key: Private key for signing transactions (optional for local Ganache)
-            chain_id: Chain ID of the blockchain (default: 1 for Ethereum mainnet)
+            chain_id: Chain ID of the blockchain (optional, uses PureChain default if not provided)
+            network: 'testnet', 'mainnet', or 'local' for development
         """
         self.logger = logging.getLogger(__name__)
-        self.rpc_url = rpc_url
+        
+        # Configure network settings
+        if network == 'testnet' and not rpc_url:
+            config = self.PURECHAIN_TESTNET
+            self.rpc_url = config['rpc_url']
+            self.chain_id = config['chain_id']
+            self.gas_price = config['gas_price']
+        elif network == 'mainnet' and not rpc_url:
+            config = self.PURECHAIN_MAINNET
+            self.rpc_url = config['rpc_url']
+            self.chain_id = config['chain_id']
+            self.gas_price = config['gas_price']
+        else:
+            # Custom or local configuration
+            self.rpc_url = rpc_url or 'http://127.0.0.1:8545'
+            self.chain_id = chain_id or 1337
+            self.gas_price = 0 if 'purechainnode.com' in (rpc_url or '') else 20000000000  # 20 gwei for non-PureChain
+        
         self.contract_address = contract_address
         self.private_key = private_key
-        self.chain_id = chain_id
+        self.network = network
         self.w3 = None
         self.contract = None
         self.wallet_address = None
         self.tx_lock = threading.Lock()
-        self.dev_mode = (chain_id == 1337) or ('127.0.0.1' in rpc_url) or ('localhost' in rpc_url)
+        self.dev_mode = (self.chain_id == 1337) or ('127.0.0.1' in self.rpc_url) or ('localhost' in self.rpc_url)
+        self.is_purechain = 'purechainnode.com' in self.rpc_url
         
         # Set up Web3
         try:
-            self.w3 = Web3(Web3.HTTPProvider(rpc_url))
+            self.w3 = Web3(Web3.HTTPProvider(self.rpc_url))
             if not self.w3.is_connected():
-                raise ConnectionError(f"Failed to connect to blockchain at {rpc_url}")
+                raise ConnectionError(f"Failed to connect to blockchain at {self.rpc_url}")
             
             # Handle wallet address based on mode
             if self.dev_mode:
@@ -151,12 +183,17 @@ class PurechainConnector:
                     'nonce': nonce,
                     'gas': 300000,
                     'chainId': self.chain_id,
+                    'gasPrice': self.gas_price
                 }
 
-                if self.chain_id == 900520900520:
-                    tx_params['gasPrice'] = 0
+                # Enhanced logging for PureChain transactions
+                if self.is_purechain:
+                    self.logger.info(f"  - Using PureChain network (Chain ID: {self.chain_id})")
+                    self.logger.info(f"  - Zero gas transaction (gasPrice: {self.gas_price})")
+                    self.logger.info(f"  - RPC endpoint: {self.rpc_url}")
                 else:
-                    tx_params['gasPrice'] = self.w3.to_wei('20', 'gwei')
+                    self.logger.info(f"  - Using custom network (Chain ID: {self.chain_id})")
+                    self.logger.info(f"  - Gas price: {self.gas_price} wei")
                 
                 tx = self.contract.functions.recordScreeningResult(
                     result_hash_bytes, molecule_data_hash_bytes, molecule_id
@@ -166,7 +203,9 @@ class PurechainConnector:
                     tx_hash = self.w3.eth.send_transaction(tx)
                 else:
                     signed_tx = self.w3.eth.account.sign_transaction(tx, private_key=self.private_key)
-                    tx_hash = self.w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+                    # Handle both old and new Web3.py versions
+                    raw_tx = getattr(signed_tx, 'rawTransaction', getattr(signed_tx, 'raw_transaction', None))
+                    tx_hash = self.w3.eth.send_raw_transaction(raw_tx)
                 
                 receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
                 duration = time.time() - start_time

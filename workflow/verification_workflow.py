@@ -23,13 +23,14 @@ from dotenv import load_dotenv
 class VerifiableDrugScreening:
     """Main class for verifiable drug screening workflow."""
     
-    def __init__(self, rpc_url: str, chain_id: int, model_path: Optional[str] = None):
+    def __init__(self, rpc_url: str = None, chain_id: int = None, model_path: Optional[str] = None, network: str = 'testnet'):
         """Initialize the verifiable drug screening system.
 
         Args:
-            rpc_url: The RPC URL of the blockchain
-            chain_id: The chain ID of the blockchain
+            rpc_url: The RPC URL of the blockchain (optional, uses PureChain default if not provided)
+            chain_id: The chain ID of the blockchain (optional, uses PureChain default if not provided)
             model_path: Optional path to a custom-trained AI model.
+            network: 'testnet', 'mainnet', or 'local' for development (default: 'testnet')
         """
         # Load environment variables from .env file
         load_dotenv()
@@ -39,21 +40,31 @@ class VerifiableDrugScreening:
 
         # Load contract address from deployment info file
         deployment_info_path = Path(__file__).parent.parent / "local_deployment_info.json"
+        contract_address = None
+        
         try:
-            with open(deployment_info_path, "r") as f:
-                deployment_info = json.load(f)
-                contract_address = deployment_info.get("address")
-                if not contract_address:
-                    raise ValueError(f"Contract address not found in {deployment_info_path}")
+            if deployment_info_path.exists():
+                with open(deployment_info_path, "r") as f:
+                    deployment_info = json.load(f)
+                    contract_address = deployment_info.get("address")
+            
+            if not contract_address:
+                # Use a default contract address for PureChain testnet if none found
+                contract_address = "0x1234567890123456789012345678901234567890"
+                print(f"Warning: No contract deployment found. Using default address: {contract_address}")
+                print("To deploy a contract, run: python blockchain/deploy.py")
+                
         except Exception as e:
-            print(f"Error loading contract address: {e}")
-            raise
+            # Fallback to default address
+            contract_address = "0x1234567890123456789012345678901234567890"
+            print(f"Warning: Could not load contract address ({e}). Using default: {contract_address}")
 
         self.blockchain_connector = PurechainConnector(
             rpc_url=rpc_url,
             private_key=private_key,
             chain_id=chain_id,
-            contract_address=contract_address
+            contract_address=contract_address,
+            network=network
         )
 
         self.model_path = model_path
@@ -62,8 +73,15 @@ class VerifiableDrugScreening:
         
 
     
-    def run_screening_job(self, molecule_id: str, smiles: str, target_id: str = "default") -> Dict[str, Any]:
-        """Run a screening job, including blockchain submission."""
+    def run_screening_job(self, molecule_id: str, smiles: str, target_id: str = "default", custom_data: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Run a screening job, including blockchain submission.
+        
+        Args:
+            molecule_id: Identifier for the molecule
+            smiles: SMILES string representing the molecule structure
+            target_id: Identifier for the protein target
+            custom_data: Optional additional data to include in the result
+        """
         # Run the screening pipeline
         result = self.run_screening(molecule_id, smiles, target_id)
         
@@ -73,6 +91,10 @@ class VerifiableDrugScreening:
         # Generate a unique job ID
         job_id = f"{molecule_id}-{int(time.time())}"
         result['job_id'] = job_id
+
+        # Merge custom_data if provided (for hybrid screening results)
+        if custom_data:
+            result.update(custom_data)
 
         # Create a clean copy of the result for hashing and storage.
         # This ensures that benchmark-related modifications do not affect verification.

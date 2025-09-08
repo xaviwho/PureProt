@@ -39254,5 +39254,45 @@
       "result_id": null,
       "status": "recorded"
     }
+  },
+  "ibuprofen-1757242731": {
+    "molecule_id": "ibuprofen",
+    "target_id": "default",
+    "timestamp": 1757242731,
+    "model_version": "1.0.0",
+    "molecule_data": {
+      "smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
+      "lipinski_violations": 0
+    },
+    "screening_data": {
+      "predicted_pIC50": 4.6609,
+      "assessment": "UNFAVORABLE - Weak binding and/or poor drug-like properties"
+    },
+    "execution_time": 0.10177922248840332,
+    "job_id": "ibuprofen-1757242731",
+    "verification": {
+      "status": "failed",
+      "error": "'SignedTransaction' object has no attribute 'raw_transaction'"
+    }
+  },
+  "paracetamol-1757242731": {
+    "molecule_id": "paracetamol",
+    "target_id": "default",
+    "timestamp": 1757242731,
+    "model_version": "1.0.0",
+    "molecule_data": {
+      "smiles": "CC(=O)NC1=CC=C(C=C1)O",
+      "lipinski_violations": 0
+    },
+    "screening_data": {
+      "predicted_pIC50": 5.6113,
+      "assessment": "UNFAVORABLE - Weak binding and/or poor drug-like properties"
+    },
+    "execution_time": 0.020513296127319336,
+    "job_id": "paracetamol-1757242731",
+    "verification": {
+      "status": "failed",
+      "error": "'SignedTransaction' object has no attribute 'raw_transaction'"
+    }
   }
 }

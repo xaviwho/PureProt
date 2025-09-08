@@ -34,6 +34,10 @@ charts/
 *.joblib
 *.png
 *.txt
+*.pdb
+*.pdbqt
+*.json
+*.csv
 
 # Redundant Scripts
 convert_smi_to_csv.py

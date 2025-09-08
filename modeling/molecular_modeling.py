@@ -121,9 +121,27 @@ class ScreeningPipeline:
             raise ImportError("RDKit is required for the ScreeningPipeline to function.")
         
         if model_path is None:
-            # Define a default model path if none is provided
-            model_path = pathlib.Path(__file__).parent / 'model' / 'svr_model.joblib'
-            print(f"No model path provided. Loading default model from: {model_path}")
+            # Look for trained models in the project root
+            project_root = pathlib.Path(__file__).parent.parent
+            possible_models = [
+                project_root / 'trained_model.joblib',
+                project_root / 'modeling' / 'model' / 'svr_model.joblib',
+                pathlib.Path(__file__).parent / 'model' / 'svr_model.joblib'
+            ]
+            
+            model_path = None
+            for path in possible_models:
+                if path.exists():
+                    model_path = path
+                    print(f"Found model at: {model_path}")
+                    break
+            
+            if model_path is None:
+                raise FileNotFoundError(
+                    "No trained model found. Please:\n"
+                    "1. Train a model using: python PureProt.py train-model <dataset.csv>\n"
+                    "2. Or specify a model path with --model <path>"
+                )
 
         try:
             model = joblib.load(model_path)
