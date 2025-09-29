@@ -1,0 +1,11 @@
+molecule_id,smiles,target_id,docking_score,binding_affinity,docking_status,consensus_score,molecular_weight,logp,hbd,hba,psa,rotatable_bonds,lipinski_violations,drug_likeness_score,drug_likeness_status
+"5alpha,8alpha-epidioxy-ergost-6,22-dien-3beta-ol",O[C@H]1CC[C@]2([C@@]3(C1)OO[C@@]1([C@@H]2CC[C@]2([C@H]1CC[C@@H]2[C@@H](/C=C/[C@@H](C(C)C)C)C)C)C=C3)C,default,-6.08,,success,0.4053333333333333,428.66,6.47,1,3,38.69,4,1,-8.35,success
+"ergosta-5,22-dien-3beta-ol",O[C@H]1CC[C@]2(C(=CC[C@@H]3[C@@H]2CC[C@]2([C@H]3CC[C@@H]2[C@@H](/C=C/[C@@H](C(C)C)C)C)C)C1)C,default,-4.79,,success,0.31933333333333336,398.68,7.41,1,1,20.23,4,1,-8.56,success
+ergosterol,O[C@H]1CC[C@]2(C(=CC=C3[C@@H]2CC[C@]2([C@H]3CC[C@@H]2[C@@H](/C=C/[C@@H](C(C)C)C)C)C)C1)C,default,-5.4,,success,0.36000000000000004,396.66,7.33,1,1,20.23,4,1,-8.5,success
+"ergosta-7,22-dien-3beta-ol",OC1CC[C@]2(C(C1)CC=C1[C@@H]2CC[C@]2([C@H]1CC[C@@H]2[C@@H](/C=C/[C@@H](C(C)C)C)C)C)C,default,-4.6,,success,0.30666666666666664,398.68,7.41,1,1,20.23,4,1,-8.49,success
+ergosta-7-en-3beta-ol,O[C@H]1CC[C@]2(C(C1)CC=C1[C@@H]2CC[C@]2([C@H]1CC[C@@H]2[C@@H](CC[C@@H](C(C)C)C)C)C)C,default,-4.7,,success,0.31333333333333335,400.69,7.63,1,1,20.23,5,1,-8.37,success
+lanneaflavonol,COc1c(O)cc(cc1O)c1oc2cc3OC(C)(C)C=Cc3c(c2c(=O)c1O)O,default,-9.09,,success,0.606,398.37,3.48,4,8,129.59,2,0,-9.21,success
+dihydrolanneaflavonol,COc1c(O)cc(cc1O)[C@H]1Oc2cc3OC(C)(C)C=Cc3c(c2C(=O)[C@@H]1O)O,default,-9.96,,success,0.664,400.38,2.67,4,8,125.68,2,0,-9.53,success
+myricetin-3-O-alpha-rhamnopyranoside,Oc1cc(O)c2c(c1)oc(c(c2=O)O[C@@H]1O[C@@H](C)[C@@H]([C@H]([C@H]1O)O)O)c1cc(O)c(c(c1)O)O,default,-5.27,,success,0.35133333333333333,464.38,0.19,8,12,210.51,3,2,-7.57,success
+myricetin-3-O-alpha-arabinofuranoside,OC[C@@H]1O[C@H]([C@@H]([C@H]1O)O)Oc1c(oc2c(c1=O)c(O)cc(c2)O)c1cc(O)c(c(c1)O)O,default,-5.36,,success,0.35733333333333334,450.35,-0.19,8,12,210.51,4,2,-7.45,success
+lupeol,CC(=C)[C@@H]1CC[C@]2([C@H]1[C@H]1CC[C@H]3[C@@]([C@]1(C)CC2)(C)CC[C@@H]1[C@]3(C)CC[C@@H](C1(C)C)O)C,default,-5.13,,success,0.34199999999999997,426.73,8.02,1,1,20.23,1,1,-8.56,success

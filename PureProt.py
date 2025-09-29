@@ -11,7 +11,8 @@ import csv
 import json
 import hashlib
 import pandas as pd
-from pathlib import Path
+import numpy as np
+from typing import Optional
 from typing import Dict, Any, List, Optional
 
 from workflow.verification_workflow import VerifiableDrugScreening
@@ -56,6 +57,7 @@ class PureProtCLI:
         batch_parser = self.subparsers.add_parser("batch", help="Screen a batch of molecules from a CSV file.")
         batch_parser.add_argument("csv_path", type=str, help="Path to the CSV file containing molecules.")
         batch_parser.add_argument("--model", type=str, help="Path to a custom-trained .joblib model file.")
+        batch_parser.add_argument("--output", type=str, help="Path to save AI-only results CSV file.")
 
         # --- Verify Command ---
         verify_parser = self.subparsers.add_parser("verify", help="Verify a screening result from the blockchain.")
@@ -90,9 +92,16 @@ class PureProtCLI:
         prep_parser.add_argument("--output", type=str, help="Path for output PDBQT file.")
 
         # --- Find Binding Site Command ---
-        binding_parser = self.subparsers.add_parser("find-binding-site", help="Automatically detect binding site center coordinates.")
-        binding_parser.add_argument("protein_path", type=str, help="Path to protein PDB file.")
-        binding_parser.add_argument("--method", type=str, default="auto", choices=["auto", "ligand", "geometric"], help="Detection method: auto (try ligand first), ligand (co-crystallized ligand), geometric (protein center).")
+        binding_parser = self.subparsers.add_parser("find-binding-site", help="Find binding site coordinates and box size for a protein.")
+        binding_parser.add_argument("protein_path", type=str, help="Path to the protein PDB file.")
+        binding_parser.add_argument("--method", type=str, default="auto", choices=["auto", "ligand", "center"], help="Method to find binding site.")
+
+        # --- Compare Results Command ---
+        compare_parser = self.subparsers.add_parser("compare", help="Compare AI-only, docking-only, and hybrid screening results.")
+        compare_parser.add_argument("--ai-results", type=str, help="Path to AI-only results CSV file.")
+        compare_parser.add_argument("--docking-results", type=str, help="Path to docking-only results CSV file.")
+        compare_parser.add_argument("--hybrid-results", type=str, help="Path to hybrid results CSV file.")
+        compare_parser.add_argument("--output", type=str, default="comparison_analysis.csv", help="Output path for comparison analysis.")
 
         # --- Dock Command ---
         dock_parser = self.subparsers.add_parser("dock", help="Perform molecular docking on molecules.")
@@ -121,7 +130,7 @@ class PureProtCLI:
         elif args.command == "screen":
             self.run_screen(args.molecule_id, args.smiles, args.model)
         elif args.command == "batch":
-            self.run_batch(args.csv_path, args.model)
+            self.run_batch(args.csv_path, args.model, args.output)
         elif args.command == "verify":
             self.run_verify(args.job_id)
         elif args.command == "history":
@@ -138,6 +147,8 @@ class PureProtCLI:
             self.run_prep_protein(args.pdb_path, args.output)
         elif args.command == "find-binding-site":
             self.run_find_binding_site(args.protein_path, args.method)
+        elif args.command == "compare":
+            self.run_compare_results(args.ai_results, args.docking_results, args.hybrid_results, args.output)
         elif args.command == "dock":
             self.run_dock(args.csv_path, args.protein, args.center, args.size)
         elif args.command == "hybrid-screen":
@@ -203,19 +214,26 @@ class PureProtCLI:
         """
         print(info_text)
 
-    def run_batch(self, csv_path: str, model_path: Optional[str] = None):
-        """Run a batch screening job from a CSV file."""
+    def run_batch(self, csv_path: str, model_path: Optional[str] = None, output_path: Optional[str] = None):
+        """Screen a batch of molecules from a CSV file."""
         print(f"--- Batch Screening from: {csv_path} ---")
+        
+        # Generate output filename based on input
+        if not output_path:
+            base_name = csv_path.replace('.csv', '')
+            output_path = f"{base_name}_ai_only_results.csv"
+            print(f"No output path specified. Saving to: {output_path}")
+        
         workflow = VerifiableDrugScreening(rpc_url=PURECHAIN_RPC_URL, chain_id=PURECHAIN_CHAIN_ID, model_path=model_path)
-        workflow.load_results(self.results_file)  # Load existing history
-        try:
-            with open(csv_path, 'r') as f:
-                reader = csv.DictReader(f)
-                molecules = list(reader)
-        except Exception as e:
-            print(f"Error: Could not read dataset file: {e}")
-            return
-
+        workflow.load_results(self.results_file)
+        
+        # Load molecules from CSV
+        with open(csv_path, 'r') as f:
+            reader = csv.DictReader(f)
+            molecules = list(reader)
+        
+        # Process each molecule
+        results = []
         for i, row in enumerate(molecules):
             molecule_id = row.get('molecule_id') or row.get('canonical_smiles')
             smiles = row.get('smiles') or row.get('canonical_smiles')
@@ -224,10 +242,113 @@ class PureProtCLI:
                 continue
             
             print(f"\n--- Processing Molecule {i+1}/{len(molecules)}: {molecule_id} ---")
-            workflow.run_screening_job(molecule_id, smiles)
+            result = workflow.run_screening_job(molecule_id, smiles)
+            results.append(result)
         
-        workflow.save_results(self.results_file) # Save updated history
+        # Save AI-only results to dedicated file
+        if results:
+            df = pd.DataFrame(results)
+            df.to_csv(output_path, index=False)
+            print(f"\nAI-only results saved to: {output_path}")
+        
+        workflow.save_results(self.results_file)
         print("\n--- Batch Screening Complete ---")
+
+    def run_compare_results(self, ai_results: Optional[str] = None, docking_results: Optional[str] = None, 
+                          hybrid_results: Optional[str] = None, output_path: str = "comparison_analysis.csv"):
+        """Compare AI-only, docking-only, and hybrid screening results."""
+        print("--- Comparative Analysis of Screening Methods ---")
+        
+        results_data = {}
+        
+        # Load AI-only results
+        if ai_results and os.path.exists(ai_results):
+            print(f"Loading AI-only results from: {ai_results}")
+            ai_df = pd.read_csv(ai_results)
+            results_data['ai'] = ai_df
+            print(f"AI-only results: {len(ai_df)} molecules")
+        else:
+            print("AI-only results not provided or file not found")
+        
+        # Load docking-only results
+        if docking_results and os.path.exists(docking_results):
+            print(f"Loading docking-only results from: {docking_results}")
+            dock_df = pd.read_csv(docking_results)
+            results_data['docking'] = dock_df
+            print(f"Docking-only results: {len(dock_df)} molecules")
+        else:
+            print("Docking-only results not provided or file not found")
+        
+        # Load hybrid results
+        if hybrid_results and os.path.exists(hybrid_results):
+            print(f"Loading hybrid results from: {hybrid_results}")
+            hybrid_df = pd.read_csv(hybrid_results)
+            results_data['hybrid'] = hybrid_df
+            print(f"Hybrid results: {len(hybrid_df)} molecules")
+        else:
+            print("Hybrid results not provided or file not found")
+        
+        if not results_data:
+            print("Error: No valid result files provided for comparison")
+            return
+        
+        # Perform comparative analysis
+        comparison_results = []
+        
+        # Get common molecules across all datasets
+        molecule_sets = []
+        for method, df in results_data.items():
+            if 'molecule_id' in df.columns:
+                molecule_sets.append(set(df['molecule_id'].tolist()))
+            elif 'smiles' in df.columns:
+                molecule_sets.append(set(df['smiles'].tolist()))
+        
+        if molecule_sets:
+            common_molecules = set.intersection(*molecule_sets) if len(molecule_sets) > 1 else molecule_sets[0]
+            print(f"Common molecules across datasets: {len(common_molecules)}")
+            
+            # Create comparison for each common molecule
+            for mol_id in common_molecules:
+                comparison_row = {'molecule_id': mol_id}
+                
+                for method, df in results_data.items():
+                    # Find molecule row
+                    if 'molecule_id' in df.columns:
+                        mol_row = df[df['molecule_id'] == mol_id]
+                    else:
+                        mol_row = df[df['smiles'] == mol_id]
+                    
+                    if not mol_row.empty:
+                        row = mol_row.iloc[0]
+                        if method == 'ai':
+                            comparison_row[f'{method}_prediction'] = row.get('predicted_pIC50', row.get('ai_prediction', 'N/A'))
+                        elif method == 'docking':
+                            comparison_row[f'{method}_score'] = row.get('docking_score', row.get('best_score', 'N/A'))
+                        elif method == 'hybrid':
+                            comparison_row[f'{method}_consensus'] = row.get('consensus_score', 'N/A')
+                            comparison_row[f'{method}_ai'] = row.get('predicted_pIC50', row.get('ai_prediction', 'N/A'))
+                            comparison_row[f'{method}_docking'] = row.get('docking_score', 'N/A')
+                
+                comparison_results.append(comparison_row)
+        
+        # Save comparison results
+        if comparison_results:
+            comparison_df = pd.DataFrame(comparison_results)
+            comparison_df.to_csv(output_path, index=False)
+            print(f"\nComparison analysis saved to: {output_path}")
+            
+            # Print summary statistics
+            print("\n--- Comparison Summary ---")
+            print(f"Total molecules compared: {len(comparison_results)}")
+            
+            # Calculate correlations if multiple methods available
+            numeric_cols = comparison_df.select_dtypes(include=[np.number]).columns
+            if len(numeric_cols) > 1:
+                correlations = comparison_df[numeric_cols].corr()
+                print("\nCorrelation Matrix:")
+                print(correlations.round(3))
+        else:
+            print("No common molecules found for comparison")
 
     def run_screen(self, molecule_id: str, smiles: Optional[str] = None, model_path: Optional[str] = None):
         """Run a single molecule screening job."""

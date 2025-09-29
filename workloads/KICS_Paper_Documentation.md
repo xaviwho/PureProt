@@ -27,6 +27,15 @@ python PureProt.py train-model "egfr_data.csv" --output "egfr_model.joblib"
 # 2. File Format Conversion
 python PureProt.py convert "natural_products.smi" "molecules_for_screening.csv"
 
+# HIV protease (with VX-478 ligand)
+python PureProt.py find-binding-site 1hpv.pdb
+
+# Any other protein structure
+python PureProt.py find-binding-site your_protein.pdb
+
+# Specify detection method
+python PureProt.py find-binding-site protein.pdb --method ligand
+
 # 3. Hybrid Screening
 python PureProt.py hybrid-screen "molecules_for_screening.csv" \
     --model "egfr_model.joblib" \

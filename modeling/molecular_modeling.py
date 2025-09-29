@@ -147,8 +147,9 @@ class ScreeningPipeline:
             model = joblib.load(model_path)
             print(f"AI model loaded successfully from {model_path}")
         except FileNotFoundError:
-            print(f"Error: Model file not found at {model_path}. Screening will not work.")
-            model = None
+            raise FileNotFoundError(f"Model file not found at {model_path}. Please check the path or train a new model.")
+        except Exception as e:
+            raise Exception(f"Failed to load model from {model_path}: {e}")
 
         self.binding_affinity_model = BindingAffinityModel(model)
         self.drug_candidacy_model = DrugCandidacyModel()

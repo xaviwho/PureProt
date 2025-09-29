@@ -27,7 +27,6 @@ screening_results.json
 charts/
 
 # Generated Results & Data
-*.csv
 !batch_molecules.csv
 *.json
 !requirements.txt
@@ -38,6 +37,9 @@ charts/
 *.pdbqt
 *.json
 *.csv
+
+# Workflows
+workflows/
 
 # Redundant Scripts
 convert_smi_to_csv.py
