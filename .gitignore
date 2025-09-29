@@ -39,7 +39,7 @@ charts/
 *.csv
 
 # Workflows
-workflows/
+workloads/
 
 # Redundant Scripts
 convert_smi_to_csv.py
