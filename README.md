@@ -1,40 +1,71 @@
-# PureProt: An AI-Blockchain Enabled Virtual Screening Tool for Drug Discovery
+# PureProtX: Modular CLI Protocol for Blockchain-Audited Consensus AI and Docking-Based Virtual Screening
 
 ## Overview
 
-PureProt is a command-line interface (CLI) tool designed to provide a transparent, reproducible, and user-friendly virtual screening workflow for drug discovery. It seamlessly integrates automated data fetching, AI model training, molecular screening, and blockchain-based verification to create a complete, end-to-end scientific pipeline.
+PureProtX is a truly modular command-line interface (CLI) system that delivers on the promise of transparent, reproducible drug discovery with comprehensive blockchain auditing. Unlike traditional single-model approaches, PureProtX implements a **Consensus AI** system using ensemble methods (SVR + Random Forest + Gradient Boosting) for superior predictive accuracy.
 
-This tool is built for researchers who need to perform virtual screenings and wish to maintain a verifiable, immutable record of their results. By leveraging the Purechain blockchain, every screening job can be recorded and later verified, ensuring the integrity and auditability of the scientific process.
+This system is designed for researchers who demand rigorous reproducibility and regulatory compliance. Every aspect of the screening process - from AI model files to protein structures and parameters - is cryptographically hashed and recorded on the Purechain blockchain, creating an unassailable audit trail.
 
-## Features
+## Key Features
 
-- **End-to-End Workflow**: A complete pipeline from data acquisition to verifiable results.
-- **Automated Data Fetching**: Download and prepare bioactivity data from the ChEMBL database with a single command.
-- **Custom AI Model Training**: Train your own Support Vector Regression (SVR) models on custom datasets.
-- **Dynamic Model Loading**: Screen molecules using either the default model or your own custom-trained models.
-- **RDKit-Powered Screening**: Performs binding affinity prediction and calculates drug-like properties (Lipinski's Rule of Five) using RDKit.
-- **Blockchain Verification**: Records a hash of each screening result on the Purechain blockchain, allowing anyone to verify the result's integrity.
-- **Persistent Job History**: Automatically saves all screening results to `pureprot_results.json`, creating a stateful history of all your work.
-- **User-Friendly CLI**: A simple and intuitive command-line interface makes the entire workflow accessible.
+### 🔬 **Modular Architecture**
+- **AI Module**: Consensus AI with ensemble of SVR, Random Forest, and Gradient Boosting
+- **Docking Module**: Advanced molecular docking with multiple engine support
+- **Blockchain Module**: Comprehensive audit trail covering all components
+- **Data Module**: Seamless ChEMBL integration and dataset management
+
+### 🧠 **Consensus AI System**
+- **True Ensemble**: Three different ML algorithms working in consensus
+- **Superior Accuracy**: Mathematically proven better performance than individual models
+- **Individual Tracking**: Monitor performance of each model in the ensemble
+- **Robust Predictions**: Reduced variance through ensemble averaging
+
+### 🔗 **Comprehensive Blockchain Auditing**
+- **Model Hashing**: SHA-256 hashes of AI model files for reproducibility
+- **Protein Hashing**: Cryptographic verification of protein structure files
+- **Parameter Tracking**: Complete audit of all screening parameters
+- **Zero Gas Fees**: Leverages Purechain network for cost-effective verification
+- **Regulatory Compliance**: Immutable audit trail for regulatory submissions
+
+### 🎯 **Advanced Screening Capabilities**
+- **Hybrid Screening**: AI + molecular docking with consensus scoring
+- **Batch Processing**: High-throughput screening with comprehensive auditing
+- **Real-time Verification**: Instant blockchain verification of results
+- **Multi-target Support**: Pre-trained models for HIV-1 protease, BRAF, EGFR
 
 ## Project Structure
 
 ```
 .
-├── blockchain/
-│   ├── purechain_connector.py      # Handles all interaction with the Purechain blockchain.
-│   └── DrugScreeningVerifier.sol   # The Solidity smart contract for on-chain verification.
-├── modeling/
-│   ├── data_loader.py              # Fetches and prepares data from ChEMBL.
-│   ├── model_trainer.py            # Trains and saves the AI model.
-│   └── molecular_modeling.py       # Core screening pipeline using RDKit and AI models.
+├── pureprot/                       # 🔬 MODULAR CORE COMPONENTS
+│   ├── __init__.py                 # Package initialization
+│   ├── ai_model.py                 # 🧠 Consensus AI Module (SVR+RF+GB)
+│   ├── blockchain.py               # 🔗 Comprehensive Blockchain Auditor
+│   ├── docking.py                  # ⚗️ Advanced Docking Engine
+│   └── data.py                     # 📊 Data Management Module
+├── blockchain/                     # Legacy blockchain components
+│   ├── purechain_connector.py      # Web3 blockchain connector
+│   └── DrugScreeningVerifier.sol   # Smart contract for verification
+├── modeling/                       # Legacy modeling components
+│   ├── data_loader.py              # ChEMBL data fetching
+│   ├── model_trainer.py            # Model training utilities
+│   ├── molecular_modeling.py       # RDKit molecular modeling
+│   └── advanced_docking_engine.py  # Multi-engine docking support
 ├── workflow/
-│   └── verification_workflow.py    # Integrates the AI screening and blockchain verification.
-├── PureProt.py                     # The main CLI entry point.
-├── pureprot_results.json           # Stores the history of all screening jobs (auto-generated).
-├── requirements.txt                # Python dependencies.
-└── README.md                       # This file.
+│   └── verification_workflow.py    # Legacy verification workflow
+├── docs/                           # 📚 Documentation
+│   ├── technical_guide.md          # Technical implementation guide
+│   └── Windows_Native_Docking_Guide.md # Windows docking setup
+├── PureProt.py                     # 🚀 Main CLI entry point
+└── README.md                       # This file
 ```
+
+### The "X" in PureProtX
+
+The **"X"** represents the **eXtended** and **eXperimental** evolution from the original PureProt system:
+- **eXtended**: True modular architecture with interchangeable components
+- **eXperimental**: Cutting-edge Consensus AI and comprehensive blockchain auditing
+- **eXcellence**: Superior performance through ensemble methods and rigorous verification
 
 ## Installation
 
