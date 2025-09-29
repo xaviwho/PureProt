@@ -38,10 +38,16 @@ class PureProtXCLI:
         self.data_manager = DataManager()
         self.consensus_ai = None  # Initialized when needed
         self.docking_engine = None  # Initialized when needed
-        self.blockchain_auditor = BlockchainAuditor(
-            rpc_url=PURECHAIN_RPC_URL, 
-            chain_id=PURECHAIN_CHAIN_ID
-        )
+        
+        # Initialize blockchain auditor with graceful error handling
+        try:
+            self.blockchain_auditor = BlockchainAuditor(
+                rpc_url=PURECHAIN_RPC_URL, 
+                chain_id=PURECHAIN_CHAIN_ID
+            )
+        except Exception as e:
+            print(f"Note: Blockchain auditor initialization deferred ({e})")
+            self.blockchain_auditor = None
         
         # Setup argument parser
         self.parser = argparse.ArgumentParser(

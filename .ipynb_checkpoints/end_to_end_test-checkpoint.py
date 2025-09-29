@@ -52,7 +52,7 @@ class EndToEndTest:
         else:
             logger.info("Using remote Purechain deployment")
             self.deployment_file = os.path.join(os.path.dirname(__file__), "deployment_info.json")
-            self.blockchain_url = "http://43.200.53.250:8548"
+            self.blockchain_url = "https://purechainnode.com:8547"
         
         self.connector = None
         self.results = []

@@ -346,7 +346,7 @@ def main():
     print("Starting Verifiable Drug Screening Workflow...")
     
     # Initialize with Purechain RPC endpoint
-    workflow = VerifiableDrugScreening("http://43.200.53.250:8548")
+    workflow = VerifiableDrugScreening("https://purechainnode.com:8547")
     
     # Connect to blockchain wallet by providing private key
     if not workflow.connect_wallet():

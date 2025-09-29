@@ -14,9 +14,16 @@ dist/
 
 # Local configurations and secrets
 .env
+.env.local
+.env.*.local
 local_deployment_info.json
 !local_deployment_info.json
 deployment_info.json
+
+# Private keys and sensitive data
+*.key
+*.pem
+private_key.txt
 
 # Logs and data
 *.log
@@ -37,6 +44,10 @@ charts/
 *.pdbqt
 *.json
 *.csv
+
+# Allow test assets
+!tests/assets/*
+!tests/golden/*
 
 # Workflows
 workloads/

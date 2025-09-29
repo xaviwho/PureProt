@@ -1,0 +1,4 @@
+molecule_id,smiles
+test_mol_1,CCO
+test_mol_2,CC(=O)O
+test_mol_3,c1ccccc1

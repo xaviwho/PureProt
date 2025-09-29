@@ -16,7 +16,7 @@ This guide provides technical details on implementing and running the Verifiable
 
 ### Blockchain Requirements
 
-- Access to Purechain network (RPC URL: `http://43.200.53.250:8548`)
+- Access to Purechain network (RPC URL: `https://purechainnode.com:8547`)
 - MetaMask wallet or private key
 - PCC cryptocurrency for transaction fees
 
@@ -83,7 +83,7 @@ This guide provides technical details on implementing and running the Verifiable
 from workflow.verification_workflow import VerifiableDrugScreening
 
 # Initialize workflow with Purechain RPC URL
-workflow = VerifiableDrugScreening("http://43.200.53.250:8548")
+workflow = VerifiableDrugScreening("https://purechainnode.com:8547")
 
 # Connect to wallet
 workflow.connect_wallet()
@@ -105,7 +105,7 @@ verified = workflow.verify_screening("aspirin", tx_hash)
 from workflow.verification_workflow import VerifiableDrugScreening
 
 # Initialize workflow
-workflow = VerifiableDrugScreening("http://43.200.53.250:8548")
+workflow = VerifiableDrugScreening("https://purechainnode.com:8547")
 workflow.connect_wallet()
 
 # Define molecules with their SMILES

@@ -85,12 +85,26 @@ The **"X"** represents the **eXtended** and **eXperimental** evolution from the 
     pip install -r requirements.txt
     ```
 
-4.  **Set up your blockchain wallet**:
-    Create a `.env` file in the root directory and add your wallet's private key:
+4.  **Set up your blockchain wallet securely**:
+    
+    **Option A: Interactive Setup (Recommended)**
+    ```bash
+    python setup_env.py
     ```
-    TEST_PRIVATE_KEY="your_private_key_here"
+    This will guide you through secure environment setup.
+    
+    **Option B: Manual Setup**
+    Copy the example file and edit it:
+    ```bash
+    cp .env.example .env
+    # Edit .env with your actual private key
     ```
-    **Note**: This key is used to pay for gas fees when recording results on the blockchain. The Purechain testnet is configured for gas-free transactions.
+    
+    **🚨 Security Requirements:**
+    - `.env` file is already in `.gitignore` - NEVER commit it
+    - Your private key is used for blockchain transactions
+    - Purechain network has zero gas fees
+    - Keep your private key secure and never share it
 
 ## A Full Workflow Example
 

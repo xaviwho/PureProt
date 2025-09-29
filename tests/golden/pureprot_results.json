@@ -1,0 +1,36 @@
+{
+  "results_summary": {
+    "ai_step": {
+      "duration": 0.05,
+      "molecules_tested": 3
+    },
+    "audit_step": {
+      "audit_records": 3,
+      "duration": 0.1
+    },
+    "docking_step": {
+      "duration": 2.5,
+      "successful_dockings": 3
+    }
+  },
+  "test_metadata": {
+    "molecules_count": 3,
+    "test_type": "enhanced_e2e",
+    "timestamp": "DETERMINISTIC_FOR_TESTING",
+    "version": "PureProtX-1.0.0"
+  },
+  "test_molecules": [
+    {
+      "molecule_id": "test_mol_1",
+      "smiles": "CCO"
+    },
+    {
+      "molecule_id": "test_mol_2",
+      "smiles": "CC(=O)O"
+    },
+    {
+      "molecule_id": "test_mol_3",
+      "smiles": "c1ccccc1"
+    }
+  ]
+}

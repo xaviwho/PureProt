@@ -34,7 +34,7 @@ This hybrid approach ensures that all predictions are either based on real-world
 
 The system uses real Purechain blockchain transactions for verification:
 
--   **Network Integration**: Connects to the Purechain network at `http://43.200.53.250:8548` (Chain ID: `900520900520`).
+-   **Network Integration**: Connects to the Purechain network at `https://purechainnode.com:8547` (Chain ID: `900520900520`).
 -   **Authentic Transactions**: Uses a real wallet (`0xAA3DFc054293Dd3731892A1Ba0366D6e6FB1Ee51`) with secure private key handling to sign and send real transactions, ensuring every result is immutably recorded and verifiable.
 
 ## 3. Implementation Details

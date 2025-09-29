@@ -21,11 +21,11 @@ class TestPurechainConnector(unittest.TestCase):
     """Tests for the blockchain connector module."""
     
     def setUp(self):
-        self.connector = PurechainConnector("http://43.200.53.250:8548")
+        self.connector = PurechainConnector("https://purechainnode.com:8547")
     
     def test_initialization(self):
         """Test connector initialization."""
-        self.assertEqual(self.connector.rpc_url, "http://43.200.53.250:8548")
+        self.assertEqual(self.connector.rpc_url, "https://purechainnode.com:8547")
         self.assertIsNone(self.connector.account)
     
     def test_calculate_hash(self):
@@ -154,7 +154,7 @@ class TestVerificationWorkflow(unittest.TestCase):
         self.mock_screening_class.return_value = self.mock_pipeline
         
         # Create workflow instance
-        self.workflow = VerifiableDrugScreening("http://43.200.53.250:8548")
+        self.workflow = VerifiableDrugScreening("https://purechainnode.com:8547")
     
     def tearDown(self):
         # Stop the patchers
@@ -259,7 +259,7 @@ class TestVerificationWorkflow(unittest.TestCase):
                 self.assertTrue(save_result)
                 
                 # Create new workflow and load results
-                new_workflow = VerifiableDrugScreening("http://43.200.53.250:8548")
+                new_workflow = VerifiableDrugScreening("https://purechainnode.com:8547")
                 load_result = new_workflow.load_results(file_path)
                 self.assertTrue(load_result)
                 
@@ -285,7 +285,7 @@ class TestPurechainIntegration(unittest.TestCase):
     @unittest.skip("Requires actual Purechain connection")
     def test_real_purechain_connection(self):
         """Test connecting to a real Purechain node."""
-        connector = PurechainConnector("http://43.200.53.250:8548")
+        connector = PurechainConnector("https://purechainnode.com:8547")
         self.assertTrue(connector.check_connection())
 
 
