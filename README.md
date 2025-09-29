@@ -158,14 +158,106 @@ You can view a summary of all your past screening jobs at any time:
 python PureProt.py history
 ```
 
+## Molecular Docking Workflow
+
+PureProtX provides comprehensive molecular docking capabilities with blockchain audit trails:
+
+### Step 1: Prepare Protein Structure
+
+Convert your protein PDB file to PDBQT format for docking:
+
+```bash
+python PureProt.py prep-protein "1hpv.pdb" --output "1hpv_prepared.pdbqt"
+```
+
+### Step 2: Find Binding Site
+
+Automatically detect the binding site coordinates:
+
+```bash
+python PureProt.py find-binding-site "1hpv_prepared.pdbqt"
+```
+
+This will output the center coordinates and suggested box size for docking.
+
+### Step 3: Single Molecule Docking
+
+Dock a single molecule with comprehensive parameter tracking:
+
+```bash
+python PureProt.py dock "aspirin" \
+  --smiles "CC(=O)OC1=CC=CC=C1C(=O)O" \
+  --receptor "1hpv_prepared.pdbqt" \
+  --center 10.0 15.0 20.0 \
+  --size 20.0 20.0 20.0 \
+  --exhaustiveness 8 \
+  --output "aspirin_docking.csv"
+```
+
+### Step 4: Batch Docking
+
+Dock multiple molecules from a CSV file:
+
+```bash
+python PureProt.py dock-batch "molecules.csv" \
+  --receptor "1hpv_prepared.pdbqt" \
+  --center 10.0 15.0 20.0 \
+  --size 20.0 20.0 20.0 \
+  --exhaustiveness 8 \
+  --output "batch_docking_scores.csv" \
+  --limit 100
+```
+
+**Input CSV format:**
+```csv
+molecule_id,smiles
+aspirin,CC(=O)OC1=CC=CC=C1C(=O)O
+ibuprofen,CC(C)CC1=CC=C(C=C1)C(C)C(=O)O
+paracetamol,CC(=O)NC1=CC=C(C=C1)O
+```
+
+### Step 5: Hybrid AI+Docking Screening
+
+Combine consensus AI predictions with molecular docking:
+
+```bash
+python PureProt.py hybrid-screen "molecules.csv" \
+  --model "braf_consensus_model.joblib" \
+  --protein "1hpv_prepared.pdbqt" \
+  --center "10.0,15.0,20.0" \
+  --size "20.0,20.0,20.0"
+```
+
+### Blockchain Audit Features
+
+All docking operations include comprehensive blockchain auditing:
+
+- **Receptor File Hash**: SHA-256 of the PDBQT structure
+- **Parameter Tracking**: Center coordinates, box size, exhaustiveness
+- **Result Verification**: Immutable docking scores and poses
+- **Deterministic JSON**: All results appended to `pureprot_deterministic_results.json`
+- **Master Hash**: Complete audit trail for reproducibility
+
 ## CLI Command Reference
 
+### Core Commands
 -   `info`: Displays project information and command usage.
 -   `connect`: Tests the connection to the Purechain blockchain.
 -   `fetch-data <target_id>`: Fetches and prepares data for a ChEMBL target.
--   `train-model <dataset_path>`: Trains a new model on a dataset.
--   `screen <molecule_id>`: Screens a single molecule.
--   `batch <csv_path>`: Screens a batch of molecules from a CSV file.
+-   `train-model <dataset_path>`: Trains a Consensus AI model (SVR+RF+GB ensemble).
+
+### Screening Commands
+-   `screen <molecule_id>`: Screens a single molecule with Consensus AI.
+-   `batch <csv_path>`: Screens a batch of molecules with comprehensive audit.
+
+### Docking Commands
+-   `prep-protein <pdb_path>`: Prepares protein structure for docking (PDB → PDBQT).
+-   `find-binding-site <protein_path>`: Auto-detects binding site coordinates.
+-   `dock <molecule_id>`: Docks single molecule with blockchain audit.
+-   `dock-batch <csv_path>`: Docks multiple molecules from CSV with audit.
+-   `hybrid-screen <csv_path>`: Hybrid AI+docking screening with consensus scoring.
+
+### Verification Commands
 -   `verify <job_id>`: Verifies a screening result from the blockchain.
 -   `history`: Shows the history of all screening jobs.
 

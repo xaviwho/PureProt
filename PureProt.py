@@ -108,6 +108,30 @@ class PureProtXCLI:
         prep_parser.add_argument("pdb_path", type=str, help="Path to input PDB file.")
         prep_parser.add_argument("--output", type=str, help="Path for output PDBQT file.")
 
+        # --- Dock Command ---
+        dock_parser = self.subparsers.add_parser("dock", help="Dock a single molecule against a receptor.")
+        dock_parser.add_argument("molecule_id", type=str, help="Identifier for the molecule.")
+        dock_parser.add_argument("--smiles", type=str, required=True, help="SMILES string of the ligand.")
+        dock_parser.add_argument("--receptor", type=str, required=True, help="Path to receptor PDBQT file.")
+        dock_parser.add_argument("--center", type=float, nargs=3, required=True, metavar=('X', 'Y', 'Z'), 
+                                help="Center coordinates for docking box (X Y Z).")
+        dock_parser.add_argument("--size", type=float, nargs=3, default=[20.0, 20.0, 20.0], metavar=('X', 'Y', 'Z'),
+                                help="Size of docking box in Angstroms (default: 20 20 20).")
+        dock_parser.add_argument("--exhaustiveness", type=int, default=8, help="Exhaustiveness of search (default: 8).")
+        dock_parser.add_argument("--output", type=str, help="Path to save docking scores CSV file.")
+
+        # --- Dock Batch Command ---
+        dock_batch_parser = self.subparsers.add_parser("dock-batch", help="Dock multiple molecules from CSV file.")
+        dock_batch_parser.add_argument("csv_path", type=str, help="Path to CSV file with molecule_id,smiles columns.")
+        dock_batch_parser.add_argument("--receptor", type=str, required=True, help="Path to receptor PDBQT file.")
+        dock_batch_parser.add_argument("--center", type=float, nargs=3, required=True, metavar=('X', 'Y', 'Z'),
+                                      help="Center coordinates for docking box (X Y Z).")
+        dock_batch_parser.add_argument("--size", type=float, nargs=3, default=[20.0, 20.0, 20.0], metavar=('X', 'Y', 'Z'),
+                                      help="Size of docking box in Angstroms (default: 20 20 20).")
+        dock_batch_parser.add_argument("--exhaustiveness", type=int, default=8, help="Exhaustiveness of search (default: 8).")
+        dock_batch_parser.add_argument("--output", type=str, help="Path to save docking scores CSV file.")
+        dock_batch_parser.add_argument("--limit", type=int, help="Limit number of molecules to dock.")
+
         # --- Find Binding Site Command ---
         binding_parser = self.subparsers.add_parser("find-binding-site", help="Find binding site coordinates and box size for a protein.")
         binding_parser.add_argument("protein_path", type=str, help="Path to the protein PDB file.")
@@ -119,13 +143,6 @@ class PureProtXCLI:
         compare_parser.add_argument("--docking-results", type=str, help="Path to docking-only results CSV file.")
         compare_parser.add_argument("--hybrid-results", type=str, help="Path to hybrid results CSV file.")
         compare_parser.add_argument("--output", type=str, default="comparison_analysis.csv", help="Output path for comparison analysis.")
-
-        # --- Dock Command ---
-        dock_parser = self.subparsers.add_parser("dock", help="Perform molecular docking on molecules.")
-        dock_parser.add_argument("csv_path", type=str, help="Path to CSV file containing molecules to dock.")
-        dock_parser.add_argument("--protein", type=str, required=True, help="Path to prepared protein PDBQT file.")
-        dock_parser.add_argument("--center", type=str, required=True, help="Binding site center coordinates (x,y,z).")
-        dock_parser.add_argument("--size", type=str, default="20,20,20", help="Search box size (x,y,z). Default: 20,20,20")
 
         # --- Hybrid Screen Command ---
         hybrid_parser = self.subparsers.add_parser("hybrid-screen", help="Perform hybrid AI+docking screening.")
@@ -167,7 +184,9 @@ class PureProtXCLI:
         elif args.command == "compare":
             self.run_compare_results(args.ai_results, args.docking_results, args.hybrid_results, args.output)
         elif args.command == "dock":
-            self.run_dock(args.csv_path, args.protein, args.center, args.size)
+            self.run_dock_single(args.molecule_id, args.smiles, args.receptor, args.center, args.size, args.exhaustiveness, args.output)
+        elif args.command == "dock-batch":
+            self.run_dock_batch(args.csv_path, args.receptor, args.center, args.size, args.exhaustiveness, args.output, args.limit)
         elif args.command == "hybrid-screen":
             self.run_hybrid_screen(args.csv_path, args.model, args.protein, args.center, args.size)
         else:
@@ -209,13 +228,14 @@ class PureProtXCLI:
         train-model : Train Consensus AI model (SVR+RF+GB ensemble).
         screen      : Screen molecules using Consensus AI with blockchain audit.
         batch       : Screen batches with comprehensive audit trails.
+        dock        : Dock single molecule with blockchain audit.
+        dock-batch  : Dock multiple molecules from CSV with audit.
         verify      : Verify screening results against blockchain records.
         history     : Display screening job history.
         benchmark   : Performance benchmarking with consensus metrics.
         convert     : Convert SMILES files to PureProtX format.
         prep-protein: Prepare protein structures for docking.
         find-binding-site: Auto-detect binding sites.
-        dock        : Molecular docking with parameter tracking.
         hybrid-screen: Hybrid AI+docking with consensus scoring.
 
         Example Usage:
@@ -227,15 +247,19 @@ class PureProtXCLI:
         # 2. Screen with Consensus AI + Blockchain Audit
         python PureProt.py screen "test_molecule" --smiles "CC(=O)OC1=CC=CC=C1C(=O)O" --model "hiv_consensus_model.joblib"
 
-        # 3. Verify blockchain audit
-        python PureProt.py verify "test_molecule_1234567890"
-
-        # 4. Hybrid AI+Docking screening
+        # 3. Molecular Docking with Blockchain Audit
         python PureProt.py prep-protein "1hpv.pdb" --output "1hpv_prepared.pdbqt"
         python PureProt.py find-binding-site "1hpv_prepared.pdbqt"
+        python PureProt.py dock "aspirin" --smiles "CC(=O)OC1=CC=CC=C1C(=O)O" --receptor "1hpv_prepared.pdbqt" --center 10.0 15.0 20.0
+        python PureProt.py dock-batch "molecules.csv" --receptor "1hpv_prepared.pdbqt" --center 10.0 15.0 20.0 --output "docking_scores.csv"
+
+        # 4. Verify blockchain audit
+        python PureProt.py verify "test_molecule_1234567890"
+
+        # 5. Hybrid AI+Docking screening
         python PureProt.py hybrid-screen "molecules.csv" --model "hiv_consensus_model.joblib" --protein "1hpv_prepared.pdbqt" --center "10.0,15.0,20.0"
 
-        # 5. Performance benchmarking
+        # 6. Performance benchmarking
         python PureProt.py benchmark "hiv_data.csv" --limit 100
 
         For more details on a specific command, run:
@@ -832,6 +856,226 @@ class PureProtXCLI:
                 
         except Exception as e:
             print(f"Error during hybrid screening: {e}")
+
+    def run_dock_single(self, molecule_id: str, smiles: str, receptor_path: str, center: List[float], 
+                       size: List[float], exhaustiveness: int, output_path: Optional[str] = None):
+        """Dock a single molecule against a receptor with blockchain audit."""
+        print(f"--- Single Molecule Docking: {molecule_id} ---")
+        print(f"Receptor: {receptor_path}")
+        print(f"Center: {center}")
+        print(f"Box Size: {size}")
+        print(f"Exhaustiveness: {exhaustiveness}")
+        
+        try:
+            # Initialize docking engine
+            if not self.docking_engine:
+                from pureprot.docking import DockingEngine
+                self.docking_engine = DockingEngine(receptor_path)
+            
+            # Perform docking
+            result = self.docking_engine.dock_molecule(
+                smiles=smiles,
+                molecule_id=molecule_id,
+                center=center,
+                size=size,
+                exhaustiveness=exhaustiveness
+            )
+            
+            # Create audit record
+            if self.blockchain_auditor:
+                audit_params = {
+                    'receptor_file': receptor_path,
+                    'center_coordinates': center,
+                    'box_size': size,
+                    'exhaustiveness': exhaustiveness,
+                    'docking_engine': 'AutoDock Vina',
+                    'software_version': 'PureProtX-1.0.0'
+                }
+                
+                audit_record = self.blockchain_auditor.create_comprehensive_audit_record(
+                    molecule_id=molecule_id,
+                    smiles=smiles,
+                    results=result,
+                    parameters=audit_params
+                )
+                
+                print(f"✅ Audit hash: {audit_record['master_hash'][:16]}...")
+            
+            # Save results
+            if not output_path:
+                output_path = f"{molecule_id}_docking_scores.csv"
+            
+            import pandas as pd
+            df = pd.DataFrame([result])
+            df.to_csv(output_path, index=False)
+            
+            print(f"✅ Docking score: {result.get('docking_score', 'N/A')}")
+            print(f"✅ Results saved to: {output_path}")
+            
+            # Append to deterministic JSON
+            self._append_to_deterministic_json(result, audit_record if self.blockchain_auditor else None)
+            
+        except Exception as e:
+            print(f"❌ Docking failed: {e}")
+
+    def run_dock_batch(self, csv_path: str, receptor_path: str, center: List[float], size: List[float], 
+                      exhaustiveness: int, output_path: Optional[str] = None, limit: Optional[int] = None):
+        """Dock multiple molecules from CSV file with blockchain audit."""
+        print(f"--- Batch Molecular Docking ---")
+        print(f"Input CSV: {csv_path}")
+        print(f"Receptor: {receptor_path}")
+        print(f"Center: {center}")
+        print(f"Box Size: {size}")
+        print(f"Exhaustiveness: {exhaustiveness}")
+        if limit:
+            print(f"Limit: {limit} molecules")
+        
+        try:
+            import pandas as pd
+            
+            # Load molecules
+            df = pd.read_csv(csv_path)
+            if limit:
+                df = df.head(limit)
+            
+            print(f"Loaded {len(df)} molecules for docking")
+            
+            # Initialize docking engine
+            if not self.docking_engine:
+                from pureprot.docking import DockingEngine
+                self.docking_engine = DockingEngine(receptor_path)
+            
+            results = []
+            audit_records = []
+            
+            for idx, row in df.iterrows():
+                molecule_id = row['molecule_id']
+                smiles = row['smiles']
+                
+                print(f"Docking {idx+1}/{len(df)}: {molecule_id}")
+                
+                try:
+                    # Perform docking
+                    result = self.docking_engine.dock_molecule(
+                        smiles=smiles,
+                        molecule_id=molecule_id,
+                        center=center,
+                        size=size,
+                        exhaustiveness=exhaustiveness
+                    )
+                    
+                    results.append(result)
+                    
+                    # Create audit record
+                    if self.blockchain_auditor:
+                        audit_params = {
+                            'receptor_file': receptor_path,
+                            'center_coordinates': center,
+                            'box_size': size,
+                            'exhaustiveness': exhaustiveness,
+                            'docking_engine': 'AutoDock Vina',
+                            'software_version': 'PureProtX-1.0.0',
+                            'batch_index': idx
+                        }
+                        
+                        audit_record = self.blockchain_auditor.create_comprehensive_audit_record(
+                            molecule_id=molecule_id,
+                            smiles=smiles,
+                            results=result,
+                            parameters=audit_params
+                        )
+                        
+                        audit_records.append(audit_record)
+                    
+                    print(f"  ✅ Score: {result.get('docking_score', 'N/A')}")
+                    
+                except Exception as e:
+                    print(f"  ❌ Failed: {e}")
+                    # Add failed result
+                    failed_result = {
+                        'molecule_id': molecule_id,
+                        'smiles': smiles,
+                        'docking_score': None,
+                        'success': False,
+                        'error': str(e)
+                    }
+                    results.append(failed_result)
+            
+            # Save results
+            if not output_path:
+                output_path = "batch_docking_scores.csv"
+            
+            results_df = pd.DataFrame(results)
+            results_df.to_csv(output_path, index=False)
+            
+            successful = sum(1 for r in results if r.get('success', False))
+            print(f"\n✅ Batch docking complete: {successful}/{len(results)} successful")
+            print(f"✅ Results saved to: {output_path}")
+            
+            # Append to deterministic JSON
+            batch_data = {
+                'batch_docking_results': results,
+                'batch_audit_records': audit_records if self.blockchain_auditor else [],
+                'batch_summary': {
+                    'total_molecules': len(results),
+                    'successful_dockings': successful,
+                    'receptor_file': receptor_path,
+                    'parameters': {
+                        'center': center,
+                        'size': size,
+                        'exhaustiveness': exhaustiveness
+                    }
+                }
+            }
+            
+            self._append_to_deterministic_json(batch_data, None)
+            
+        except Exception as e:
+            print(f"❌ Batch docking failed: {e}")
+
+    def _append_to_deterministic_json(self, data: dict, audit_record: Optional[dict] = None):
+        """Append results to deterministic JSON file for hashing and logging."""
+        import json
+        import os
+        from datetime import datetime
+        
+        json_file = "pureprot_deterministic_results.json"
+        
+        # Load existing data or create new
+        if os.path.exists(json_file):
+            with open(json_file, 'r') as f:
+                all_data = json.load(f)
+        else:
+            all_data = {
+                'metadata': {
+                    'software': 'PureProtX',
+                    'version': '1.0.0',
+                    'created': datetime.now().isoformat()
+                },
+                'results': []
+            }
+        
+        # Add new result
+        entry = {
+            'timestamp': datetime.now().isoformat(),
+            'data': data,
+            'audit_record': audit_record
+        }
+        
+        all_data['results'].append(entry)
+        all_data['metadata']['last_updated'] = datetime.now().isoformat()
+        
+        # Save with deterministic formatting
+        with open(json_file, 'w') as f:
+            json.dump(all_data, f, indent=2, sort_keys=True)
+        
+        # Calculate and log hash
+        import hashlib
+        json_str = json.dumps(all_data, sort_keys=True)
+        file_hash = hashlib.sha256(json_str.encode()).hexdigest()
+        
+        print(f"✅ Results appended to {json_file}")
+        print(f"✅ Deterministic hash: {file_hash[:16]}...")
 
 
 if __name__ == "__main__":
