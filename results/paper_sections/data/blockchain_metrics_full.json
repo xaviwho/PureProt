@@ -1,0 +1,32 @@
+{
+  "logging_latency": {
+    "mean": 1.2372712561958714,
+    "std": 0.5048276473244303,
+    "unit": "s",
+    "description": "Time per transaction"
+  },
+  "verification_time": {
+    "mean": 6.950278031198602e-05,
+    "std": 0.00025970013447712385,
+    "unit": "s",
+    "description": "Re-hash + match"
+  },
+  "tps": {
+    "mean": 0.8082302041628379,
+    "std": 0.3336311092158818,
+    "unit": "tx/s",
+    "description": "Blockchain throughput"
+  },
+  "reproducibility_rate": {
+    "mean": 95.0,
+    "std": 0.0,
+    "unit": "%",
+    "description": "Verified matches"
+  },
+  "total_tests": 100,
+  "successful_txs": 95,
+  "failed_txs": 5,
+  "ai_time_per_molecule": 0.15,
+  "docking_time_per_molecule": 2.5,
+  "blockchain_time_per_molecule": 1.2372712561958714
+}

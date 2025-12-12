@@ -1,0 +1,207 @@
+{
+  "source_dataset": "workloads/natural_products_for_screening.csv",
+  "molecules_tested": 50,
+  "sample_method": "random_state=42",
+  "molecules": [
+    {
+      "name": "(+)-pandoxide",
+      "smiles": "CO[C@@H]1C=C[C@@H]2[C@@]([C@H]1OC(=O)C)(COC(=O)c1ccccc1)C2"
+    },
+    {
+      "name": "pendulone",
+      "smiles": "COC1=C(OC)C(=O)C=C(C1=O)C1COc2c(C1)ccc(c2)O"
+    },
+    {
+      "name": "columbamine",
+      "smiles": "COc1c(c2c[n+]3c(cc2cc1)c1cc(c(cc1CC3)OC)O)OC"
+    },
+    {
+      "name": "7-hydroxybarbaloin",
+      "smiles": "OC[C@H]1O[C@H]([C@@H]([C@H]([C@@H]1O)O)O)[C@@H]1c2cc(CO)cc(c2C(=O)c2c1ccc(c2O)O)O"
+    },
+    {
+      "name": "delta-cadinene",
+      "smiles": "CC1=C[C@@H]2C(=C(C)CC[C@H]2C(C)C)CC1"
+    },
+    {
+      "name": "sigmoidin E",
+      "smiles": "CC(=CCc1cc(cc2c1OC(C)(C)C=C2)[C@@H]1CC(=O)c2c(O1)cc(cc2O)O)C"
+    },
+    {
+      "name": "5-hydroxy-3,6-dimethoxy-2-methylnaphthalene-1,4-dione",
+      "smiles": "COC1=C(C)C(=O)c2c(C1=O)c(O)c(cc2)OC"
+    },
+    {
+      "name": "(E)-6,10-dimethyl-5,9-undecadien-2-one",
+      "smiles": "C/C(=C\\CCC(=O)C)/CCC=C(C)C"
+    },
+    {
+      "name": "feroxin A",
+      "smiles": "OC[C@H]1OC(OC2CC(C)c3c(C2)cc(cc3O)O)[C@@H]([C@H]([C@@H]1O)O)O"
+    },
+    {
+      "name": "3-hydroxy-4-methoxybenzaldehyde",
+      "smiles": "O=Cc1ccc(c(c1)O)OC"
+    },
+    {
+      "name": "3alpha,18,19-trihydroxy trachylobane",
+      "smiles": "OCC1(CO)[C@H](O)CC[C@]2([C@H]1CC[C@]13[C@H]2C[C@H]2[C@@H](C1)[C@]2(C3)C)C"
+    },
+    {
+      "name": "4'-O-methylsigmoidin B",
+      "smiles": "COc1c(O)cc(cc1CC=C(C)C)C1CC(=O)c2c(O1)cc(cc2O)O"
+    },
+    {
+      "name": "3-oxo-12beta-hydroxy-oleanan-28,13beta-olide",
+      "smiles": "O[C@@H]1C[C@@H]2[C@@]3(C)CCC(=O)C([C@@H]3CC[C@]2([C@]2([C@@]31OC(=O)[C@]1([C@@]3(C)CC(C)(C)CC1)CC2)C)C)(C)C"
+    },
+    {
+      "name": "aloenin aglycone",
+      "smiles": "COc1cc(=O)oc(c1)c1c(C)cc(cc1O)O"
+    },
+    {
+      "name": "(25R)-3beta-{O-beta-D-glucopyranosyloxy}-22alphaN-spirosol-5-ene",
+      "smiles": "OC[C@H]1OC(OC2CCC3(C(=CCC4C3CCC3(C4CC4C3C(C)C3(O4)CCC(CN3)C)C)C2)C)[C@@H]([C@H]([C@@H]1O)O)O"
+    },
+    {
+      "name": "7alpha-acetoxyugandensolide",
+      "smiles": "CC(=O)O[C@H]1C2=C(C(=O)OC2)[C@@]2([C@@H]([C@@H]1OC(=O)C)C(C)(C)CCC2)C"
+    },
+    {
+      "name": "isovitexin 7-O-glucoside",
+      "smiles": "OC[C@H]1O[C@@H](Oc2cc3oc(cc(=O)c3c(c2[C@@H]2O[C@H](CO)[C@H]([C@@H]([C@H]2O)O)O)O)c2ccc(cc2)O)[C@@H]([C@H]([C@@H]1O)O)O"
+    },
+    {
+      "name": "(-)-globulol",
+      "smiles": "C[C@@H]1CC[C@@H]2[C@@H]1[C@H]1[C@H](C1(C)C)CC[C@@]2(C)O"
+    },
+    {
+      "name": "rotenone",
+      "smiles": "COc1cc2c(cc1OC)OC[C@@H]1[C@H]2C(=O)c2c(O1)c1C[C@@H](Oc1cc2)C(=C)C"
+    },
+    {
+      "name": "(-)-gossypol",
+      "smiles": "O=Cc1c(O)c(O)c(c2c1c(O)c(c(c2)C)c1c(C)cc2c(c1O)c(C=O)c(c(c2C(C)C)O)O)C(C)C"
+    },
+    {
+      "name": "6'-O-p-coumaroyl-7-hydroxyaloin",
+      "smiles": "OCc1cc(O)c2c(c1)C(C1OC(COC(=O)/C=C/c3ccc(cc3)O)C(C(C1O)O)O)c1c(C2=O)c(O)c(cc1)O"
+    },
+    {
+      "name": "3beta-hydroxydammar-24-ene",
+      "smiles": "CC(=CCC[C@H]([C@H]1CC[C@]2(C1CC[C@H]1[C@H]2CCC2[C@]1(C)CC[C@@H](C2(C)C)O)C)C)C"
+    },
+    {
+      "name": "7-hydroxycallitrisic acid",
+      "smiles": "OC(=O)[C@@]1(C)CCC[C@]2([C@H]1CC(O)c1c2ccc(c1)C(C)C)C"
+    },
+    {
+      "name": "alienusolin",
+      "smiles": "CCCCCCCCCC(=O)OCC1=C[C@H]2[C@H]3[C@@](C3(C)C)(OC(=O)C)[C@@H]([C@H]([C@@]2([C@H]2[C@@H](C1)C(=O)C(=C2)C)O)C)OC(=O)CCCCCCCCC"
+    },
+    {
+      "name": "incensole oxide",
+      "smiles": "C/C/1=C/CCC2(C)OC2CC2(OC(C(CC1)O)(C)CC2)C(C)C"
+    },
+    {
+      "name": "(2E,4E)-3,7-dimethylocta-2,4,6-trienal",
+      "smiles": "O=C/C=C(/C=C/C=C(C)C)\\C"
+    },
+    {
+      "name": "(2R,3R)-spiro-2,3-dimethyl-1,4-dioxolane-5,1',3'-cyanocyclopentane",
+      "smiles": "N#CC1CCC2(C1)O[C@H]([C@H](O2)C)C"
+    },
+    {
+      "name": "tridecanal",
+      "smiles": "CCCCCCCCCCCCC=O"
+    },
+    {
+      "name": "kihadalactone A",
+      "smiles": "CC(=O)OC1CC2C(C)(C)OC(=O)CC([C@@]2(C2[C@]1(C)C1=CCC(C1(CC2)C)c1ccoc1)C)OC(=O)C"
+    },
+    {
+      "name": "(S)-elatadihydrochalcone",
+      "smiles": "COc1cc2OC(C)(C)C=Cc2c(c1C(=O)C[C@@H](c1ccccc1)O)O"
+    },
+    {
+      "name": "hoslundin",
+      "smiles": "COc1cc2oc(cc(=O)c2c(c1c1coc(c(c1=O)OC)C)O)c1ccccc1"
+    },
+    {
+      "name": "(E)-4-octene",
+      "smiles": "CCC/C=C/CCC"
+    },
+    {
+      "name": "quercetin-3-beta-O-galactoside",
+      "smiles": "OC[C@H]1O[C@@H](Oc2c(oc3c(c2=O)c(O)cc(c3)O)c2ccc(c(c2)O)O)[C@@H]([C@H]([C@H]1O)O)O"
+    },
+    {
+      "name": "Umbellulone",
+      "smiles": "CC1=CC(=O)C2(C1C2)C(C)C"
+    },
+    {
+      "name": "derrone",
+      "smiles": "Oc1ccc(cc1)c1coc2c(c1=O)c(O)cc1c2C=CC(O1)(C)C"
+    },
+    {
+      "name": "triacontanyl-(E)-caffaete",
+      "smiles": "CCCOC(=O)/C=C/c1ccc(c(c1)O)O"
+    },
+    {
+      "name": "damnacanthol-3-O-methyl ether",
+      "smiles": "OCc1c(OC)cc2c(c1OC)C(=O)c1c(C2=O)cccc1"
+    },
+    {
+      "name": "bergapten",
+      "smiles": "COc1c2ccc(=O)oc2cc2c1cco2"
+    },
+    {
+      "name": "obovatin",
+      "smiles": "O=C1CC(Oc2c1c(O)cc1c2C=CC(O1)(C)C)c1ccccc1"
+    },
+    {
+      "name": "3,4-dihydroxy-9-methoxypterocarpan",
+      "smiles": "COc1ccc2c(c1)OC1C2COc2c1ccc(c2O)O"
+    },
+    {
+      "name": "palmitic acid methyl ester",
+      "smiles": "CCCCCCCCCCCCCCCC(=O)OC"
+    },
+    {
+      "name": "toussaintine A",
+      "smiles": "O=C1C=C[C@]2([C@H](C1)N(C(=O)/C=C/c1ccccc1)C(=O)C2)O"
+    },
+    {
+      "name": "7beta-hydroxy-4(13),8-coloratadien-11,12-olide",
+      "smiles": "C=C1[C@@H](C)CC[C@]2([C@H]1C[C@H](O)C1=C2C(=O)OC1)C"
+    },
+    {
+      "name": "lupiwighteone",
+      "smiles": "CC(=CCc1c(O)cc(c2c1occ(c2=O)c1ccc(cc1)O)O)C"
+    },
+    {
+      "name": "luteolin 7-O-rutinoside",
+      "smiles": "OC1[C@@H](OC([C@H]([C@@H]1O)O)CO[C@@H]1OC(C)[C@@H]([C@@H](C1O)O)O)Oc1cc(O)c2c(c1)oc(cc2=O)c1ccc(c(c1)O)O"
+    },
+    {
+      "name": "bianthracene II",
+      "smiles": "Cc1cc(O)c2c(c1)C(=O)c1c(C2=O)c(O)c(cc1)C1(O)c2cccc(c2C(=O)c2c1cc(C)cc2O)O"
+    },
+    {
+      "name": "sigmoidin B-4'-methyl ether",
+      "smiles": "COc1c(O)cc(cc1CC=C(C)C)[C@@H]1CC(=O)c2c(O1)cc(cc2O)O"
+    },
+    {
+      "name": "leucolactone",
+      "smiles": "O=C1OC23C4C1(CC[C@@]2(C)[C@]1(C(CC3)[C@@]2(C)CC[C@](C(C2CC1)(C)C)(C)O)C)[C@@](C)(O)CC(C4)(C)C"
+    },
+    {
+      "name": "smirnovine",
+      "smiles": "N/C(=N\\CC=C(C)C)/NCCCCNC(=O)C"
+    },
+    {
+      "name": "hugonone A",
+      "smiles": "O=C1[C@@H]2C3=C([C@H]([C@@]1(C)O)[C@@H]1[C@@]42CC[C@@H]2[C@](C4=CC(=O)[C@]1(C)O)(C)CC[C@H](C2(C)C)O)CC[C@@H]1[C@]3(C)CC[C@@H](C1(C)C)O"
+    }
+  ]
+}

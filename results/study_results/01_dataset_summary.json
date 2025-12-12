@@ -1,0 +1,70 @@
+[
+  {
+    "target_id": "CHEMBL2487",
+    "target_name": "Amyloid-beta APP",
+    "disease": "Alzheimers",
+    "pdb_id": "2M4J",
+    "total_molecules": 999,
+    "train_molecules": 799,
+    "test_molecules": 200,
+    "pic50_statistics": {
+      "mean": 6.685195195195195,
+      "std": 1.3853368736317622,
+      "min": 4.0,
+      "max": 10.15
+    },
+    "data_file": "modeling/data/chembl_2487_data.csv",
+    "status": "available"
+  },
+  {
+    "target_id": "CHEMBL243",
+    "target_name": "HIV-1 Protease",
+    "disease": "HIV",
+    "pdb_id": "1HVR",
+    "total_molecules": 3444,
+    "train_molecules": 2755,
+    "test_molecules": 689,
+    "pic50_statistics": {
+      "mean": 7.310295716218802,
+      "std": 1.6925918779096905,
+      "min": 2.3010299956639813,
+      "max": 11.853871964321762
+    },
+    "data_file": "chembl243_prepared_data.csv",
+    "status": "available"
+  },
+  {
+    "target_id": "CHEMBL247",
+    "target_name": "HIV-1 Reverse Transcriptase",
+    "disease": "HIV",
+    "pdb_id": "1REV",
+    "total_molecules": 10308,
+    "train_molecules": 8246,
+    "test_molecules": 2062,
+    "pic50_statistics": {
+      "mean": 6.035522500731702,
+      "std": 1.406365341050416,
+      "min": 1.720999999982478,
+      "max": 13.30102999566398
+    },
+    "data_file": "chembl247_data.csv",
+    "status": "available"
+  },
+  {
+    "target_id": "CHEMBL3471",
+    "target_name": "HIV-1 Integrase",
+    "disease": "HIV",
+    "pdb_id": "3NF7",
+    "total_molecules": 7879,
+    "train_molecules": 6303,
+    "test_molecules": 1576,
+    "pic50_statistics": {
+      "mean": 5.237776255418799,
+      "std": 1.5294617708726685,
+      "min": -3.789999999999999,
+      "max": 9.337242168318426
+    },
+    "data_file": "chembl3471_data.csv",
+    "status": "available"
+  }
+]

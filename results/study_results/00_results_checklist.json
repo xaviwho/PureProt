@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-10-23 15:00:32",
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Dataset Preparation Results",
+      "status": "completed",
+      "items": [
+        "Dataset counts for all 4 targets",
+        "Train/test split sizes (80/20)",
+        "pIC50 statistics (mean, std, range)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Consensus AI Model Performance",
+      "status": "partial",
+      "items": [
+        "Individual model metrics (SVR, RF, GB)",
+        "R\u00b2 and RMSE for each model",
+        "Consensus ensemble performance",
+        "Cross-validation scores",
+        "Overfitting analysis (R\u00b2 gap)"
+      ],
+      "completed_targets": [
+        "CHEMBL247"
+      ],
+      "pending_targets": [
+        "CHEMBL2487",
+        "CHEMBL243",
+        "CHEMBL3471"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Molecular Docking Results",
+      "status": "not_started",
+      "items": [
+        "Docking scores for test molecules",
+        "Binding affinity predictions",
+        "Docking success rates",
+        "Parameter tracking (center, box size, exhaustiveness)"
+      ],
+      "required_script": "run_docking_evaluation.py"
+    },
+    {
+      "id": 4,
+      "name": "Hybrid Screening Results",
+      "status": "not_started",
+      "items": [
+        "Consensus scores (AI + docking)",
+        "AI-only vs docking-only vs hybrid comparison",
+        "Drug-likeness filtering (Lipinski)",
+        "Score distributions"
+      ],
+      "required_script": "run_hybrid_evaluation.py"
+    },
+    {
+      "id": 5,
+      "name": "Blockchain Audit Trail",
+      "status": "not_started",
+      "items": [
+        "Transaction hashes",
+        "Verification success rates",
+        "Model file hashes (SHA-256)",
+        "Protein structure hashes",
+        "Parameter hashes",
+        "Master audit record hashes"
+      ],
+      "required_script": "run_blockchain_audit.py"
+    },
+    {
+      "id": 6,
+      "name": "Performance Metrics",
+      "status": "not_started",
+      "items": [
+        "Screening time per molecule",
+        "Blockchain recording time",
+        "Verification time",
+        "Total end-to-end time",
+        "Throughput (molecules/second)"
+      ],
+      "required_script": "run_performance_benchmark.py"
+    },
+    {
+      "id": 7,
+      "name": "Comparative Analysis",
+      "status": "not_started",
+      "items": [
+        "Enrichment factors (DUD-E decoys)",
+        "ROC curves for AI predictions",
+        "Correlation between AI and docking",
+        "Consensus score distribution"
+      ],
+      "required_script": "run_comparative_analysis.py"
+    }
+  ]
+}

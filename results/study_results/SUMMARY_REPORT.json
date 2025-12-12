@@ -1,0 +1,149 @@
+{
+  "generated_at": "2025-10-23 15:00:32",
+  "study_name": "PureProtX Comprehensive Evaluation",
+  "targets": {
+    "CHEMBL2487": {
+      "name": "Amyloid-beta APP",
+      "disease": "Alzheimers",
+      "data_file": "modeling/data/chembl_2487_data.csv",
+      "expected_count": 1000,
+      "pdb_id": "2M4J"
+    },
+    "CHEMBL243": {
+      "name": "HIV-1 Protease",
+      "disease": "HIV",
+      "data_file": "chembl243_prepared_data.csv",
+      "expected_count": 3445,
+      "pdb_id": "1HVR"
+    },
+    "CHEMBL247": {
+      "name": "HIV-1 Reverse Transcriptase",
+      "disease": "HIV",
+      "data_file": "chembl247_data.csv",
+      "expected_count": 10308,
+      "pdb_id": "1REV"
+    },
+    "CHEMBL3471": {
+      "name": "HIV-1 Integrase",
+      "disease": "HIV",
+      "data_file": "chembl3471_data.csv",
+      "expected_count": 7879,
+      "pdb_id": "3NF7"
+    }
+  },
+  "results": {
+    "dataset_preparation": [
+      {
+        "target_id": "CHEMBL2487",
+        "target_name": "Amyloid-beta APP",
+        "disease": "Alzheimers",
+        "pdb_id": "2M4J",
+        "total_molecules": 999,
+        "train_molecules": 799,
+        "test_molecules": 200,
+        "pic50_statistics": {
+          "mean": 6.685195195195195,
+          "std": 1.3853368736317622,
+          "min": 4.0,
+          "max": 10.15
+        },
+        "data_file": "modeling/data/chembl_2487_data.csv",
+        "status": "available"
+      },
+      {
+        "target_id": "CHEMBL243",
+        "target_name": "HIV-1 Protease",
+        "disease": "HIV",
+        "pdb_id": "1HVR",
+        "total_molecules": 3444,
+        "train_molecules": 2755,
+        "test_molecules": 689,
+        "pic50_statistics": {
+          "mean": 7.310295716218802,
+          "std": 1.6925918779096905,
+          "min": 2.3010299956639813,
+          "max": 11.853871964321762
+        },
+        "data_file": "chembl243_prepared_data.csv",
+        "status": "available"
+      },
+      {
+        "target_id": "CHEMBL247",
+        "target_name": "HIV-1 Reverse Transcriptase",
+        "disease": "HIV",
+        "pdb_id": "1REV",
+        "total_molecules": 10308,
+        "train_molecules": 8246,
+        "test_molecules": 2062,
+        "pic50_statistics": {
+          "mean": 6.035522500731702,
+          "std": 1.406365341050416,
+          "min": 1.720999999982478,
+          "max": 13.30102999566398
+        },
+        "data_file": "chembl247_data.csv",
+        "status": "available"
+      },
+      {
+        "target_id": "CHEMBL3471",
+        "target_name": "HIV-1 Integrase",
+        "disease": "HIV",
+        "pdb_id": "3NF7",
+        "total_molecules": 7879,
+        "train_molecules": 6303,
+        "test_molecules": 1576,
+        "pic50_statistics": {
+          "mean": 5.237776255418799,
+          "std": 1.5294617708726685,
+          "min": -3.789999999999999,
+          "max": 9.337242168318426
+        },
+        "data_file": "chembl3471_data.csv",
+        "status": "available"
+      }
+    ],
+    "model_performance": [
+      {
+        "target_id": "CHEMBL2487",
+        "target_name": "Amyloid-beta APP",
+        "svr_test_r2": 0.733110061105158,
+        "rf_test_r2": 0.8005467072210755,
+        "gb_test_r2": 0.7553988808816464,
+        "consensus_r2": 0.8005467072210755,
+        "status": "completed"
+      },
+      {
+        "target_id": "CHEMBL243",
+        "target_name": "HIV-1 Protease",
+        "svr_test_r2": 0.6039251962878194,
+        "rf_test_r2": 0.7324334210948064,
+        "gb_test_r2": 0.650197241784241,
+        "consensus_r2": 0.7324334210948064,
+        "status": "completed"
+      },
+      {
+        "target_id": "CHEMBL247",
+        "target_name": "HIV-1 Reverse Transcriptase",
+        "svr_test_r2": 0.5473395666647172,
+        "rf_test_r2": 0.559336968205791,
+        "gb_test_r2": 0.441636115683054,
+        "consensus_r2": 0.559336968205791,
+        "status": "completed"
+      },
+      {
+        "target_id": "CHEMBL3471",
+        "target_name": "HIV-1 Integrase",
+        "svr_test_r2": 0.6625110360730992,
+        "rf_test_r2": 0.7068865477838862,
+        "gb_test_r2": 0.5963750027645263,
+        "consensus_r2": 0.7068865477838862,
+        "status": "completed"
+      }
+    ],
+    "docking_results": {},
+    "hybrid_screening": {},
+    "blockchain_audit": {},
+    "performance_metrics": {},
+    "comparative_analysis": {}
+  }
+}

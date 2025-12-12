@@ -1,0 +1,54 @@
+{
+  "contract_address": "0x418f3aC3465FC704d0685fcAC14fE51802A9E36E",
+  "abi": [
+    {
+      "inputs": [
+        {"internalType": "bytes32", "name": "resultHash", "type": "bytes32"},
+        {"internalType": "bytes32", "name": "moleculeDataHash", "type": "bytes32"},
+        {"internalType": "string", "name": "moleculeId", "type": "string"}
+      ],
+      "name": "recordScreeningResult",
+      "outputs": [{"internalType": "bytes32", "name": "resultId", "type": "bytes32"}],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [{"internalType": "bytes32", "name": "resultId", "type": "bytes32"}],
+      "name": "getScreeningResult",
+      "outputs": [
+        {"internalType": "bytes32", "name": "resultHash", "type": "bytes32"},
+        {"internalType": "bytes32", "name": "moleculeDataHash", "type": "bytes32"},
+        {"internalType": "uint256", "name": "timestamp", "type": "uint256"},
+        {"internalType": "address", "name": "researcher", "type": "address"},
+        {"internalType": "string", "name": "moleculeId", "type": "string"},
+        {"internalType": "bool", "name": "verified", "type": "bool"}
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {"indexed": true, "internalType": "bytes32", "name": "resultId", "type": "bytes32"},
+        {"indexed": false, "internalType": "string", "name": "moleculeId", "type": "string"},
+        {"indexed": false, "internalType": "address", "name": "researcher", "type": "address"}
+      ],
+      "name": "ResultRecorded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {"indexed": true, "internalType": "bytes32", "name": "resultId", "type": "bytes32"},
+        {"indexed": false, "internalType": "bool", "name": "verified", "type": "bool"}
+      ],
+      "name": "ResultVerified",
+      "type": "event"
+    }
+  ],
+  "network": "purechain",
+  "chain_id": 900520900520,
+  "rpc_url": "https://purechainnode.com",
+  "deployment_timestamp": "2024-01-01T00:00:00Z",
+  "deployer": "PureProtX-CLI"
+}

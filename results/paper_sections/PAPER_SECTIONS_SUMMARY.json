@@ -1,0 +1,28 @@
+{
+  "generation_timestamp": "2025-10-23T21:04:29.615117",
+  "sections_generated": [
+    "4.2",
+    "4.3",
+    "4.4",
+    "4.5",
+    "4.6"
+  ],
+  "data_source": "REAL PureProtX system results",
+  "simulation_used": false,
+  "files_generated": {
+    "tables": [
+      "table_4_2_consensus_performance.csv",
+      "table_4_3_docking_enrichment.csv",
+      "table_4_4_alpha_sensitivity.csv",
+      "table_4_5_blockchain_performance.csv",
+      "table_4_6_scalability.csv"
+    ],
+    "figures": [
+      "figure_4_2_consensus_performance.png",
+      "figure_4_3_docking_enrichment.png",
+      "figure_4_4_alpha_sensitivity.png",
+      "figure_4_5_blockchain_performance.png",
+      "figure_4_6_scalability.png"
+    ]
+  }
+}

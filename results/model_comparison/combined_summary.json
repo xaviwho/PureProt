@@ -1,0 +1,106 @@
+[
+  {
+    "best_model": "Random_Forest",
+    "best_r2": 0.8005467072210755,
+    "best_rmse": 0.5948982590405749,
+    "proposed_consensus_models": [
+      "SVR",
+      "Random_Forest",
+      "Gradient_Boosting"
+    ],
+    "proposed_consensus_ranks": [
+      1,
+      2,
+      3
+    ],
+    "timestamp": "2025-10-23 12:03:42",
+    "fairness_measures": {
+      "same_train_test_split": true,
+      "same_feature_scaling": true,
+      "same_random_state": 42,
+      "no_hyperparameter_tuning": true,
+      "same_n_estimators_for_ensembles": 100,
+      "sklearn_default_parameters": true
+    },
+    "target_id": "CHEMBL2487",
+    "target_name": "Amyloid-beta APP"
+  },
+  {
+    "best_model": "Random_Forest",
+    "best_r2": 0.7324334210948064,
+    "best_rmse": 0.8632323832793026,
+    "proposed_consensus_models": [
+      "SVR",
+      "Random_Forest",
+      "Gradient_Boosting"
+    ],
+    "proposed_consensus_ranks": [
+      1,
+      2,
+      3
+    ],
+    "timestamp": "2025-10-23 12:14:24",
+    "fairness_measures": {
+      "same_train_test_split": true,
+      "same_feature_scaling": true,
+      "same_random_state": 42,
+      "no_hyperparameter_tuning": true,
+      "same_n_estimators_for_ensembles": 100,
+      "sklearn_default_parameters": true
+    },
+    "target_id": "CHEMBL243",
+    "target_name": "HIV-1 Protease"
+  },
+  {
+    "best_model": "Random_Forest",
+    "best_r2": 0.559336968205791,
+    "best_rmse": 0.9288551235145124,
+    "proposed_consensus_models": [
+      "SVR",
+      "Random_Forest",
+      "Gradient_Boosting"
+    ],
+    "proposed_consensus_ranks": [
+      1,
+      2,
+      3
+    ],
+    "timestamp": "2025-10-23 12:58:50",
+    "fairness_measures": {
+      "same_train_test_split": true,
+      "same_feature_scaling": true,
+      "same_random_state": 42,
+      "no_hyperparameter_tuning": true,
+      "same_n_estimators_for_ensembles": 100,
+      "sklearn_default_parameters": true
+    },
+    "target_id": "CHEMBL247",
+    "target_name": "HIV-1 Reverse Transcriptase"
+  },
+  {
+    "best_model": "Random_Forest",
+    "best_r2": 0.7068865477838862,
+    "best_rmse": 0.8204494945210826,
+    "proposed_consensus_models": [
+      "SVR",
+      "Random_Forest",
+      "Gradient_Boosting"
+    ],
+    "proposed_consensus_ranks": [
+      1,
+      2,
+      3
+    ],
+    "timestamp": "2025-10-23 13:49:13",
+    "fairness_measures": {
+      "same_train_test_split": true,
+      "same_feature_scaling": true,
+      "same_random_state": 42,
+      "no_hyperparameter_tuning": true,
+      "same_n_estimators_for_ensembles": 100,
+      "sklearn_default_parameters": true
+    },
+    "target_id": "CHEMBL3471",
+    "target_name": "HIV-1 Integrase"
+  }
+]
