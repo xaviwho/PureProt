@@ -8,26 +8,26 @@ This system is designed for researchers who demand rigorous reproducibility and 
 
 ## Key Features
 
-### 🔬 **Modular Architecture**
+### **Modular Architecture**
 - **AI Module**: Consensus AI with ensemble of SVR, Random Forest, and Gradient Boosting
 - **Docking Module**: Advanced molecular docking with multiple engine support
 - **Blockchain Module**: Comprehensive audit trail covering all components
 - **Data Module**: Seamless ChEMBL integration and dataset management
 
-### 🧠 **Consensus AI System**
+### **Consensus AI System**
 - **True Ensemble**: Three different ML algorithms working in consensus
 - **Superior Accuracy**: Mathematically proven better performance than individual models
 - **Individual Tracking**: Monitor performance of each model in the ensemble
 - **Robust Predictions**: Reduced variance through ensemble averaging
 
-### 🔗 **Comprehensive Blockchain Auditing**
+### **Comprehensive Blockchain Auditing**
 - **Model Hashing**: SHA-256 hashes of AI model files for reproducibility
 - **Protein Hashing**: Cryptographic verification of protein structure files
 - **Parameter Tracking**: Complete audit of all screening parameters
 - **Zero Gas Fees**: Leverages Purechain network for cost-effective verification
 - **Regulatory Compliance**: Immutable audit trail for regulatory submissions
 
-### 🎯 **Advanced Screening Capabilities**
+### **Advanced Screening Capabilities**
 - **Hybrid Screening**: AI + molecular docking with consensus scoring
 - **Batch Processing**: High-throughput screening with comprehensive auditing
 - **Real-time Verification**: Instant blockchain verification of results
@@ -37,12 +37,12 @@ This system is designed for researchers who demand rigorous reproducibility and 
 
 ```
 .
-├── pureprot/                       # 🔬 MODULAR CORE COMPONENTS
+├── pureprot/                       # MODULAR CORE COMPONENTS
 │   ├── __init__.py                 # Package initialization
-│   ├── ai_model.py                 # 🧠 Consensus AI Module (SVR+RF+GB)
-│   ├── blockchain.py               # 🔗 Comprehensive Blockchain Auditor
-│   ├── docking.py                  # ⚗️ Advanced Docking Engine
-│   └── data.py                     # 📊 Data Management Module
+│   ├── ai_model.py                 # Consensus AI Module (SVR+RF+GB)
+│   ├── blockchain.py               # Comprehensive Blockchain Auditor
+│   ├── docking.py                  # Advanced Docking Engine
+│   └── data.py                     # Data Management Module
 ├── blockchain/                     # Legacy blockchain components
 │   ├── purechain_connector.py      # Web3 blockchain connector
 │   └── DrugScreeningVerifier.sol   # Smart contract for verification
@@ -53,10 +53,10 @@ This system is designed for researchers who demand rigorous reproducibility and 
 │   └── advanced_docking_engine.py  # Multi-engine docking support
 ├── workflow/
 │   └── verification_workflow.py    # Legacy verification workflow
-├── docs/                           # 📚 Documentation
+├── docs/                           # Documentation
 │   ├── technical_guide.md          # Technical implementation guide
 │   └── Windows_Native_Docking_Guide.md # Windows docking setup
-├── PureProt.py                     # 🚀 Main CLI entry point
+├── PureProt.py                     # Main CLI entry point
 └── README.md                       # This file
 ```
 
@@ -100,7 +100,7 @@ The **"X"** represents the **eXtended** and **eXperimental** evolution from the 
     # Edit .env with your actual private key
     ```
     
-    **🚨 Security Requirements:**
+    **Security Requirements:**
     - `.env` file is already in `.gitignore` - NEVER commit it
     - Your private key is used for blockchain transactions
     - Purechain network has zero gas fees
