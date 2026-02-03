@@ -17,6 +17,7 @@ from reproducibility import ReproducibilityExperiment
 from blockchain_performance import BlockchainPerformanceExperiment
 from provenance_completeness import ProvenanceCompletenessExperiment
 from case_study import DrugDiscoveryCaseStudy
+from visualizations import PaperVisualizations
 
 
 def run_all_experiments(output_dir: str = "results") -> Dict[str, Any]:
@@ -111,6 +112,21 @@ def run_all_experiments(output_dir: str = "results") -> Dict[str, Any]:
     with open(os.path.join(output_dir, "paper_summary.md"), "w") as f:
         f.write(paper_summary)
 
+    # Generate publication-quality visualizations
+    print("\n" + "=" * 70)
+    print("GENERATING VISUALIZATIONS")
+    print("=" * 70)
+
+    figures_dir = os.path.join(output_dir, "figures")
+    viz = PaperVisualizations(output_dir=figures_dir)
+    generated_figures = viz.generate_all(all_results)
+
+    all_results["generated_figures"] = generated_figures
+
+    # Update complete results with figures
+    with open(os.path.join(output_dir, "complete_results.json"), "w") as f:
+        json.dump(all_results, f, indent=2, default=str)
+
     print("\n" + "=" * 70)
     print("ALL EXPERIMENTS COMPLETE")
     print("=" * 70)
@@ -122,6 +138,9 @@ def run_all_experiments(output_dir: str = "results") -> Dict[str, Any]:
     print(f"  - example_provenance.json")
     print(f"  - provenance_table.md")
     print(f"  - case_study_results.md")
+    print(f"\nFigures saved to: {figures_dir}/")
+    for fig in generated_figures:
+        print(f"  - {os.path.basename(fig)}")
 
     return all_results
 

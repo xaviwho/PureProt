@@ -18,11 +18,14 @@ from .reproducibility import ReproducibilityExperiment
 from .blockchain_performance import BlockchainPerformanceExperiment
 from .provenance_completeness import ProvenanceCompletenessExperiment
 from .case_study import DrugDiscoveryCaseStudy
+from .visualizations import PaperVisualizations, generate_visualizations
 
 __all__ = [
     'ContextAwarenessExperiment',
     'ReproducibilityExperiment',
     'BlockchainPerformanceExperiment',
     'ProvenanceCompletenessExperiment',
-    'DrugDiscoveryCaseStudy'
+    'DrugDiscoveryCaseStudy',
+    'PaperVisualizations',
+    'generate_visualizations'
 ]
