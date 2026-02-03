@@ -17,6 +17,9 @@ from typing import Optional, Dict, Any, List
 # Import modular PureProtX components
 from pureprot import ConsensusAIModel, BlockchainAuditor, DockingEngine, DataManager
 
+# Import BioPassport integration for context-aware screening
+from biopassport import BioPassportClient, VerificationStatus, UnifiedAuditRecord
+
 # Legacy imports for backward compatibility
 from workflow.verification_workflow import VerifiableDrugScreening
 from modeling.advanced_docking_engine import AdvancedDockingEngine, create_docking_engine
@@ -42,13 +45,16 @@ class PureProtXCLI:
         # Initialize blockchain auditor with graceful error handling
         try:
             self.blockchain_auditor = BlockchainAuditor(
-                rpc_url=PURECHAIN_RPC_URL, 
+                rpc_url=PURECHAIN_RPC_URL,
                 chain_id=PURECHAIN_CHAIN_ID
             )
         except Exception as e:
             print(f"Note: Blockchain auditor initialization deferred ({e})")
             self.blockchain_auditor = None
-        
+
+        # Initialize BioPassport client for context-aware screening
+        self.biopassport_client = None  # Initialized when needed for verified screening
+
         # Setup argument parser
         self.parser = argparse.ArgumentParser(
             description="PureProtX: Modular CLI Protocol for Blockchain-Audited Consensus AI and Docking-Based Virtual Screening",
@@ -152,6 +158,33 @@ class PureProtXCLI:
         hybrid_parser.add_argument("--center", type=str, help="Binding site center coordinates (x,y,z).")
         hybrid_parser.add_argument("--size", type=str, default="20,20,20", help="Search box size (x,y,z). Default: 20,20,20")
 
+        # --- Verified Screen Command (Context-Aware Drug Discovery) ---
+        verified_parser = self.subparsers.add_parser("verified-screen",
+            help="Context-aware screening with BioPassport biomaterial verification.")
+        verified_parser.add_argument("molecule_id", type=str, help="Identifier for the molecule.")
+        verified_parser.add_argument("--smiles", type=str, required=True, help="SMILES string of the molecule.")
+        verified_parser.add_argument("--biomaterial", type=str, required=True,
+            help="BioPassport material ID (e.g., bio:cell_line:<uuid>).")
+        verified_parser.add_argument("--model", type=str, help="Path to a custom-trained .joblib model file.")
+        verified_parser.add_argument("--strict", action="store_true",
+            help="Fail if biomaterial verification fails (default: warn only).")
+
+        # --- Verified Batch Screen Command ---
+        verified_batch_parser = self.subparsers.add_parser("verified-batch",
+            help="Batch context-aware screening with BioPassport verification.")
+        verified_batch_parser.add_argument("csv_path", type=str,
+            help="Path to CSV file (columns: molecule_id, smiles, biomaterial_id).")
+        verified_batch_parser.add_argument("--model", type=str, help="Path to a custom-trained .joblib model file.")
+        verified_batch_parser.add_argument("--output", type=str, help="Path to save results CSV file.")
+        verified_batch_parser.add_argument("--strict", action="store_true",
+            help="Skip molecules with failed biomaterial verification.")
+
+        # --- Verify Biomaterial Command ---
+        verify_bio_parser = self.subparsers.add_parser("verify-biomaterial",
+            help="Verify a biomaterial credential from BioPassport.")
+        verify_bio_parser.add_argument("biomaterial_id", type=str,
+            help="BioPassport material ID to verify (e.g., bio:cell_line:<uuid>).")
+
     def run(self):
         """Parse arguments and execute the corresponding command."""
         args = self.parser.parse_args()
@@ -189,6 +222,12 @@ class PureProtXCLI:
             self.run_dock_batch(args.csv_path, args.receptor, args.center, args.size, args.exhaustiveness, args.output, args.limit)
         elif args.command == "hybrid-screen":
             self.run_hybrid_screen(args.csv_path, args.model, args.protein, args.center, args.size)
+        elif args.command == "verified-screen":
+            self.run_verified_screen(args.molecule_id, args.smiles, args.biomaterial, args.model, args.strict)
+        elif args.command == "verified-batch":
+            self.run_verified_batch(args.csv_path, args.model, args.output, args.strict)
+        elif args.command == "verify-biomaterial":
+            self.run_verify_biomaterial(args.biomaterial_id)
         else:
             self.parser.print_help()
 
@@ -203,40 +242,53 @@ class PureProtXCLI:
         Welcome to PureProtX, a truly modular system that delivers on the promise
         of transparent, reproducible drug discovery with comprehensive blockchain auditing.
 
-        🔬 MODULAR ARCHITECTURE:
-        • AI Module: Consensus AI (SVR + Random Forest + Gradient Boosting)
-        • Docking Module: Advanced molecular docking with multiple engines
-        • Blockchain Module: Comprehensive audit trail (models, proteins, parameters)
-        • Data Module: ChEMBL integration and dataset management
+        MODULAR ARCHITECTURE:
+        * AI Module: Consensus AI (SVR + Random Forest + Gradient Boosting)
+        * Docking Module: Advanced molecular docking with multiple engines
+        * Blockchain Module: Comprehensive audit trail (models, proteins, parameters)
+        * Data Module: ChEMBL integration and dataset management
+        * BioPassport Module: Biomaterial provenance verification
 
-        🧠 CONSENSUS AI:
-        • Ensemble of 3 models for robust predictions
-        • Individual model performance tracking
-        • Mathematically proven superior accuracy
+        CONSENSUS AI:
+        * Ensemble of 3 models for robust predictions
+        * Individual model performance tracking
+        * Mathematically proven superior accuracy
 
-        🔗 BLOCKCHAIN AUDIT:
-        • Hashes AI model files for reproducibility
-        • Hashes protein structures and parameters
-        • Complete audit trail for regulatory compliance
-        • Zero gas fees on Purechain network
+        BLOCKCHAIN AUDIT:
+        * Hashes AI model files for reproducibility
+        * Hashes protein structures and parameters
+        * Complete audit trail for regulatory compliance
+        * Zero gas fees on Purechain network
+
+        CONTEXT-AWARE DRUG DISCOVERY (BioPassport Integration):
+        * Biomaterial provenance verification before screening
+        * Unified audit records linking materials to results
+        * Dual-layer verification (on-chain + off-chain)
+        * Regulatory-compliant traceability
 
         Available Commands:
         -------------------
-        info        : Show this information message.
-        connect     : Test the connection to the Purechain blockchain.
-        fetch-data  : Fetch and prepare bioactivity data from ChEMBL.
-        train-model : Train Consensus AI model (SVR+RF+GB ensemble).
-        screen      : Screen molecules using Consensus AI with blockchain audit.
-        batch       : Screen batches with comprehensive audit trails.
-        dock        : Dock single molecule with blockchain audit.
-        dock-batch  : Dock multiple molecules from CSV with audit.
-        verify      : Verify screening results against blockchain records.
-        history     : Display screening job history.
-        benchmark   : Performance benchmarking with consensus metrics.
-        convert     : Convert SMILES files to PureProtX format.
-        prep-protein: Prepare protein structures for docking.
+        info            : Show this information message.
+        connect         : Test the connection to the Purechain blockchain.
+        fetch-data      : Fetch and prepare bioactivity data from ChEMBL.
+        train-model     : Train Consensus AI model (SVR+RF+GB ensemble).
+        screen          : Screen molecules using Consensus AI with blockchain audit.
+        batch           : Screen batches with comprehensive audit trails.
+        dock            : Dock single molecule with blockchain audit.
+        dock-batch      : Dock multiple molecules from CSV with audit.
+        verify          : Verify screening results against blockchain records.
+        history         : Display screening job history.
+        benchmark       : Performance benchmarking with consensus metrics.
+        convert         : Convert SMILES files to PureProtX format.
+        prep-protein    : Prepare protein structures for docking.
         find-binding-site: Auto-detect binding sites.
-        hybrid-screen: Hybrid AI+docking with consensus scoring.
+        hybrid-screen   : Hybrid AI+docking with consensus scoring.
+
+        Context-Aware Commands (BioPassport):
+        -------------------------------------
+        verified-screen : Screen with biomaterial provenance verification.
+        verified-batch  : Batch screening with biomaterial verification.
+        verify-biomaterial: Verify a biomaterial credential from BioPassport.
 
         Example Usage:
         --------------
@@ -261,6 +313,11 @@ class PureProtXCLI:
 
         # 6. Performance benchmarking
         python PureProt.py benchmark "hiv_data.csv" --limit 100
+
+        # 7. Context-Aware Verified Screening (BioPassport Integration)
+        python PureProt.py verify-biomaterial "bio:cell_line:hela-001"
+        python PureProt.py verified-screen "aspirin" --smiles "CC(=O)OC1=CC=CC=C1C(=O)O" --biomaterial "bio:cell_line:hela-001" --model "hiv_consensus_model.joblib"
+        python PureProt.py verified-batch "molecules_with_biomaterials.csv" --model "hiv_consensus_model.joblib" --output "verified_results.csv"
 
         For more details on a specific command, run:
         python PureProt.py [command] --help
@@ -1032,6 +1089,306 @@ class PureProtXCLI:
             
         except Exception as e:
             print(f"❌ Batch docking failed: {e}")
+
+    def run_verified_screen(self, molecule_id: str, smiles: str, biomaterial_id: str,
+                            model_path: Optional[str] = None, strict: bool = False):
+        """
+        Run context-aware screening with BioPassport biomaterial verification.
+
+        This is the core integration point between PureProt and BioPassport,
+        enabling verifiable drug discovery with provenance tracking.
+        """
+        print(f"=== Context-Aware Verified Screening ===")
+        print(f"Molecule: {molecule_id}")
+        print(f"Biomaterial: {biomaterial_id}")
+
+        try:
+            # Initialize BioPassport client
+            biopassport_client = BioPassportClient(
+                rpc_url=PURECHAIN_RPC_URL,
+                chain_id=PURECHAIN_CHAIN_ID
+            )
+
+            # Step 1: Verify biomaterial credentials
+            print(f"\n--- Step 1: Biomaterial Verification ---")
+            can_proceed, verification_result = biopassport_client.verified_screen_check(biomaterial_id)
+
+            if not can_proceed:
+                if strict:
+                    print(f"\n[STRICT MODE] Screening aborted due to failed biomaterial verification.")
+                    return None
+                else:
+                    print(f"\n[WARNING] Proceeding with unverified biomaterial (non-strict mode).")
+
+            # Step 2: Initialize Consensus AI model
+            print(f"\n--- Step 2: AI Model Initialization ---")
+            if not self.consensus_ai:
+                if model_path and os.path.exists(model_path):
+                    self.consensus_ai = ConsensusAIModel(model_path)
+                    print(f"Loaded custom model: {model_path}")
+                else:
+                    consensus_models = [f for f in os.listdir('.') if f.endswith('_consensus_model.joblib')]
+                    if consensus_models:
+                        self.consensus_ai = ConsensusAIModel(consensus_models[0])
+                        print(f"Loaded model: {consensus_models[0]}")
+                    else:
+                        print("No consensus model found. Please train a model first.")
+                        return None
+
+            # Step 3: Run consensus AI prediction
+            print(f"\n--- Step 3: Consensus AI Screening ---")
+            ai_predictions = self.consensus_ai.predict_single(smiles)
+
+            screening_results = {
+                'consensus_pic50': ai_predictions['consensus'],
+                'individual_predictions': {
+                    'svr': ai_predictions['svr'],
+                    'random_forest': ai_predictions['random_forest'],
+                    'gradient_boosting': ai_predictions['gradient_boosting']
+                },
+                'screening_type': 'verified_consensus_ai',
+                'biomaterial_verified': can_proceed
+            }
+
+            # Step 4: Create unified audit record
+            print(f"\n--- Step 4: Creating Unified Audit Record ---")
+            model_hash = self.consensus_ai.get_model_info().get('model_hash') if self.consensus_ai else None
+
+            unified_record = biopassport_client.create_unified_audit_record(
+                biomaterial_id=biomaterial_id,
+                molecule_id=molecule_id,
+                smiles=smiles,
+                screening_results=screening_results,
+                model_hash=model_hash,
+                parameters={'screening_type': 'verified_consensus_ai', 'strict_mode': strict}
+            )
+
+            # Step 5: Anchor to blockchain
+            print(f"\n--- Step 5: Blockchain Anchoring ---")
+            tx_hash, job_id = biopassport_client.anchor_to_blockchain(unified_record)
+
+            # Print results
+            print(f"\n{'='*50}")
+            print(f"=== VERIFIED SCREENING RESULTS ===")
+            print(f"{'='*50}")
+            print(f"\nBiomaterial Provenance:")
+            print(f"  Material ID: {biomaterial_id}")
+            print(f"  Verification: {verification_result.status.value}")
+            print(f"  Credential Hash: {verification_result.credential_hash[:16] if verification_result.credential_hash else 'N/A'}...")
+
+            print(f"\nConsensus AI Prediction:")
+            print(f"  Consensus pIC50: {ai_predictions['consensus']:.4f}")
+            print(f"  SVR: {ai_predictions['svr']:.4f}")
+            print(f"  Random Forest: {ai_predictions['random_forest']:.4f}")
+            print(f"  Gradient Boosting: {ai_predictions['gradient_boosting']:.4f}")
+
+            print(f"\nBlockchain Audit:")
+            print(f"  Job ID: {job_id}")
+            print(f"  Transaction: {tx_hash}")
+            print(f"  Master Hash: {unified_record.master_hash[:16]}...")
+
+            print(f"\nProvenance Valid: {'YES' if unified_record.is_valid_provenance() else 'NO'}")
+
+            # Save to deterministic JSON
+            self._append_to_deterministic_json(
+                unified_record.to_dict(),
+                {'type': 'unified_audit', 'job_id': job_id}
+            )
+
+            return unified_record.to_dict()
+
+        except Exception as e:
+            print(f"\n[ERROR] Verified screening failed: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+
+    def run_verified_batch(self, csv_path: str, model_path: Optional[str] = None,
+                          output_path: Optional[str] = None, strict: bool = False):
+        """
+        Run batch context-aware screening with BioPassport verification.
+
+        CSV must contain columns: molecule_id, smiles, biomaterial_id
+        """
+        print(f"=== Batch Context-Aware Verified Screening ===")
+        print(f"Input: {csv_path}")
+        print(f"Strict Mode: {strict}")
+
+        if not output_path:
+            output_path = csv_path.replace('.csv', '_verified_results.csv')
+
+        try:
+            # Initialize BioPassport client
+            biopassport_client = BioPassportClient(
+                rpc_url=PURECHAIN_RPC_URL,
+                chain_id=PURECHAIN_CHAIN_ID
+            )
+
+            # Initialize AI model
+            if not self.consensus_ai:
+                if model_path and os.path.exists(model_path):
+                    self.consensus_ai = ConsensusAIModel(model_path)
+                else:
+                    consensus_models = [f for f in os.listdir('.') if f.endswith('_consensus_model.joblib')]
+                    if consensus_models:
+                        self.consensus_ai = ConsensusAIModel(consensus_models[0])
+                    else:
+                        print("No consensus model found. Please train a model first.")
+                        return
+
+            # Load molecules
+            df = pd.read_csv(csv_path)
+            required_cols = ['molecule_id', 'smiles', 'biomaterial_id']
+
+            # Check for required columns
+            missing_cols = [col for col in required_cols if col not in df.columns]
+            if missing_cols:
+                print(f"Error: Missing required columns: {missing_cols}")
+                print(f"CSV must contain: {required_cols}")
+                return
+
+            print(f"Loaded {len(df)} molecules for verified screening")
+
+            results = []
+            verified_count = 0
+            failed_verification_count = 0
+
+            for idx, row in df.iterrows():
+                molecule_id = row['molecule_id']
+                smiles = row['smiles']
+                biomaterial_id = row['biomaterial_id']
+
+                print(f"\n[{idx+1}/{len(df)}] Processing: {molecule_id}")
+
+                # Verify biomaterial
+                can_proceed, verification_result = biopassport_client.verified_screen_check(biomaterial_id)
+
+                if not can_proceed:
+                    failed_verification_count += 1
+                    if strict:
+                        print(f"  Skipped (biomaterial verification failed)")
+                        results.append({
+                            'molecule_id': molecule_id,
+                            'smiles': smiles,
+                            'biomaterial_id': biomaterial_id,
+                            'biomaterial_verified': False,
+                            'verification_status': verification_result.status.value,
+                            'consensus_pic50': None,
+                            'skipped': True,
+                            'reason': 'Biomaterial verification failed'
+                        })
+                        continue
+                else:
+                    verified_count += 1
+
+                # Run AI prediction
+                try:
+                    ai_predictions = self.consensus_ai.predict_single(smiles)
+
+                    screening_results = {
+                        'consensus_pic50': ai_predictions['consensus'],
+                        'svr': ai_predictions['svr'],
+                        'random_forest': ai_predictions['random_forest'],
+                        'gradient_boosting': ai_predictions['gradient_boosting']
+                    }
+
+                    # Create unified audit record
+                    unified_record = biopassport_client.create_unified_audit_record(
+                        biomaterial_id=biomaterial_id,
+                        molecule_id=molecule_id,
+                        smiles=smiles,
+                        screening_results=screening_results
+                    )
+
+                    # Anchor to blockchain
+                    tx_hash, job_id = biopassport_client.anchor_to_blockchain(unified_record)
+
+                    results.append({
+                        'molecule_id': molecule_id,
+                        'smiles': smiles,
+                        'biomaterial_id': biomaterial_id,
+                        'biomaterial_verified': can_proceed,
+                        'verification_status': verification_result.status.value,
+                        'consensus_pic50': ai_predictions['consensus'],
+                        'svr_pic50': ai_predictions['svr'],
+                        'rf_pic50': ai_predictions['random_forest'],
+                        'gb_pic50': ai_predictions['gradient_boosting'],
+                        'master_hash': unified_record.master_hash,
+                        'job_id': job_id,
+                        'tx_hash': tx_hash,
+                        'skipped': False
+                    })
+
+                    print(f"  Consensus pIC50: {ai_predictions['consensus']:.4f} | Verified: {can_proceed}")
+
+                except Exception as e:
+                    print(f"  Error: {e}")
+                    results.append({
+                        'molecule_id': molecule_id,
+                        'smiles': smiles,
+                        'biomaterial_id': biomaterial_id,
+                        'biomaterial_verified': can_proceed,
+                        'error': str(e),
+                        'skipped': True
+                    })
+
+            # Save results
+            results_df = pd.DataFrame(results)
+            results_df.to_csv(output_path, index=False)
+
+            print(f"\n{'='*50}")
+            print(f"=== BATCH VERIFIED SCREENING COMPLETE ===")
+            print(f"{'='*50}")
+            print(f"Total molecules: {len(df)}")
+            print(f"Biomaterial verified: {verified_count}")
+            print(f"Biomaterial failed: {failed_verification_count}")
+            print(f"Results saved to: {output_path}")
+
+        except Exception as e:
+            print(f"Error in batch verified screening: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def run_verify_biomaterial(self, biomaterial_id: str):
+        """Verify a biomaterial credential from BioPassport."""
+        print(f"=== BioPassport Biomaterial Verification ===")
+        print(f"Material ID: {biomaterial_id}")
+
+        try:
+            # Initialize BioPassport client
+            biopassport_client = BioPassportClient(
+                rpc_url=PURECHAIN_RPC_URL,
+                chain_id=PURECHAIN_CHAIN_ID
+            )
+
+            # Perform verification
+            result = biopassport_client.verify_credential(biomaterial_id)
+
+            print(f"\n--- Verification Result ---")
+            print(f"Status: {result.status.value}")
+            print(f"Verified At: {result.verified_at.isoformat()}")
+
+            if result.credential_hash:
+                print(f"Credential Hash: {result.credential_hash}")
+
+            print(f"\nPolicy Checks:")
+            for check, passed in result.policy_checks.items():
+                status = "PASS" if passed else "FAIL"
+                print(f"  {check}: {status}")
+
+            if result.error_message:
+                print(f"\nError: {result.error_message}")
+
+            if result.on_chain_tx:
+                print(f"\nOn-Chain TX: {result.on_chain_tx}")
+
+            print(f"\nOverall: {'VALID - Ready for screening' if result.is_valid() else 'INVALID - Cannot proceed with screening'}")
+
+            return result.to_dict()
+
+        except Exception as e:
+            print(f"Error verifying biomaterial: {e}")
+            return None
 
     def _append_to_deterministic_json(self, data: dict, audit_record: Optional[dict] = None):
         """Append results to deterministic JSON file for hashing and logging."""
