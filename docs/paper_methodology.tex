@@ -1,0 +1,142 @@
+% Methodology Section for ICUFN 2026 Paper
+% Context-Aware Drug Discovery with Zero-Fee Blockchain-Verified Biomaterial Provenance
+
+\section{System Design and Methodology}
+
+\subsection{System Architecture}
+
+The proposed system integrates three core components: (1) BioPassport for biomaterial credential verification, (2) PureProtX for consensus AI-based drug screening, and (3) PureChain for zero-fee blockchain anchoring. Figure~\ref{fig:architecture} illustrates the overall architecture.
+
+The system operates in three layers:
+\begin{itemize}
+    \item \textbf{Application Layer}: Handles user interactions, credential queries, and AI predictions
+    \item \textbf{Verification Layer}: Performs policy checks, deterministic hashing, and provenance linking
+    \item \textbf{Blockchain Layer}: Provides immutable storage via PureChain (Chain ID: 900520900520)
+\end{itemize}
+
+\subsection{Biomaterial Verification Protocol}
+
+Before drug screening commences, the system verifies the biomaterial's provenance through BioPassport. A biomaterial is considered valid if and only if it satisfies the following predicate:
+
+\begin{equation}
+    \text{VALID} = \text{ID} \land \text{QC} \land \neg\text{Q} \land \neg\text{R} \land \text{TC}
+\end{equation}
+
+\noindent where ID = has IDENTITY credential, QC = has valid QC\_MYCO credential, Q = QUARANTINED status, R = REVOKED status, and TC = transfer chain is valid.
+
+The verification process queries on-chain credential state and returns a credential hash $H_c$ computed as:
+
+\begin{equation}
+    H_c = \text{SHA256}(\text{canonical}(C))
+\end{equation}
+
+\noindent where $C$ represents the credential data and $\text{canonical}()$ produces deterministic JSON with sorted keys.
+
+\subsection{Consensus AI Screening}
+
+The AI screening module employs an ensemble of three machine learning models:
+
+\begin{enumerate}
+    \item Support Vector Regression (SVR) with RBF kernel
+    \item Random Forest Regressor (100 estimators)
+    \item Gradient Boosting Regressor (100 estimators)
+\end{enumerate}
+
+Each model receives a feature vector $\mathbf{x} \in \mathbb{R}^{2058}$ comprising:
+\begin{itemize}
+    \item 10 molecular descriptors (MW, LogP, HBD, HBA, TPSA, RotB, ArRings, Fsp3, HeavyAtoms, Charge)
+    \item 2048-bit Morgan fingerprints (radius=2)
+\end{itemize}
+
+The consensus prediction is computed as:
+
+\begin{equation}
+    \text{pIC50}_{\text{consensus}} = \frac{1}{3}\sum_{m \in \{SVR, RF, GB\}} \text{pIC50}_m(\mathbf{x})
+\end{equation}
+
+\subsection{Unified Audit Record}
+
+The core innovation is the Unified Audit Record (UAR), which links biomaterial provenance to screening results. The UAR schema contains:
+
+\begin{itemize}
+    \item Biomaterial provenance: material\_id, credential\_hash $H_c$, verification status
+    \item Drug screening: molecule SMILES, model\_hash $H_m$, parameters\_hash $H_p$, results
+    \item Master hash $H_{master}$ for single-point verification
+\end{itemize}
+
+The master hash is computed over the canonical JSON representation:
+
+\begin{equation}
+    H_{master} = \text{SHA256}(\text{canonical}(\{H_c, H_m, H_p, \text{results}, \text{metadata}\}))
+\end{equation}
+
+This ensures that any change in context (biomaterial, model, parameters, or results) produces a different hash.
+
+\subsection{Blockchain Anchoring}
+
+The master hash is anchored to PureChain, a zero-fee EVM-compatible blockchain using Proof of Authority consensus. Key properties:
+
+\begin{itemize}
+    \item \textbf{Zero transaction fees}: Enables unrestricted provenance logging
+    \item \textbf{Deterministic finality}: PoA consensus provides fast confirmation
+    \item \textbf{Independent verification}: Any party can verify by recomputing $H_{master}$
+\end{itemize}
+
+The anchoring transaction stores:
+\begin{equation}
+    \text{TX} = \{job\_id, molecule\_id, H_{master}, \text{metadata}\}
+\end{equation}
+
+\subsection{Context-Awareness Validation}
+
+We define context-awareness through the following properties:
+
+\begin{property}[Hash Uniqueness]
+For any two distinct contexts $C_1 \neq C_2$:
+\begin{equation}
+    H_{master}(C_1) \neq H_{master}(C_2)
+\end{equation}
+\end{property}
+
+\begin{property}[Deterministic Reproducibility]
+For identical context $C$ across $N$ executions:
+\begin{equation}
+    |\{H_{master}(C)_1, H_{master}(C)_2, ..., H_{master}(C)_N\}| = 1
+\end{equation}
+\end{property}
+
+These properties ensure that: (1) different experimental contexts produce distinguishable provenance records, and (2) identical experiments are perfectly reproducible.
+
+\subsection{Experimental Protocol}
+
+We evaluate the system through five experiment categories:
+
+\begin{enumerate}
+    \item \textbf{Context-Awareness Validation}: Verify that modifications to any context field produce distinct hashes
+    \item \textbf{Deterministic Reproducibility}: Execute workflows $N$ times and verify 100\% hash match rate
+    \item \textbf{Blockchain Performance}: Measure p50/p95/p99 latency and throughput
+    \item \textbf{Provenance Completeness}: Document all captured artifacts and verification capabilities
+    \item \textbf{Case Study}: Demonstrate end-to-end pipeline on sample drug molecules
+\end{enumerate}
+
+Performance metrics include:
+\begin{itemize}
+    \item Verification latency (target: p50 $<$ 50ms)
+    \item Anchoring latency (target: p50 $<$ 100ms)
+    \item Throughput (target: $>$ 10 tx/s)
+    \item Gas cost: 0 (zero-fee blockchain)
+\end{itemize}
+
+\subsection{Implementation}
+
+The system is implemented in Python 3.8+ using:
+\begin{itemize}
+    \item \textbf{Web3.py}: Blockchain interaction
+    \item \textbf{scikit-learn}: Machine learning models
+    \item \textbf{RDKit}: Molecular feature generation
+    \item \textbf{hashlib}: SHA-256 hashing
+\end{itemize}
+
+The codebase comprises approximately 4,000 lines across core modules (PureProtX), integration modules (BioPassport), and experimental validation scripts.
+
+% End of Methodology Section
