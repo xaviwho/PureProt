@@ -2,7 +2,7 @@
 
 **Paper**: Context-Aware Drug Discovery with Zero-Fee Blockchain-Verified Biomaterial Provenance
 **Conference**: ICUFN 2026
-**Generated**: 2026-02-04T20:00:17.284528
+**Generated**: 2026-02-04T20:39:31.599911
 
 ---
 
@@ -29,7 +29,7 @@
 - Consensus: PoA
 - Gas Cost: **0 PCC (ZERO FEE)**
 
-**Key Finding**: Blockchain verification on PureChain (Chain ID: 900520900520) achieved p50 verification latency of 0.0ms and p95 latency of 0.0ms. Blockchain anchoring added 1707.7ms mean latency. Total blockchain overhead represents 94.5% of workflow time. Zero-fee execution (gas cost = 0 PCC) enabled unrestricted provenance logging at 0.5 tx/s.
+**Key Finding**: Blockchain verification on PureChain (Chain ID: 900520900520) achieved p50 verification latency of 0.0ms and p95 latency of 0.0ms. Blockchain anchoring added 2175.7ms mean latency. Total blockchain overhead represents 95.6% of workflow time. Zero-fee execution (gas cost = 0 PCC) enabled unrestricted provenance logging at 0.5 tx/s.
 
 ---
 

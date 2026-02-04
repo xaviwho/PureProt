@@ -446,48 +446,66 @@ class BioPassportClient:
         Anchor audit record to REAL PureChain mainnet.
 
         This creates an actual on-chain transaction with zero gas cost.
+        Includes retry logic for nonce synchronization issues.
         """
-        try:
-            # Prepare hashes as bytes32
-            result_hash = bytes.fromhex(audit_record.master_hash[:64])
-            molecule_hash = bytes.fromhex(
-                hashlib.sha256(audit_record.smiles.encode()).hexdigest()
-            )
+        max_retries = 3
+        last_error = None
 
-            # Build transaction
-            tx = self._contract.functions.recordScreeningResult(
-                result_hash,
-                molecule_hash,
-                audit_record.molecule_id
-            ).build_transaction({
-                'from': self._account.address,
-                'nonce': self._w3.eth.get_transaction_count(self._account.address),
-                'gas': 300000,
-                'gasPrice': 0,  # ZERO FEE on PureChain!
-                'chainId': self.chain_id
-            })
+        for attempt in range(max_retries):
+            try:
+                # Prepare hashes as bytes32
+                result_hash = bytes.fromhex(audit_record.master_hash[:64])
+                molecule_hash = bytes.fromhex(
+                    hashlib.sha256(audit_record.smiles.encode()).hexdigest()
+                )
 
-            # Sign and send with timing
-            start_time = time.perf_counter()
-            signed_tx = self._w3.eth.account.sign_transaction(tx, self._private_key)
-            tx_hash = self._w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+                # Get fresh nonce with pending transactions included
+                nonce = self._w3.eth.get_transaction_count(
+                    self._account.address, 'pending'
+                )
 
-            # Wait for confirmation
-            receipt = self._w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
-            end_time = time.perf_counter()
+                # Build transaction
+                tx = self._contract.functions.recordScreeningResult(
+                    result_hash,
+                    molecule_hash,
+                    audit_record.molecule_id
+                ).build_transaction({
+                    'from': self._account.address,
+                    'nonce': nonce,
+                    'gas': 300000,
+                    'gasPrice': 0,  # ZERO FEE on PureChain!
+                    'chainId': self.chain_id
+                })
 
-            # Record metrics
-            self.last_tx_latency_ms = (end_time - start_time) * 1000
-            self.last_block_number = receipt.blockNumber
+                # Sign and send with timing
+                start_time = time.perf_counter()
+                signed_tx = self._w3.eth.account.sign_transaction(tx, self._private_key)
+                tx_hash = self._w3.eth.send_raw_transaction(signed_tx.raw_transaction)
 
-            tx_hash_hex = tx_hash.hex()
-            audit_record.purechain_tx = tx_hash_hex
+                # Wait for confirmation
+                receipt = self._w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
+                end_time = time.perf_counter()
 
-            return tx_hash_hex, job_id
+                # Record metrics
+                self.last_tx_latency_ms = (end_time - start_time) * 1000
+                self.last_block_number = receipt.blockNumber
 
-        except Exception as e:
-            # No fallback - fail explicitly if real blockchain anchoring fails
-            raise RuntimeError(f"Real blockchain anchoring failed: {e}")
+                tx_hash_hex = tx_hash.hex()
+                audit_record.purechain_tx = tx_hash_hex
+
+                return tx_hash_hex, job_id
+
+            except Exception as e:
+                last_error = e
+                error_msg = str(e)
+                # Retry on nonce-related errors
+                if 'nonce' in error_msg.lower() and attempt < max_retries - 1:
+                    time.sleep(0.5)  # Brief delay before retry
+                    continue
+                break
+
+        # No fallback - fail explicitly if real blockchain anchoring fails
+        raise RuntimeError(f"Real blockchain anchoring failed after {max_retries} attempts: {last_error}")
 
     def verified_screen_check(self, biomaterial_id: str) -> Tuple[bool, VerificationResult]:
         """
