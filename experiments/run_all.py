@@ -179,6 +179,18 @@ def generate_executive_summary(results: Dict[str, Any]) -> Dict[str, Any]:
 def generate_paper_summary(results: Dict[str, Any]) -> str:
     """Generate markdown summary for the paper."""
     exp = results["experiments"]
+    blockchain = exp.get("blockchain_performance", {})
+
+    # Extract metrics safely
+    perf_metrics = blockchain.get("performance_metrics", {})
+    verification_us = perf_metrics.get("verification_latency_us", {})
+    audit_us = perf_metrics.get("audit_creation_latency_us", {})
+    submit_ms = perf_metrics.get("tx_submit_latency_ms", {})
+    finality_ms = perf_metrics.get("tx_finality_latency_ms", {})
+    total_ms = perf_metrics.get("anchoring_total_latency_ms", {})
+
+    # Extract receipt
+    receipt = blockchain.get("sample_transaction_receipt", {})
 
     summary = f"""# Experimental Results Summary
 
@@ -194,6 +206,24 @@ def generate_paper_summary(results: Dict[str, Any]) -> str:
 
 **Key Finding**: {exp['context_awareness']['conclusion']}
 
+### Context Schema Table
+
+The following fields are captured in each provenance record and used in master hash computation:
+
+| Field | Description | Hash Algorithm | On-Chain |
+|-------|-------------|----------------|----------|
+| `biomaterial_id` | BioPassport material identifier (e.g., bio:cell_line:hela-001) | N/A (stored directly) | Yes |
+| `credential_hash` | SHA-256 hash of biomaterial credentials | SHA-256 | Yes |
+| `molecule_id` | Molecule identifier from screening | N/A (stored directly) | Yes |
+| `smiles` | SMILES molecular structure string | N/A (stored directly) | Yes* |
+| `model_hash` | SHA-256 hash of AI model weights/version | SHA-256 | Yes |
+| `parameters_hash` | SHA-256 hash of screening parameters | SHA-256 | Yes |
+| `results_hash` | SHA-256 hash of screening results | SHA-256 | Yes |
+| `timestamp` | ISO-8601 timestamp of record creation | N/A | Yes |
+| `master_hash` | SHA-256 of all above fields (canonical order) | SHA-256 | Yes |
+
+*See privacy note below.
+
 ---
 
 ## 2. Deterministic Reproducibility
@@ -206,10 +236,47 @@ def generate_paper_summary(results: Dict[str, Any]) -> str:
 
 ## 3. Blockchain Verification Performance
 
-**Configuration**:
+### Workflow Definition
+
+**Benchmarked Workflow**: AUDIT PATH
+- `verify biomaterial -> create audit record -> anchor hash -> return receipt`
+- **Includes**: Credential verification (local), audit record creation (local), blockchain anchoring
+- **Excludes**: AI inference, molecular docking (treated as separate workloads)
+- **Molecule-to-Transaction Ratio**: 1:1 (no batching)
+
+The case study uses AI inference as the screening workload; docking is treated as an optional module and not included in latency benchmarking.
+
+### Configuration
 - Network: PureChain (Chain ID: 900520900520)
-- Consensus: PoA
+- Consensus: PoA (Proof of Authority)
 - Gas Cost: **0 PCC (ZERO FEE)**
+
+### Latency Breakdown
+
+**Local Operations (no chain read):**
+| Operation | Description | p50 | p95 | p99 |
+|-----------|-------------|-----|-----|-----|
+| Verification | Local policy evaluation + SHA-256 | {verification_us.get('p50_us', 0):.1f}µs | {verification_us.get('p95_us', 0):.1f}µs | {verification_us.get('p99_us', 0):.1f}µs |
+| Audit Creation | JSON serialization + SHA-256 | {audit_us.get('p50_us', 0):.1f}µs | {audit_us.get('p95_us', 0):.1f}µs | {audit_us.get('p99_us', 0):.1f}µs |
+
+**Blockchain Operations:**
+| Operation | Description | p50 | p95 | p99 |
+|-----------|-------------|-----|-----|-----|
+| TX Submit | Sign + RPC send_raw_transaction | {submit_ms.get('p50_ms', 0):.1f}ms | {submit_ms.get('p95_ms', 0):.1f}ms | {submit_ms.get('p99_ms', 0):.1f}ms |
+| TX Finality | Block inclusion + receipt | {finality_ms.get('p50_ms', 0):.1f}ms | {finality_ms.get('p95_ms', 0):.1f}ms | {finality_ms.get('p99_ms', 0):.1f}ms |
+| Total Anchoring | Submit + Finality | {total_ms.get('p50_ms', 0):.1f}ms | {total_ms.get('p95_ms', 0):.1f}ms | {total_ms.get('p99_ms', 0):.1f}ms |
+
+### Sample Transaction Receipt
+
+| Field | Value |
+|-------|-------|
+| TX Hash | `{receipt.get('tx_hash', 'N/A')[:16]}...` |
+| Block Number | {receipt.get('block_number', 'N/A')} |
+| Status | {receipt.get('status', 'N/A')} |
+| Gas Used | {receipt.get('gas_used', 0)} |
+| Submit Latency | {receipt.get('submit_latency_ms', 0)}ms |
+| Finality Latency | {receipt.get('finality_latency_ms', 0)}ms |
+| Total Latency | {receipt.get('total_latency_ms', 0)}ms |
 
 **Key Finding**: {exp['blockchain_performance']['conclusion']}
 
@@ -221,11 +288,26 @@ def generate_paper_summary(results: Dict[str, Any]) -> str:
 
 **Key Finding**: {exp['provenance_completeness']['conclusion']}
 
+### On-Chain vs Off-Chain Storage
+
+**Prototype Configuration** (this implementation):
+- Stores molecule identifiers and SMILES on-chain for demonstration
+- Full audit record hashes anchored on-chain
+
+**Recommended Production Configuration**:
+- Store only content hashes on-chain
+- Keep molecular structures and credentials off-chain
+- Use content-addressable storage (IPFS/Arweave) for full records
+
+> **Privacy Note**: For privacy and scalability, production deployment should anchor content hashes on-chain and keep molecular structures/credentials off-chain. Our prototype logs identifiers for demonstration purposes. SMILES and biomaterial IDs may be sensitive in real-world applications.
+
 ---
 
 ## 5. Drug Discovery Case Study
 
 **Molecules Screened**: {exp['case_study']['num_molecules']}
+
+**Note**: This case study is a **demonstration workload** to validate the pipeline. It does not represent biological insight or drug discovery results. All predictions are tied to model version hash and dataset hash for reproducibility.
 
 **Key Finding**: {exp['case_study']['conclusion']}
 
@@ -235,11 +317,20 @@ def generate_paper_summary(results: Dict[str, Any]) -> str:
 
 This system demonstrates:
 
-1. **Context-Awareness**: Different contexts produce different provenance records; identical contexts produce identical hashes
+1. **Context-Awareness**: Different contexts produce different provenance records; identical contexts produce identical hashes (9 context fields captured)
 2. **Deterministic Reproducibility**: 100% hash match rate across re-executions
-3. **Blockchain Performance**: Zero-fee execution with measured latency metrics
-4. **Provenance Completeness**: Full audit trail linking biomaterials to screening results
-5. **Practical Application**: Successfully executed drug screening pipeline with verifiable results
+3. **Blockchain Performance**: Zero-fee execution with submit/finality latency breakdown
+4. **Provenance Completeness**: Full audit trail with clear on-chain/off-chain separation
+5. **Practical Application**: Demonstration workload with verifiable, reproducible results
+
+### Threat Model Note (Zero-Fee)
+
+PureChain uses Proof-of-Authority (PoA) consensus with zero gas fees. Spam resistance relies on:
+- Validator trust (permissioned network)
+- Rate limiting at RPC layer
+- Access control via private key management
+
+This is suitable for consortium/enterprise deployments where validators are known entities.
 
 """
     return summary

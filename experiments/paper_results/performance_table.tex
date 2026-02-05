@@ -1,14 +1,15 @@
 \begin{table}[h]
 \centering
-\caption{Blockchain Verification Performance Metrics}
-\begin{tabular}{lrrr}
+\caption{Blockchain Verification Performance Metrics. Local operations (verification, audit creation) are measured in microseconds; blockchain operations are measured in milliseconds.}
+\begin{tabular}{llrrr}
 \hline
-Operation & p50 (ms) & p95 (ms) & p99 (ms) \\
+Operation & Unit & p50 & p95 & p99 \\
 \hline
-Verification Latency & 0.0 & 0.0 & 0.0 \\
-Audit Creation Latency & 0.0 & 0.1 & 0.1 \\
-Anchoring Latency & 2172.0 & 3189.7 & 3500.9 \\
-Full Workflow Latency & 2104.0 & 3224.9 & 3540.0 \\
+Verification Latency & µs & 8.3 & 14.4 & 39.0 \\
+Audit Creation Latency & µs & 31.1 & 47.4 & 65.0 \\
+Tx Submit Latency & ms & 30.7 & 73.8 & 529.4 \\
+Tx Finality Latency & ms & 1981.7 & 3206.9 & 3450.1 \\
+Anchoring Total Latency & ms & 2063.6 & 3241.1 & 3483.4 \\
 \hline
 \end{tabular}
 \label{tab:performance}
