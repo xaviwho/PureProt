@@ -1,0 +1,23 @@
+name: pureprotx
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12.10
+  - rdkit=2025.09.4
+  - scikit-learn=1.8.0
+  - numpy=2.4.2
+  - pandas=3.0.0
+  - scipy=1.17.0
+  - joblib=1.5.1
+  - matplotlib=3.10.3
+  - seaborn=0.13.2
+  - tqdm=4.65.0
+  - pip:
+    - web3==7.14.1
+    - py-solc-x==1.1.1
+    - chembl-webresource-client==0.10.9
+    - click==8.1.7
+    - python-dotenv==1.2.1
+    - meeko==0.7.1
+    - gemmi==0.7.4

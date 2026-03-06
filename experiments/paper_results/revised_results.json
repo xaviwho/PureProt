@@ -1,0 +1,2408 @@
+{
+  "metadata": {
+    "run_date": "2026-02-25T12:04:12.497871",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "project": "PureProtX: Blockchain-Audited Consensus AI Virtual Screening -- Revision",
+    "rdkit_available": true,
+    "elapsed_seconds": 2282.67
+  },
+  "experiments": {
+    "exp1_model_training": {
+      "CHEMBL243": {
+        "status": "SUCCESS",
+        "data_file": "chembl243_prepared_data.csv",
+        "n_total": 3444,
+        "n_train": 2066,
+        "n_val": 689,
+        "n_test": 689,
+        "model_hash": "38f50eecf7119c11be68b3865ee2a4d22b66c4da460c92e745b1e299f4b3a528",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.643718482307234,
+            "val_rmse": 1.019683302357411,
+            "test_r2": 0.6204621361302362,
+            "test_rmse": 1.0281094372721096
+          },
+          "random_forest": {
+            "val_r2": 0.7238015654744675,
+            "val_rmse": 0.8977993097445894,
+            "test_r2": 0.7282315639184167,
+            "test_rmse": 0.8699840666382163
+          },
+          "gradient_boosting": {
+            "val_r2": 0.720884112021999,
+            "val_rmse": 0.9025285312919061,
+            "test_r2": 0.7339840923352788,
+            "test_rmse": 0.860727334420176
+          },
+          "consensus": {
+            "val_r2": 0.7280230874432359,
+            "val_rmse": 0.8909117372003095,
+            "test_r2": 0.7255609792799191,
+            "test_rmse": 0.8742481493993494,
+            "r2": 0.7255609792799191,
+            "rmse": 0.8742481493993494
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9124412977663353,
+            "val_auc_pr": 0.9654114599640391,
+            "test_auc_roc": 0.9096673495268754,
+            "test_auc_pr": 0.9627902043111614
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9487115306681924,
+            "val_auc_pr": 0.9814667100413323,
+            "test_auc_roc": 0.9440359477124183,
+            "test_auc_pr": 0.9774870978599448
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9361724951727097,
+            "val_auc_pr": 0.9762628154884594,
+            "test_auc_roc": 0.933341869085943,
+            "test_auc_pr": 0.974331890285696
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9494028463133806,
+            "val_auc_pr": 0.9843129385843272,
+            "test_auc_roc": 0.9425604819042044,
+            "test_auc_pr": 0.9806490856666673
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL247": {
+        "status": "SUCCESS",
+        "data_file": "chembl247_data.csv",
+        "n_total": 10308,
+        "n_train": 6184,
+        "n_val": 2062,
+        "n_test": 2062,
+        "model_hash": "a9a7fae2b976a808c4cea521e0f17c37acf83777e6cb724814506a13da3855f1",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.4992583592590787,
+            "val_rmse": 0.9874546160430301,
+            "test_r2": 0.509390569691467,
+            "test_rmse": 0.9800824620236266
+          },
+          "random_forest": {
+            "val_r2": 0.5302069848725341,
+            "val_rmse": 0.9564528553872793,
+            "test_r2": 0.5413914119756946,
+            "test_rmse": 0.947579733305439
+          },
+          "gradient_boosting": {
+            "val_r2": 0.5373337949117083,
+            "val_rmse": 0.9491703850717114,
+            "test_r2": 0.5542086830945863,
+            "test_rmse": 0.9342443379660164
+          },
+          "consensus": {
+            "val_r2": 0.5469833208843824,
+            "val_rmse": 0.9392201176597398,
+            "test_r2": 0.5634976178571165,
+            "test_rmse": 0.9244596942714036,
+            "r2": 0.5634976178571165,
+            "rmse": 0.9244596942714036
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.8732413390625808,
+            "val_auc_pr": 0.8587167892064458,
+            "test_auc_roc": 0.8692060223298805,
+            "test_auc_pr": 0.868925024695864
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.896673051671475,
+            "val_auc_pr": 0.8833957683137763,
+            "test_auc_roc": 0.8927824094064503,
+            "test_auc_pr": 0.8953834035028342
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.8937066129510488,
+            "val_auc_pr": 0.8836790483568249,
+            "test_auc_roc": 0.8862144067113011,
+            "test_auc_pr": 0.8905758979274749
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9008047929893588,
+            "val_auc_pr": 0.899404997897905,
+            "test_auc_roc": 0.8951553744027255,
+            "test_auc_pr": 0.9064397707696741
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL279": {
+        "status": "SUCCESS",
+        "data_file": "chembl279_prepared_data.csv",
+        "n_total": 14008,
+        "n_train": 8404,
+        "n_val": 2802,
+        "n_test": 2802,
+        "model_hash": "918353c05bd1c1ec7a46dc36773ca5957e8a061dcd68b480572f715928a5337a",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.5890244129110189,
+            "val_rmse": 0.8186432690189748,
+            "test_r2": 0.5886245777157034,
+            "test_rmse": 0.8061079447419643
+          },
+          "random_forest": {
+            "val_r2": 0.5996168650914856,
+            "val_rmse": 0.8080245777080524,
+            "test_r2": 0.6101176496638951,
+            "test_rmse": 0.7847671558500079
+          },
+          "gradient_boosting": {
+            "val_r2": 0.6228851411020524,
+            "val_rmse": 0.7841939824347253,
+            "test_r2": 0.6346061465181844,
+            "test_rmse": 0.759721906909871
+          },
+          "consensus": {
+            "val_r2": 0.6288088837838481,
+            "val_rmse": 0.7780105208654118,
+            "test_r2": 0.6367824836404317,
+            "test_rmse": 0.757456022687651,
+            "r2": 0.6367824836404317,
+            "rmse": 0.757456022687651
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.8822632994781406,
+            "val_auc_pr": 0.92629928890412,
+            "test_auc_roc": 0.8802476914917248,
+            "test_auc_pr": 0.9254789359547351
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.893397812215649,
+            "val_auc_pr": 0.9353142020486644,
+            "test_auc_roc": 0.8912587206534994,
+            "test_auc_pr": 0.9374151307844809
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.8919940925854011,
+            "val_auc_pr": 0.9325031527121705,
+            "test_auc_roc": 0.893613977071311,
+            "test_auc_pr": 0.935698668550104
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9041465288269926,
+            "val_auc_pr": 0.9490759272902678,
+            "test_auc_roc": 0.9024054610896793,
+            "test_auc_pr": 0.9484118252940542
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL3471": {
+        "status": "SUCCESS",
+        "data_file": "chembl3471_data.csv",
+        "n_total": 7879,
+        "n_train": 4727,
+        "n_val": 1576,
+        "n_test": 1576,
+        "model_hash": "74f4d30716b5f7208aa7d1b18c03ea0f5d2c29a3c7726e219aa30df99d0d006f",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.6084752992829008,
+            "val_rmse": 0.9501931011266418,
+            "test_r2": 0.6325384883828947,
+            "test_rmse": 0.9186284790321974
+          },
+          "random_forest": {
+            "val_r2": 0.6609084014062315,
+            "val_rmse": 0.8842820403488785,
+            "test_r2": 0.6886307706076424,
+            "test_rmse": 0.845613333897781
+          },
+          "gradient_boosting": {
+            "val_r2": 0.6689209290139304,
+            "val_rmse": 0.8737720605103944,
+            "test_r2": 0.6865760042008,
+            "test_rmse": 0.8483989025529088
+          },
+          "consensus": {
+            "val_r2": 0.6778019197334443,
+            "val_rmse": 0.8619732016167927,
+            "test_r2": 0.7036709790401816,
+            "test_rmse": 0.8249375444488661,
+            "r2": 0.7036709790401816,
+            "rmse": 0.8249375444488661
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.922093346083845,
+            "val_auc_pr": 0.8298687816930383,
+            "test_auc_roc": 0.9190967352345333,
+            "test_auc_pr": 0.8330927050931533
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9473085109664682,
+            "val_auc_pr": 0.8664503780048243,
+            "test_auc_roc": 0.949051347981923,
+            "test_auc_pr": 0.886353198481564
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9484406330012031,
+            "val_auc_pr": 0.8791676364216978,
+            "test_auc_roc": 0.9499259778712794,
+            "test_auc_pr": 0.8983606380954636
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9517074374556559,
+            "val_auc_pr": 0.893291695915999,
+            "test_auc_roc": 0.9532706093189964,
+            "test_auc_pr": 0.9064701218121962
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL2487": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl_2487_data.csv",
+        "n_total": 999,
+        "n_train": 599,
+        "n_val": 200,
+        "n_test": 200,
+        "model_hash": "7ff6daaf5e128f4b143b03ce65ea0e8cb2c59945093d1471e0c5e43dfac7d1cf",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.7119841127041588,
+            "val_rmse": 0.75405925102844,
+            "test_r2": 0.7089606060463052,
+            "test_rmse": 0.7186178182608742
+          },
+          "random_forest": {
+            "val_r2": 0.7362956923632247,
+            "val_rmse": 0.7215324407053159,
+            "test_r2": 0.7444546268142511,
+            "test_rmse": 0.673373628218936
+          },
+          "gradient_boosting": {
+            "val_r2": 0.742120477318447,
+            "val_rmse": 0.7135192245215595,
+            "test_r2": 0.7293715768427202,
+            "test_rmse": 0.6929610050507975
+          },
+          "consensus": {
+            "val_r2": 0.7629847592333315,
+            "val_rmse": 0.6840461244929512,
+            "test_r2": 0.7671852584085854,
+            "test_rmse": 0.6427281637329434,
+            "r2": 0.7671852584085854,
+            "rmse": 0.6427281637329434
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9673713730989105,
+            "val_auc_pr": 0.9766989397660252,
+            "test_auc_roc": 0.9291189998820616,
+            "test_auc_pr": 0.9558528546626144
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9828497465214109,
+            "val_auc_pr": 0.9874618719167172,
+            "test_auc_roc": 0.946809765302512,
+            "test_auc_pr": 0.9620708020788756
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9736813720202785,
+            "val_auc_pr": 0.9799324267453139,
+            "test_auc_roc": 0.9314187993867201,
+            "test_auc_pr": 0.9543351191750428
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9824182936037105,
+            "val_auc_pr": 0.9901040468027082,
+            "test_auc_roc": 0.9464559499941031,
+            "test_auc_pr": 0.9702938715418883
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL251": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl251_data.csv",
+        "n_total": 2126,
+        "n_train": 1275,
+        "n_val": 425,
+        "n_test": 426,
+        "model_hash": "429019b2d43047a1b6eacbb22e66b6ed10b8177271e9388be3f1032ac2d77f49",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.6334840401513002,
+            "val_rmse": 0.8010357757645982,
+            "test_r2": 0.6179479598134634,
+            "test_rmse": 0.8277797129932307
+          },
+          "random_forest": {
+            "val_r2": 0.7250753042721425,
+            "val_rmse": 0.6937649328485697,
+            "test_r2": 0.704407256062797,
+            "test_rmse": 0.7281157098913972
+          },
+          "gradient_boosting": {
+            "val_r2": 0.7301175465524437,
+            "val_rmse": 0.6873735117681496,
+            "test_r2": 0.6747968347353277,
+            "test_rmse": 0.7637142586788889
+          },
+          "consensus": {
+            "val_r2": 0.7202750819816991,
+            "val_rmse": 0.699795338510585,
+            "test_r2": 0.6902960527269937,
+            "test_rmse": 0.7452927341692697,
+            "r2": 0.6902960527269937,
+            "rmse": 0.7452927341692697
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9552583905415712,
+            "val_auc_pr": 0.9906119363538692,
+            "test_auc_roc": 0.9507678410117434,
+            "test_auc_pr": 0.989963444003282
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9729214340198322,
+            "val_auc_pr": 0.9945698265796051,
+            "test_auc_roc": 0.9762278324537632,
+            "test_auc_pr": 0.995734694041108
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9710383295194507,
+            "val_auc_pr": 0.9935376660422583,
+            "test_auc_roc": 0.9576142252650596,
+            "test_auc_pr": 0.9901191184199698
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9756149885583524,
+            "val_auc_pr": 0.9961611738827622,
+            "test_auc_roc": 0.9757286169352921,
+            "test_auc_pr": 0.9962661552339854
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL217": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl217_data.csv",
+        "n_total": 1570,
+        "n_train": 942,
+        "n_val": 314,
+        "n_test": 314,
+        "model_hash": "d78a9b02e4b184272b7f5dde7001996364289598198b7d9fbfd88a34fcd0bf93",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.5642255112801209,
+            "val_rmse": 1.0518047589638584,
+            "test_r2": 0.5162329753681401,
+            "test_rmse": 1.1142625611345958
+          },
+          "random_forest": {
+            "val_r2": 0.6012260787088706,
+            "val_rmse": 1.0061612904799593,
+            "test_r2": 0.6437473987582558,
+            "test_rmse": 0.956199318237448
+          },
+          "gradient_boosting": {
+            "val_r2": 0.558218970401767,
+            "val_rmse": 1.0590287785080281,
+            "test_r2": 0.6582249465599929,
+            "test_rmse": 0.9365685878020945
+          },
+          "consensus": {
+            "val_r2": 0.6007328558374812,
+            "val_rmse": 1.0067833326684914,
+            "test_r2": 0.6389803027426023,
+            "test_rmse": 0.9625756172942433,
+            "r2": 0.6389803027426023,
+            "rmse": 0.9625756172942433
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9499285860028565,
+            "val_auc_pr": 0.9571444942675018,
+            "test_auc_roc": 0.9213656477083587,
+            "test_auc_pr": 0.9083078080242069
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9646602734135891,
+            "val_auc_pr": 0.9677786449374415,
+            "test_auc_roc": 0.9377664109121909,
+            "test_auc_pr": 0.9252788097240615
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9662517853499286,
+            "val_auc_pr": 0.968820460952148,
+            "test_auc_roc": 0.9326513213981246,
+            "test_auc_pr": 0.9162529725979762
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9680065292797388,
+            "val_auc_pr": 0.9768460931175211,
+            "test_auc_roc": 0.945702918848699,
+            "test_auc_pr": 0.9468688662614502
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL1862": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl1862_data.csv",
+        "n_total": 5156,
+        "n_train": 3093,
+        "n_val": 1031,
+        "n_test": 1032,
+        "model_hash": "1cc1eb11f9dfb5c67d8d96464de31825b3f4892aecc101a7b74b2b45a1e400a5",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.7246347235370699,
+            "val_rmse": 0.823909685753464,
+            "test_r2": 0.7453693299620584,
+            "test_rmse": 0.8017333059593452
+          },
+          "random_forest": {
+            "val_r2": 0.784519157467523,
+            "val_rmse": 0.728835223782678,
+            "test_r2": 0.8101207244176227,
+            "test_rmse": 0.6923303211167217
+          },
+          "gradient_boosting": {
+            "val_r2": 0.7793995724813222,
+            "val_rmse": 0.7374425555991989,
+            "test_r2": 0.8046355150710078,
+            "test_rmse": 0.7022591031859046
+          },
+          "consensus": {
+            "val_r2": 0.7852788731096145,
+            "val_rmse": 0.7275492708782676,
+            "test_r2": 0.8081122574340629,
+            "test_rmse": 0.69598228579105,
+            "r2": 0.8081122574340629,
+            "rmse": 0.69598228579105
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9348808709530324,
+            "val_auc_pr": 0.9750455742950659,
+            "test_auc_roc": 0.929984343072473,
+            "test_auc_pr": 0.9702197106219737
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9601060191518468,
+            "val_auc_pr": 0.9857336971042883,
+            "test_auc_roc": 0.9612159329140461,
+            "test_auc_pr": 0.9839739546528579
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.959080027359781,
+            "val_auc_pr": 0.9862452595499764,
+            "test_auc_roc": 0.960719687922936,
+            "test_auc_pr": 0.9843712300025441
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9619699042407661,
+            "val_auc_pr": 0.9892467994220286,
+            "test_auc_roc": 0.9610434413395961,
+            "test_auc_pr": 0.9864457178237473
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL4005": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl4005_data.csv",
+        "n_total": 9723,
+        "n_train": 5833,
+        "n_val": 1945,
+        "n_test": 1945,
+        "model_hash": "6bfb95e3dd53090027f93f03269f0fc9f268b7ec9e14b5fc635227f9df453dc5",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.6957119882314164,
+            "val_rmse": 0.6538112209179717,
+            "test_r2": 0.6968667058523945,
+            "test_rmse": 0.6867265078596844
+          },
+          "random_forest": {
+            "val_r2": 0.7392540076729892,
+            "val_rmse": 0.6052276623957412,
+            "test_r2": 0.736714915071063,
+            "test_rmse": 0.6400002161374533
+          },
+          "gradient_boosting": {
+            "val_r2": 0.7350643298146533,
+            "val_rmse": 0.6100706974991944,
+            "test_r2": 0.7314638969374103,
+            "test_rmse": 0.6463508633392463
+          },
+          "consensus": {
+            "val_r2": 0.7488714569415873,
+            "val_rmse": 0.5939610783970868,
+            "test_r2": 0.7435514902587284,
+            "test_rmse": 0.6316363015795906,
+            "r2": 0.7435514902587284,
+            "rmse": 0.6316363015795906
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9038388082505731,
+            "val_auc_pr": 0.9378006449827917,
+            "test_auc_roc": 0.9157788042266285,
+            "test_auc_pr": 0.9459169911053714
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9283167812579578,
+            "val_auc_pr": 0.9566683634741544,
+            "test_auc_roc": 0.939295593545234,
+            "test_auc_pr": 0.9632997342854402
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9251469026718749,
+            "val_auc_pr": 0.9545360194523389,
+            "test_auc_roc": 0.9318024378555603,
+            "test_auc_pr": 0.9556091429946727
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9293515862605762,
+            "val_auc_pr": 0.9608959793477181,
+            "test_auc_roc": 0.9376473839788574,
+            "test_auc_pr": 0.9640726213126445
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      },
+      "CHEMBL240": {
+        "status": "SUCCESS",
+        "data_file": "modeling/data/chembl240_data.csv",
+        "n_total": 16640,
+        "n_train": 9984,
+        "n_val": 3328,
+        "n_test": 3328,
+        "model_hash": "eb85ff8f19ebbfa38fcbb5a84df5fdecaf87c5b5936df5af7c1f0edb5d49ac06",
+        "docking_method": "vina",
+        "regression_metrics": {
+          "svr": {
+            "val_r2": 0.6225996314953945,
+            "val_rmse": 0.6106332514360017,
+            "test_r2": 0.6083613526065538,
+            "test_rmse": 0.6163793161313852
+          },
+          "random_forest": {
+            "val_r2": 0.630777601054044,
+            "val_rmse": 0.6039810455790684,
+            "test_r2": 0.6161559432320232,
+            "test_rmse": 0.6102147427688244
+          },
+          "gradient_boosting": {
+            "val_r2": 0.6370360733830841,
+            "val_rmse": 0.598840303820948,
+            "test_r2": 0.6273267333715176,
+            "test_rmse": 0.6012698203197001
+          },
+          "consensus": {
+            "val_r2": 0.654074727525442,
+            "val_rmse": 0.5846156479391629,
+            "test_r2": 0.6408950891411526,
+            "test_rmse": 0.5902227670294198,
+            "r2": 0.6408950891411526,
+            "rmse": 0.5902227670294198
+          }
+        },
+        "classification_metrics": {
+          "svc": {
+            "val_auc_roc": 0.9058851296182894,
+            "val_auc_pr": 0.7237532078325187,
+            "test_auc_roc": 0.8899918854617284,
+            "test_auc_pr": 0.7073356074066213
+          },
+          "rf_clf": {
+            "val_auc_roc": 0.9179523244539702,
+            "val_auc_pr": 0.7700539562963333,
+            "test_auc_roc": 0.8955828207312653,
+            "test_auc_pr": 0.7273863103468043
+          },
+          "gb_clf": {
+            "val_auc_roc": 0.9113502117779139,
+            "val_auc_pr": 0.7618109572272993,
+            "test_auc_roc": 0.890140007985736,
+            "test_auc_pr": 0.7257090343954935
+          },
+          "consensus_clf": {
+            "val_auc_roc": 0.9266690268422128,
+            "val_auc_pr": 0.8029504637791359,
+            "test_auc_roc": 0.9040481916478523,
+            "test_auc_pr": 0.7610260600268954
+          }
+        },
+        "hyperparameter_tuning_regression": {},
+        "hyperparameter_tuning_classification": {}
+      }
+    },
+    "exp2_enrichment_metrics": {
+      "CHEMBL243": {
+        "status": "SUCCESS",
+        "n_test": 689,
+        "n_active_test": 536,
+        "optimal_alpha": 0.75,
+        "optimal_alpha_val_score": 0.8859402292480139,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.28544776119403,
+          "ef5": 1.28544776119403,
+          "ef10": 1.28544776119403,
+          "bedroc_20": 0.8822991860413619,
+          "auc_roc": 0.9400607257828506,
+          "auc_pr": 0.9806621731946089
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.28544776119403,
+          "ef5": 1.28544776119403,
+          "ef10": 1.28544776119403,
+          "bedroc_20": 0.876931278039164,
+          "auc_roc": 0.9425604819042044,
+          "auc_pr": 0.9806490856666673
+        },
+        "hybrid": {
+          "method": "Hybrid(a=0.75)",
+          "ef1": 1.28544776119403,
+          "ef5": 1.28544776119403,
+          "ef10": 1.28544776119403,
+          "bedroc_20": 0.8824852882745057,
+          "auc_roc": 0.9432494390791143,
+          "auc_pr": 0.9822076668812947
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.28544776119403,
+            "Classification": 1.28544776119403,
+            "Hybrid(a=0.75)": 1.28544776119403
+          },
+          "ef5": {
+            "Regression": 1.28544776119403,
+            "Classification": 1.28544776119403,
+            "Hybrid(a=0.75)": 1.28544776119403
+          },
+          "ef10": {
+            "Regression": 1.28544776119403,
+            "Classification": 1.28544776119403,
+            "Hybrid(a=0.75)": 1.28544776119403
+          },
+          "bedroc_20": {
+            "Regression": 0.8822991860413619,
+            "Classification": 0.876931278039164,
+            "Hybrid(a=0.75)": 0.8824852882745057
+          },
+          "auc_roc": {
+            "Regression": 0.9400607257828506,
+            "Classification": 0.9425604819042044,
+            "Hybrid(a=0.75)": 0.9432494390791143
+          },
+          "auc_pr": {
+            "Regression": 0.9806621731946089,
+            "Classification": 0.9806490856666673,
+            "Hybrid(a=0.75)": 0.9822076668812947
+          }
+        },
+        "brier_score": 0.07179457010436877,
+        "brier_baseline": 0.17274988888210127,
+        "brier_skill_score": 0.584401642345673,
+        "prevalence": 0.7779390420899854
+      },
+      "CHEMBL247": {
+        "status": "SUCCESS",
+        "n_test": 2062,
+        "n_active_test": 1127,
+        "optimal_alpha": 1.0,
+        "optimal_alpha_val_score": 0.9170276677695417,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.8296362023070099,
+          "ef5": 1.7592655791413556,
+          "ef10": 1.7412479799733378,
+          "bedroc_20": 0.8873829140577943,
+          "auc_roc": 0.8842461885940147,
+          "auc_pr": 0.8922823877776876
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.8296362023070099,
+          "ef5": 1.7944508907241827,
+          "ef10": 1.7677644466734395,
+          "bedroc_20": 0.916456318916469,
+          "auc_roc": 0.8951553744027255,
+          "auc_pr": 0.9064397707696741
+        },
+        "hybrid": {
+          "method": "Hybrid(a=1.00)",
+          "ef1": 1.8296362023070099,
+          "ef5": 1.7592655791413556,
+          "ef10": 1.7412479799733378,
+          "bedroc_20": 0.8873829140577943,
+          "auc_roc": 0.8842461885940147,
+          "auc_pr": 0.8922823877776876
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.8296362023070099,
+            "Classification": 1.8296362023070099,
+            "Hybrid(a=1.00)": 1.8296362023070099
+          },
+          "ef5": {
+            "Regression": 1.7592655791413556,
+            "Classification": 1.7944508907241827,
+            "Hybrid(a=1.00)": 1.7592655791413556
+          },
+          "ef10": {
+            "Regression": 1.7412479799733378,
+            "Classification": 1.7677644466734395,
+            "Hybrid(a=1.00)": 1.7412479799733378
+          },
+          "bedroc_20": {
+            "Regression": 0.8873829140577943,
+            "Classification": 0.916456318916469,
+            "Hybrid(a=1.00)": 0.8873829140577943
+          },
+          "auc_roc": {
+            "Regression": 0.8842461885940147,
+            "Classification": 0.8951553744027255,
+            "Hybrid(a=1.00)": 0.8842461885940147
+          },
+          "auc_pr": {
+            "Regression": 0.8922823877776876,
+            "Classification": 0.9064397707696741,
+            "Hybrid(a=1.00)": 0.8922823877776876
+          }
+        },
+        "brier_score": 0.12955873484413935,
+        "brier_baseline": 0.24783246986483987,
+        "brier_skill_score": 0.47723260428790193,
+        "prevalence": 0.546556741028128
+      },
+      "CHEMBL279": {
+        "status": "SUCCESS",
+        "n_test": 2802,
+        "n_active_test": 1846,
+        "optimal_alpha": 0.8500000000000001,
+        "optimal_alpha_val_score": 0.9564302861773121,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.5178764897074755,
+          "ef5": 1.5178764897074755,
+          "ef10": 1.5070730983216571,
+          "bedroc_20": 0.9657641695125792,
+          "auc_roc": 0.8900265529449629,
+          "auc_pr": 0.944841542647211
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.465535921096873,
+          "ef5": 1.5071114082201884,
+          "ef10": 1.5070730983216571,
+          "bedroc_20": 0.9518227529306056,
+          "auc_roc": 0.9024054610896793,
+          "auc_pr": 0.9484118252940542
+        },
+        "hybrid": {
+          "method": "Hybrid(a=0.85)",
+          "ef1": 1.5178764897074755,
+          "ef5": 1.5071114082201884,
+          "ef10": 1.501671402628748,
+          "bedroc_20": 0.9578121097816376,
+          "auc_roc": 0.8834166489118167,
+          "auc_pr": 0.9411061858737124
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.5178764897074755,
+            "Classification": 1.465535921096873,
+            "Hybrid(a=0.85)": 1.5178764897074755
+          },
+          "ef5": {
+            "Regression": 1.5178764897074755,
+            "Classification": 1.5071114082201884,
+            "Hybrid(a=0.85)": 1.5071114082201884
+          },
+          "ef10": {
+            "Regression": 1.5070730983216571,
+            "Classification": 1.5070730983216571,
+            "Hybrid(a=0.85)": 1.501671402628748
+          },
+          "bedroc_20": {
+            "Regression": 0.9657641695125792,
+            "Classification": 0.9518227529306056,
+            "Hybrid(a=0.85)": 0.9578121097816376
+          },
+          "auc_roc": {
+            "Regression": 0.8900265529449629,
+            "Classification": 0.9024054610896793,
+            "Hybrid(a=0.85)": 0.8834166489118167
+          },
+          "auc_pr": {
+            "Regression": 0.944841542647211,
+            "Classification": 0.9484118252940542,
+            "Hybrid(a=0.85)": 0.9411061858737124
+          }
+        },
+        "brier_score": 0.11620344771466928,
+        "brier_baseline": 0.22477775383240586,
+        "brier_skill_score": 0.4830295893013038,
+        "prevalence": 0.6588151320485368
+      },
+      "CHEMBL3471": {
+        "status": "SUCCESS",
+        "n_test": 1576,
+        "n_active_test": 460,
+        "optimal_alpha": 1.0,
+        "optimal_alpha_val_score": 0.9155069628296115,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 3.4260869565217393,
+          "ef5": 3.3393505778756194,
+          "ef10": 3.274298293891029,
+          "bedroc_20": 0.921952922503946,
+          "auc_roc": 0.935095254791959,
+          "auc_pr": 0.8787193565726634
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 3.4260869565217393,
+          "ef5": 3.3827187671986794,
+          "ef10": 3.361034672537149,
+          "bedroc_20": 0.9475208349310592,
+          "auc_roc": 0.9532706093189964,
+          "auc_pr": 0.9064701218121962
+        },
+        "hybrid": {
+          "method": "Hybrid(a=1.00)",
+          "ef1": 3.4260869565217393,
+          "ef5": 3.3393505778756194,
+          "ef10": 3.274298293891029,
+          "bedroc_20": 0.921952922503946,
+          "auc_roc": 0.935095254791959,
+          "auc_pr": 0.8787193565726634
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 3.4260869565217393,
+            "Classification": 3.4260869565217393,
+            "Hybrid(a=1.00)": 3.4260869565217393
+          },
+          "ef5": {
+            "Regression": 3.3393505778756194,
+            "Classification": 3.3827187671986794,
+            "Hybrid(a=1.00)": 3.3393505778756194
+          },
+          "ef10": {
+            "Regression": 3.274298293891029,
+            "Classification": 3.361034672537149,
+            "Hybrid(a=1.00)": 3.274298293891029
+          },
+          "bedroc_20": {
+            "Regression": 0.921952922503946,
+            "Classification": 0.9475208349310592,
+            "Hybrid(a=1.00)": 0.921952922503946
+          },
+          "auc_roc": {
+            "Regression": 0.935095254791959,
+            "Classification": 0.9532706093189964,
+            "Hybrid(a=1.00)": 0.935095254791959
+          },
+          "auc_pr": {
+            "Regression": 0.8787193565726634,
+            "Classification": 0.9064701218121962,
+            "Hybrid(a=1.00)": 0.8787193565726634
+          }
+        },
+        "brier_score": 0.0768779217692373,
+        "brier_baseline": 0.2066853049550362,
+        "brier_skill_score": 0.6280436009422059,
+        "prevalence": 0.2918781725888325
+      },
+      "CHEMBL2487": {
+        "status": "SUCCESS",
+        "n_test": 200,
+        "n_active_test": 139,
+        "optimal_alpha": 1.0,
+        "optimal_alpha_val_score": 0.7756778113947285,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.4388489208633095,
+          "ef5": 1.4388489208633095,
+          "ef10": 1.4388489208633095,
+          "bedroc_20": 0.7419763457373273,
+          "auc_roc": 0.9439202736171718,
+          "auc_pr": 0.9722242451941865
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.4388489208633095,
+          "ef5": 1.4388489208633095,
+          "ef10": 1.4388489208633095,
+          "bedroc_20": 0.7202170260709155,
+          "auc_roc": 0.9464559499941031,
+          "auc_pr": 0.9702938715418883
+        },
+        "hybrid": {
+          "method": "Hybrid(a=1.00)",
+          "ef1": 1.4388489208633095,
+          "ef5": 1.4388489208633095,
+          "ef10": 1.4388489208633095,
+          "bedroc_20": 0.7419763457373273,
+          "auc_roc": 0.9439202736171718,
+          "auc_pr": 0.9722242451941865
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.4388489208633095,
+            "Classification": 1.4388489208633095,
+            "Hybrid(a=1.00)": 1.4388489208633095
+          },
+          "ef5": {
+            "Regression": 1.4388489208633095,
+            "Classification": 1.4388489208633095,
+            "Hybrid(a=1.00)": 1.4388489208633095
+          },
+          "ef10": {
+            "Regression": 1.4388489208633095,
+            "Classification": 1.4388489208633095,
+            "Hybrid(a=1.00)": 1.4388489208633095
+          },
+          "bedroc_20": {
+            "Regression": 0.7419763457373273,
+            "Classification": 0.7202170260709155,
+            "Hybrid(a=1.00)": 0.7419763457373273
+          },
+          "auc_roc": {
+            "Regression": 0.9439202736171718,
+            "Classification": 0.9464559499941031,
+            "Hybrid(a=1.00)": 0.9439202736171718
+          },
+          "auc_pr": {
+            "Regression": 0.9722242451941865,
+            "Classification": 0.9702938715418883,
+            "Hybrid(a=1.00)": 0.9722242451941865
+          }
+        },
+        "brier_score": 0.07536923924433407,
+        "brier_baseline": 0.21197499999999994,
+        "brier_skill_score": 0.6444427916295125,
+        "prevalence": 0.695
+      },
+      "CHEMBL251": {
+        "status": "SUCCESS",
+        "n_test": 426,
+        "n_active_test": 369,
+        "optimal_alpha": 1.0,
+        "optimal_alpha_val_score": 0.7355621648329363,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.1544715447154472,
+          "ef5": 1.1544715447154472,
+          "ef10": 1.1544715447154472,
+          "bedroc_20": 0.7354725985560298,
+          "auc_roc": 0.9236913421765797,
+          "auc_pr": 0.9857080024461803
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.1544715447154472,
+          "ef5": 1.1544715447154472,
+          "ef10": 1.1544715447154472,
+          "bedroc_20": 0.7357026689804854,
+          "auc_roc": 0.9757286169352921,
+          "auc_pr": 0.9962661552339854
+        },
+        "hybrid": {
+          "method": "Hybrid(a=1.00)",
+          "ef1": 1.1544715447154472,
+          "ef5": 1.1544715447154472,
+          "ef10": 1.1544715447154472,
+          "bedroc_20": 0.7354725985560298,
+          "auc_roc": 0.9236913421765797,
+          "auc_pr": 0.9857080024461803
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.1544715447154472,
+            "Classification": 1.1544715447154472,
+            "Hybrid(a=1.00)": 1.1544715447154472
+          },
+          "ef5": {
+            "Regression": 1.1544715447154472,
+            "Classification": 1.1544715447154472,
+            "Hybrid(a=1.00)": 1.1544715447154472
+          },
+          "ef10": {
+            "Regression": 1.1544715447154472,
+            "Classification": 1.1544715447154472,
+            "Hybrid(a=1.00)": 1.1544715447154472
+          },
+          "bedroc_20": {
+            "Regression": 0.7354725985560298,
+            "Classification": 0.7357026689804854,
+            "Hybrid(a=1.00)": 0.7354725985560298
+          },
+          "auc_roc": {
+            "Regression": 0.9236913421765797,
+            "Classification": 0.9757286169352921,
+            "Hybrid(a=1.00)": 0.9236913421765797
+          },
+          "auc_pr": {
+            "Regression": 0.9857080024461803,
+            "Classification": 0.9962661552339854,
+            "Hybrid(a=1.00)": 0.9857080024461803
+          }
+        },
+        "brier_score": 0.04351435471656886,
+        "brier_baseline": 0.11589962309065664,
+        "brier_skill_score": 0.624551369916605,
+        "prevalence": 0.8661971830985915
+      },
+      "CHEMBL217": {
+        "status": "SUCCESS",
+        "n_test": 314,
+        "n_active_test": 161,
+        "optimal_alpha": 0.7000000000000001,
+        "optimal_alpha_val_score": 0.8338856579163428,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.950310559006211,
+          "ef5": 1.950310559006211,
+          "ef10": 1.8893633540372672,
+          "bedroc_20": 0.8479630730748914,
+          "auc_roc": 0.9427800105549466,
+          "auc_pr": 0.9435252125860845
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.950310559006211,
+          "ef5": 1.950310559006211,
+          "ef10": 1.8893633540372672,
+          "bedroc_20": 0.8505360865417928,
+          "auc_roc": 0.945702918848699,
+          "auc_pr": 0.9468688662614502
+        },
+        "hybrid": {
+          "method": "Hybrid(a=0.70)",
+          "ef1": 1.950310559006211,
+          "ef5": 1.828416149068323,
+          "ef10": 1.8893633540372672,
+          "bedroc_20": 0.791964835598157,
+          "auc_roc": 0.9036252182032234,
+          "auc_pr": 0.9045062317646496
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.950310559006211,
+            "Classification": 1.950310559006211,
+            "Hybrid(a=0.70)": 1.950310559006211
+          },
+          "ef5": {
+            "Regression": 1.950310559006211,
+            "Classification": 1.950310559006211,
+            "Hybrid(a=0.70)": 1.828416149068323
+          },
+          "ef10": {
+            "Regression": 1.8893633540372672,
+            "Classification": 1.8893633540372672,
+            "Hybrid(a=0.70)": 1.8893633540372672
+          },
+          "bedroc_20": {
+            "Regression": 0.8479630730748914,
+            "Classification": 0.8505360865417928,
+            "Hybrid(a=0.70)": 0.791964835598157
+          },
+          "auc_roc": {
+            "Regression": 0.9427800105549466,
+            "Classification": 0.945702918848699,
+            "Hybrid(a=0.70)": 0.9036252182032234
+          },
+          "auc_pr": {
+            "Regression": 0.9435252125860845,
+            "Classification": 0.9468688662614502,
+            "Hybrid(a=0.70)": 0.9045062317646496
+          }
+        },
+        "brier_score": 0.09283771581507096,
+        "brier_baseline": 0.24983772161142437,
+        "brier_skill_score": 0.6284079312912461,
+        "prevalence": 0.5127388535031847
+      },
+      "CHEMBL1862": {
+        "status": "SUCCESS",
+        "n_test": 1032,
+        "n_active_test": 795,
+        "optimal_alpha": 0.7000000000000001,
+        "optimal_alpha_val_score": 0.9127989957173065,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.2981132075471697,
+          "ef5": 1.2981132075471697,
+          "ef10": 1.285631349782293,
+          "bedroc_20": 0.9087041219999934,
+          "auc_roc": 0.9569275270015657,
+          "auc_pr": 0.9853950355188208
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.2981132075471697,
+          "ef5": 1.2731494920174165,
+          "ef10": 1.285631349782293,
+          "bedroc_20": 0.8627620559189194,
+          "auc_roc": 0.9610434413395961,
+          "auc_pr": 0.9864457178237473
+        },
+        "hybrid": {
+          "method": "Hybrid(a=0.70)",
+          "ef1": 1.2981132075471697,
+          "ef5": 1.2981132075471697,
+          "ef10": 1.2981132075471697,
+          "bedroc_20": 0.9174149732156639,
+          "auc_roc": 0.9292121115622429,
+          "auc_pr": 0.9773535441172398
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.2981132075471697,
+            "Classification": 1.2981132075471697,
+            "Hybrid(a=0.70)": 1.2981132075471697
+          },
+          "ef5": {
+            "Regression": 1.2981132075471697,
+            "Classification": 1.2731494920174165,
+            "Hybrid(a=0.70)": 1.2981132075471697
+          },
+          "ef10": {
+            "Regression": 1.285631349782293,
+            "Classification": 1.285631349782293,
+            "Hybrid(a=0.70)": 1.2981132075471697
+          },
+          "bedroc_20": {
+            "Regression": 0.9087041219999934,
+            "Classification": 0.8627620559189194,
+            "Hybrid(a=0.70)": 0.9174149732156639
+          },
+          "auc_roc": {
+            "Regression": 0.9569275270015657,
+            "Classification": 0.9610434413395961,
+            "Hybrid(a=0.70)": 0.9292121115622429
+          },
+          "auc_pr": {
+            "Regression": 0.9853950355188208,
+            "Classification": 0.9864457178237473,
+            "Hybrid(a=0.70)": 0.9773535441172398
+          }
+        },
+        "brier_score": 0.06644002077795529,
+        "brier_baseline": 0.17691150621957816,
+        "brier_skill_score": 0.6244448866118884,
+        "prevalence": 0.7703488372093024
+      },
+      "CHEMBL4005": {
+        "status": "SUCCESS",
+        "n_test": 1945,
+        "n_active_test": 1293,
+        "optimal_alpha": 1.0,
+        "optimal_alpha_val_score": 0.9645211943498121,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.5042536736272236,
+          "ef5": 1.5042536736272236,
+          "ef10": 1.496539552224007,
+          "bedroc_20": 0.9588353477161378,
+          "auc_roc": 0.9222773404694462,
+          "auc_pr": 0.956747202320239
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 1.4290409899458623,
+          "ef5": 1.4889041463453132,
+          "ef10": 1.496539552224007,
+          "bedroc_20": 0.9363819783673105,
+          "auc_roc": 0.9376473839788574,
+          "auc_pr": 0.9640726213126445
+        },
+        "hybrid": {
+          "method": "Hybrid(a=1.00)",
+          "ef1": 1.5042536736272236,
+          "ef5": 1.5042536736272236,
+          "ef10": 1.496539552224007,
+          "bedroc_20": 0.9588353477161378,
+          "auc_roc": 0.9222773404694462,
+          "auc_pr": 0.956747202320239
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 1.5042536736272236,
+            "Classification": 1.4290409899458623,
+            "Hybrid(a=1.00)": 1.5042536736272236
+          },
+          "ef5": {
+            "Regression": 1.5042536736272236,
+            "Classification": 1.4889041463453132,
+            "Hybrid(a=1.00)": 1.5042536736272236
+          },
+          "ef10": {
+            "Regression": 1.496539552224007,
+            "Classification": 1.496539552224007,
+            "Hybrid(a=1.00)": 1.496539552224007
+          },
+          "bedroc_20": {
+            "Regression": 0.9588353477161378,
+            "Classification": 0.9363819783673105,
+            "Hybrid(a=1.00)": 0.9588353477161378
+          },
+          "auc_roc": {
+            "Regression": 0.9222773404694462,
+            "Classification": 0.9376473839788574,
+            "Hybrid(a=1.00)": 0.9222773404694462
+          },
+          "auc_pr": {
+            "Regression": 0.956747202320239,
+            "Classification": 0.9640726213126445,
+            "Hybrid(a=1.00)": 0.956747202320239
+          }
+        },
+        "brier_score": 0.0915400831573044,
+        "brier_baseline": 0.2228470602229698,
+        "brier_skill_score": 0.5892246320605985,
+        "prevalence": 0.6647814910025707
+      },
+      "CHEMBL240": {
+        "status": "SUCCESS",
+        "n_test": 3328,
+        "n_active_test": 597,
+        "optimal_alpha": 0.9500000000000001,
+        "optimal_alpha_val_score": 0.8245135058548252,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "ef1": 4.754754162971722,
+          "ef5": 4.840168908414327,
+          "ef10": 4.787742516385733,
+          "bedroc_20": 0.8037312362605419,
+          "auc_roc": 0.9123639066809698,
+          "auc_pr": 0.7475393936510377
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 5.574539363484088,
+          "ef5": 5.107212710257877,
+          "ef10": 4.771002157936832,
+          "bedroc_20": 0.8328518300687779,
+          "auc_roc": 0.9040481916478523,
+          "auc_pr": 0.7610260600268954
+        },
+        "hybrid": {
+          "method": "Hybrid(a=0.95)",
+          "ef1": 4.754754162971722,
+          "ef5": 4.906929858875215,
+          "ef10": 4.787742516385733,
+          "bedroc_20": 0.8052406878422718,
+          "auc_roc": 0.9127036991377,
+          "auc_pr": 0.7495596858092595
+        },
+        "comparison_table": {
+          "ef1": {
+            "Regression": 4.754754162971722,
+            "Classification": 5.574539363484088,
+            "Hybrid(a=0.95)": 4.754754162971722
+          },
+          "ef5": {
+            "Regression": 4.840168908414327,
+            "Classification": 5.107212710257877,
+            "Hybrid(a=0.95)": 4.906929858875215
+          },
+          "ef10": {
+            "Regression": 4.787742516385733,
+            "Classification": 4.771002157936832,
+            "Hybrid(a=0.95)": 4.787742516385733
+          },
+          "bedroc_20": {
+            "Regression": 0.8037312362605419,
+            "Classification": 0.8328518300687779,
+            "Hybrid(a=0.95)": 0.8052406878422718
+          },
+          "auc_roc": {
+            "Regression": 0.9123639066809698,
+            "Classification": 0.9040481916478523,
+            "Hybrid(a=0.95)": 0.9127036991377
+          },
+          "auc_pr": {
+            "Regression": 0.7475393936510377,
+            "Classification": 0.7610260600268954,
+            "Hybrid(a=0.95)": 0.7495596858092595
+          }
+        },
+        "brier_score": 0.07607048320853751,
+        "brier_baseline": 0.1472073165622689,
+        "brier_skill_score": 0.48324251141172325,
+        "prevalence": 0.17938701923076922
+      }
+    },
+    "exp3_alpha_optimization": {
+      "per_target_alphas": {
+        "CHEMBL243": {
+          "alpha": 0.75,
+          "val_bedroc": 0.8859402292480139,
+          "docking_method": "vina"
+        },
+        "CHEMBL247": {
+          "alpha": 1.0,
+          "val_bedroc": 0.9170276677695417,
+          "docking_method": "vina"
+        },
+        "CHEMBL279": {
+          "alpha": 0.8500000000000001,
+          "val_bedroc": 0.9564302861773121,
+          "docking_method": "vina"
+        },
+        "CHEMBL3471": {
+          "alpha": 1.0,
+          "val_bedroc": 0.9155069628296115,
+          "docking_method": "vina"
+        },
+        "CHEMBL2487": {
+          "alpha": 1.0,
+          "val_bedroc": 0.7756778113947285,
+          "docking_method": "vina"
+        },
+        "CHEMBL251": {
+          "alpha": 1.0,
+          "val_bedroc": 0.7355621648329363,
+          "docking_method": "vina"
+        },
+        "CHEMBL217": {
+          "alpha": 0.7000000000000001,
+          "val_bedroc": 0.8338856579163428,
+          "docking_method": "vina"
+        },
+        "CHEMBL1862": {
+          "alpha": 0.7000000000000001,
+          "val_bedroc": 0.9127989957173065,
+          "docking_method": "vina"
+        },
+        "CHEMBL4005": {
+          "alpha": 1.0,
+          "val_bedroc": 0.9645211943498121,
+          "docking_method": "vina"
+        },
+        "CHEMBL240": {
+          "alpha": 0.9500000000000001,
+          "val_bedroc": 0.8245135058548252,
+          "docking_method": "vina"
+        }
+      },
+      "per_target_alpha_mean": 0.8949999999999999,
+      "per_target_alpha_std": 0.1253993620398445,
+      "loto": {
+        "per_target": {
+          "CHEMBL243": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.8991375219089192,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 1.28544776119403,
+              "ef5": 1.28544776119403,
+              "ef10": 1.28544776119403,
+              "bedroc_20": 0.8823714705772928,
+              "auc_roc": 0.9420056579845869,
+              "auc_pr": 0.9814130712284114
+            }
+          },
+          "CHEMBL247": {
+            "alpha": 0.9,
+            "val_score": 0.8969782246196202,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.90",
+              "ef1": 1.8296362023070099,
+              "ef5": 1.7592655791413556,
+              "ef10": 1.7589256244400724,
+              "bedroc_20": 0.8912363584364285,
+              "auc_roc": 0.8839799951601193,
+              "auc_pr": 0.8925387194956553
+            }
+          },
+          "CHEMBL279": {
+            "alpha": 1.0,
+            "val_score": 0.8888137714226086,
+            "test_metrics": {
+              "method": "hybrid_alpha=1.00",
+              "ef1": 1.5178764897074755,
+              "ef5": 1.5178764897074755,
+              "ef10": 1.5070730983216571,
+              "bedroc_20": 0.9657641695125792,
+              "auc_roc": 0.8900265529449629,
+              "auc_pr": 0.944841542647211
+            }
+          },
+          "CHEMBL3471": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.9016038079637801,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 3.4260869565217393,
+              "ef5": 3.3393505778756194,
+              "ef10": 3.274298293891029,
+              "bedroc_20": 0.9219681399000161,
+              "auc_roc": 0.9341787439613525,
+              "auc_pr": 0.8779158204121044
+            }
+          },
+          "CHEMBL2487": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.90046676899927,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 1.4388489208633095,
+              "ef5": 1.4388489208633095,
+              "ef10": 1.4388489208633095,
+              "bedroc_20": 0.7398875141945847,
+              "auc_roc": 0.9440971812713764,
+              "auc_pr": 0.9713723683776564
+            }
+          },
+          "CHEMBL251": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.9000665206490513,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 1.1544715447154472,
+              "ef5": 1.1544715447154472,
+              "ef10": 1.1544715447154472,
+              "bedroc_20": 0.7354564017452481,
+              "auc_roc": 0.923215898825655,
+              "auc_pr": 0.9856051015510027
+            }
+          },
+          "CHEMBL217": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.9012937037771628,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 1.950310559006211,
+              "ef5": 1.950310559006211,
+              "ef10": 1.8893633540372672,
+              "bedroc_20": 0.8389333319638691,
+              "auc_roc": 0.9406893192059432,
+              "auc_pr": 0.9413974507504947
+            }
+          },
+          "CHEMBL1862": {
+            "alpha": 0.9500000000000001,
+            "val_score": 0.9001373560307696,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.95",
+              "ef1": 1.2981132075471697,
+              "ef5": 1.2981132075471697,
+              "ef10": 1.285631349782293,
+              "bedroc_20": 0.9107340755413043,
+              "auc_roc": 0.9565772364196057,
+              "auc_pr": 0.9854983347002986
+            }
+          },
+          "CHEMBL4005": {
+            "alpha": 0.9,
+            "val_score": 0.8919383185956666,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.90",
+              "ef1": 1.5042536736272236,
+              "ef5": 1.5042536736272236,
+              "ef10": 1.496539552224007,
+              "bedroc_20": 0.9592386889730143,
+              "auc_roc": 0.9192181591296218,
+              "auc_pr": 0.9555381684522898
+            }
+          },
+          "CHEMBL240": {
+            "alpha": 0.8500000000000001,
+            "val_score": 0.9434332104018922,
+            "test_metrics": {
+              "method": "hybrid_alpha=0.85",
+              "ef1": 4.918711203074195,
+              "ef5": 4.906929858875215,
+              "ef10": 4.737521441039029,
+              "bedroc_20": 0.8009942640199319,
+              "auc_roc": 0.9094505237035906,
+              "auc_pr": 0.7436238305368883
+            }
+          }
+        },
+        "mean_alpha": 0.9349999999999999,
+        "std_alpha": 0.03905124837953326,
+        "recommended_alpha": 0.9349999999999999,
+        "metric": "bedroc"
+      },
+      "n_targets_used": 10
+    },
+    "exp4_determinism": {
+      "status": "SUCCESS",
+      "all_pass": true,
+      "summary": {
+        "regression_models/SVR": true,
+        "regression_models/RandomForest": true,
+        "regression_models/GradientBoosting": true,
+        "regression_models/MLP": true,
+        "classification_models/SVC": true,
+        "classification_models/RF_clf": true,
+        "classification_models/GB_clf": true,
+        "hash_pipeline": true,
+        "consensus_pipeline": true
+      },
+      "details": {
+        "regression_models": {
+          "SVR": {
+            "deterministic": true,
+            "unique_hashes": 1,
+            "hashes": [
+              "f07be19993ee506035d79e2f22ea454839d8bfd391ba7154012cc8c1ed7f664e",
+              "f07be19993ee506035d79e2f22ea454839d8bfd391ba7154012cc8c1ed7f664e",
+              "f07be19993ee506035d79e2f22ea454839d8bfd391ba7154012cc8c1ed7f664e",
+              "f07be19993ee506035d79e2f22ea454839d8bfd391ba7154012cc8c1ed7f664e",
+              "f07be19993ee506035d79e2f22ea454839d8bfd391ba7154012cc8c1ed7f664e"
+            ]
+          },
+          "RandomForest": {
+            "deterministic": true,
+            "unique_hashes": 1,
+            "hashes": [
+              "de713483bcb040114e4a7855d9881774247cb8a6d6d4369345025e768a34cf8a",
+              "de713483bcb040114e4a7855d9881774247cb8a6d6d4369345025e768a34cf8a",
+              "de713483bcb040114e4a7855d9881774247cb8a6d6d4369345025e768a34cf8a",
+              "de713483bcb040114e4a7855d9881774247cb8a6d6d4369345025e768a34cf8a",
+              "de713483bcb040114e4a7855d9881774247cb8a6d6d4369345025e768a34cf8a"
+            ]
+          },
+          "GradientBoosting": {
+            "deterministic": true,
+            "unique_hashes": 1,
+            "hashes": [
+              "8e3cdb27f45bb391222bb3268f31c675b689e91580481b5ddbb13d7028a970cb",
+              "8e3cdb27f45bb391222bb3268f31c675b689e91580481b5ddbb13d7028a970cb",
+              "8e3cdb27f45bb391222bb3268f31c675b689e91580481b5ddbb13d7028a970cb",
+              "8e3cdb27f45bb391222bb3268f31c675b689e91580481b5ddbb13d7028a970cb",
+              "8e3cdb27f45bb391222bb3268f31c675b689e91580481b5ddbb13d7028a970cb"
+            ]
+          },
+          "MLP": {
+            "deterministic": true,
+            "unique_hashes": 1,
+            "hashes": [
+              "ccf6640406da8c474fc85ac1043adfcd169ad5fb7be57697df6a6100feada5ed",
+              "ccf6640406da8c474fc85ac1043adfcd169ad5fb7be57697df6a6100feada5ed",
+              "ccf6640406da8c474fc85ac1043adfcd169ad5fb7be57697df6a6100feada5ed",
+              "ccf6640406da8c474fc85ac1043adfcd169ad5fb7be57697df6a6100feada5ed",
+              "ccf6640406da8c474fc85ac1043adfcd169ad5fb7be57697df6a6100feada5ed"
+            ]
+          }
+        },
+        "classification_models": {
+          "SVC": {
+            "deterministic": true,
+            "unique_hashes": 1
+          },
+          "RF_clf": {
+            "deterministic": true,
+            "unique_hashes": 1
+          },
+          "GB_clf": {
+            "deterministic": true,
+            "unique_hashes": 1
+          }
+        },
+        "hash_pipeline": {
+          "deterministic": true,
+          "hash": "f515cd49aaf0f76f6a33ae1b60891a2883e58d825c4f7c8959e5c134fcd7fa50"
+        },
+        "consensus_pipeline": {
+          "deterministic": true,
+          "unique_hashes": 1
+        }
+      }
+    },
+    "exp5_tamper_detection": {
+      "status": "SUCCESS",
+      "tamper_detection": {
+        "original_hash": "cf4cd0a825bc9cb24d14ea5fbd73f9b7b9e6f3e8b6699d920574a9e2c79b80ff",
+        "tampered_hash": "f11f2952585b1c7db035308a6f43378926593fc790a51d011ef2ffc9f67e9ae7",
+        "tamper_detected": true,
+        "explanation": "Blockchain stores H1 immutably. After tampering, recomputed H2 != H1. With file-only logging, attacker can overwrite both result AND hash file, making tampering undetectable."
+      },
+      "merkle_tree": {
+        "merkle_root": "4dda11fa096df49506dddfd347c9438f020e8a0f58e1c566616bc005620a7f9a",
+        "stage_hashes": {
+          "dock": "8da679f030c8842cfc921dfaf2cbd2b0057f14c34f6e7ce3b2881bf5bbeb5b2a",
+          "fetch": "f7485412967ed7d1566822cc94d44874d79e8ae6d95b40b19ab3cebdf3cea746",
+          "score": "1dd4f26b90fdddddc3d61444bc8f38f72a8ecd9106980a10f0e485d5abec8f50",
+          "train": "7e316e5b7c1d1349ccc3cb0e5e5966f1e4252a1a1a39f4c3aac711ad5c5b8ed4"
+        },
+        "n_stages": 4
+      },
+      "offline_mode": false,
+      "blockchain": {
+        "tamper_tx": {
+          "success": true,
+          "tx_hash": "096cef7fe83423c74418cc1eab934d7f26746b815d1b30f233ff7e40549eebf9",
+          "block_number": 897718,
+          "gas_used": 158513,
+          "numeric_id": 610,
+          "duration": 1.4825081825256348
+        },
+        "merkle_tx": {
+          "success": true,
+          "tx_hash": "2a028e2be3c6e825098553f5c1261a10d439a32ac1bd6fdb52f769c9d0956fbd",
+          "block_number": 897720,
+          "gas_used": 158669,
+          "numeric_id": 611,
+          "duration": 1.1643576622009277
+        }
+      }
+    },
+    "exp6_scaffold_diversity": {
+      "CHEMBL243": {
+        "status": "SUCCESS",
+        "n_train": 2066,
+        "n_test": 689,
+        "n_top": 68,
+        "hybrid_alpha": 0.75,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 68,
+          "n_unique_scaffolds": 44,
+          "scaffold_diversity": 0.6470588235294118,
+          "n_novel_scaffolds": 13,
+          "novel_scaffold_fraction": 0.29545454545454547,
+          "scaffold_recovery_rate": 0.033622559652928416,
+          "tanimoto_mean": 0.9455443690391292,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.07013484016644565,
+          "tanimoto_min": 0.7701149425287356,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 68,
+          "n_unique_scaffolds": 37,
+          "scaffold_diversity": 0.5441176470588235,
+          "n_novel_scaffolds": 9,
+          "novel_scaffold_fraction": 0.24324324324324326,
+          "scaffold_recovery_rate": 0.03036876355748373,
+          "tanimoto_mean": 0.9582527969767911,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.06526713248056659,
+          "tanimoto_min": 0.7529411764705882,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 68,
+          "n_unique_scaffolds": 44,
+          "scaffold_diversity": 0.6470588235294118,
+          "n_novel_scaffolds": 14,
+          "novel_scaffold_fraction": 0.3181818181818182,
+          "scaffold_recovery_rate": 0.03253796095444685,
+          "tanimoto_mean": 0.9399287001103501,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.07541464360097191,
+          "tanimoto_min": 0.765625,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL247": {
+        "status": "SUCCESS",
+        "n_train": 6184,
+        "n_test": 2062,
+        "n_top": 206,
+        "hybrid_alpha": 1.0,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 206,
+          "n_unique_scaffolds": 66,
+          "scaffold_diversity": 0.32038834951456313,
+          "n_novel_scaffolds": 5,
+          "novel_scaffold_fraction": 0.07575757575757576,
+          "scaffold_recovery_rate": 0.03900255754475703,
+          "tanimoto_mean": 0.9416218287104812,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.09712131128491447,
+          "tanimoto_min": 0.6515151515151515,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 206,
+          "n_unique_scaffolds": 76,
+          "scaffold_diversity": 0.36893203883495146,
+          "n_novel_scaffolds": 9,
+          "novel_scaffold_fraction": 0.11842105263157894,
+          "scaffold_recovery_rate": 0.04283887468030691,
+          "tanimoto_mean": 0.944268828942031,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.07949189233284454,
+          "tanimoto_min": 0.6666666666666666,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 206,
+          "n_unique_scaffolds": 66,
+          "scaffold_diversity": 0.32038834951456313,
+          "n_novel_scaffolds": 5,
+          "novel_scaffold_fraction": 0.07575757575757576,
+          "scaffold_recovery_rate": 0.03900255754475703,
+          "tanimoto_mean": 0.9416218287104812,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.09712131128491447,
+          "tanimoto_min": 0.6515151515151515,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL279": {
+        "status": "SUCCESS",
+        "n_train": 8404,
+        "n_test": 2802,
+        "n_top": 280,
+        "hybrid_alpha": 0.8500000000000001,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 280,
+          "n_unique_scaffolds": 127,
+          "scaffold_diversity": 0.45357142857142857,
+          "n_novel_scaffolds": 26,
+          "novel_scaffold_fraction": 0.2047244094488189,
+          "scaffold_recovery_rate": 0.03476764199655766,
+          "tanimoto_mean": 0.9143912522467823,
+          "tanimoto_median": 0.9662944582299421,
+          "tanimoto_std": 0.0934112036951487,
+          "tanimoto_min": 0.6521739130434783,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 280,
+          "n_unique_scaffolds": 133,
+          "scaffold_diversity": 0.475,
+          "n_novel_scaffolds": 34,
+          "novel_scaffold_fraction": 0.2556390977443609,
+          "scaffold_recovery_rate": 0.034079173838209985,
+          "tanimoto_mean": 0.9043000652317532,
+          "tanimoto_median": 0.8896499238964992,
+          "tanimoto_std": 0.08671959015828683,
+          "tanimoto_min": 0.6716417910447762,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 280,
+          "n_unique_scaffolds": 127,
+          "scaffold_diversity": 0.45357142857142857,
+          "n_novel_scaffolds": 28,
+          "novel_scaffold_fraction": 0.2204724409448819,
+          "scaffold_recovery_rate": 0.034079173838209985,
+          "tanimoto_mean": 0.908221219966189,
+          "tanimoto_median": 0.9052496798975672,
+          "tanimoto_std": 0.09621453507648721,
+          "tanimoto_min": 0.6521739130434783,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL3471": {
+        "status": "SUCCESS",
+        "n_train": 4727,
+        "n_test": 1576,
+        "n_top": 157,
+        "hybrid_alpha": 1.0,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 157,
+          "n_unique_scaffolds": 85,
+          "scaffold_diversity": 0.5414012738853503,
+          "n_novel_scaffolds": 40,
+          "novel_scaffold_fraction": 0.47058823529411764,
+          "scaffold_recovery_rate": 0.033783783783783786,
+          "tanimoto_mean": 0.881764841303175,
+          "tanimoto_median": 0.8688524590163934,
+          "tanimoto_std": 0.09793338729999587,
+          "tanimoto_min": 0.6865671641791045,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 157,
+          "n_unique_scaffolds": 84,
+          "scaffold_diversity": 0.535031847133758,
+          "n_novel_scaffolds": 37,
+          "novel_scaffold_fraction": 0.44047619047619047,
+          "scaffold_recovery_rate": 0.03528528528528529,
+          "tanimoto_mean": 0.8914589050359704,
+          "tanimoto_median": 0.8918918918918919,
+          "tanimoto_std": 0.09283266888670656,
+          "tanimoto_min": 0.696969696969697,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 157,
+          "n_unique_scaffolds": 85,
+          "scaffold_diversity": 0.5414012738853503,
+          "n_novel_scaffolds": 40,
+          "novel_scaffold_fraction": 0.47058823529411764,
+          "scaffold_recovery_rate": 0.033783783783783786,
+          "tanimoto_mean": 0.881764841303175,
+          "tanimoto_median": 0.8688524590163934,
+          "tanimoto_std": 0.09793338729999587,
+          "tanimoto_min": 0.6865671641791045,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL2487": {
+        "status": "SUCCESS",
+        "n_train": 599,
+        "n_test": 200,
+        "n_top": 20,
+        "hybrid_alpha": 1.0,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 20,
+          "n_unique_scaffolds": 9,
+          "scaffold_diversity": 0.45,
+          "n_novel_scaffolds": 1,
+          "novel_scaffold_fraction": 0.1111111111111111,
+          "scaffold_recovery_rate": 0.03619909502262444,
+          "tanimoto_mean": 0.9127410767527045,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.15302121368740465,
+          "tanimoto_min": 0.5714285714285714,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 20,
+          "n_unique_scaffolds": 16,
+          "scaffold_diversity": 0.8,
+          "n_novel_scaffolds": 0,
+          "novel_scaffold_fraction": 0.0,
+          "scaffold_recovery_rate": 0.07239819004524888,
+          "tanimoto_mean": 0.8289040665454296,
+          "tanimoto_median": 0.8051248923341947,
+          "tanimoto_std": 0.13781883313379614,
+          "tanimoto_min": 0.6296296296296297,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 20,
+          "n_unique_scaffolds": 9,
+          "scaffold_diversity": 0.45,
+          "n_novel_scaffolds": 1,
+          "novel_scaffold_fraction": 0.1111111111111111,
+          "scaffold_recovery_rate": 0.03619909502262444,
+          "tanimoto_mean": 0.9127410767527045,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.15302121368740465,
+          "tanimoto_min": 0.5714285714285714,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL251": {
+        "status": "SUCCESS",
+        "n_train": 1275,
+        "n_test": 426,
+        "n_top": 42,
+        "hybrid_alpha": 1.0,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 42,
+          "n_unique_scaffolds": 22,
+          "scaffold_diversity": 0.5238095238095238,
+          "n_novel_scaffolds": 6,
+          "novel_scaffold_fraction": 0.2727272727272727,
+          "scaffold_recovery_rate": 0.035398230088495575,
+          "tanimoto_mean": 0.8888864726165396,
+          "tanimoto_median": 0.9523809523809523,
+          "tanimoto_std": 0.12041966107749141,
+          "tanimoto_min": 0.6578947368421053,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 42,
+          "n_unique_scaffolds": 19,
+          "scaffold_diversity": 0.4523809523809524,
+          "n_novel_scaffolds": 1,
+          "novel_scaffold_fraction": 0.05263157894736842,
+          "scaffold_recovery_rate": 0.03982300884955752,
+          "tanimoto_mean": 0.8980163237499538,
+          "tanimoto_median": 0.8804905239687848,
+          "tanimoto_std": 0.0981119244128615,
+          "tanimoto_min": 0.7536231884057971,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 42,
+          "n_unique_scaffolds": 22,
+          "scaffold_diversity": 0.5238095238095238,
+          "n_novel_scaffolds": 6,
+          "novel_scaffold_fraction": 0.2727272727272727,
+          "scaffold_recovery_rate": 0.035398230088495575,
+          "tanimoto_mean": 0.8888864726165396,
+          "tanimoto_median": 0.9523809523809523,
+          "tanimoto_std": 0.12041966107749141,
+          "tanimoto_min": 0.6578947368421053,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL217": {
+        "status": "SUCCESS",
+        "n_train": 942,
+        "n_test": 314,
+        "n_top": 31,
+        "hybrid_alpha": 0.7000000000000001,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 31,
+          "n_unique_scaffolds": 18,
+          "scaffold_diversity": 0.5806451612903226,
+          "n_novel_scaffolds": 1,
+          "novel_scaffold_fraction": 0.05555555555555555,
+          "scaffold_recovery_rate": 0.03728070175438596,
+          "tanimoto_mean": 0.9496859420724609,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.084607463052135,
+          "tanimoto_min": 0.711864406779661,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 31,
+          "n_unique_scaffolds": 23,
+          "scaffold_diversity": 0.7419354838709677,
+          "n_novel_scaffolds": 2,
+          "novel_scaffold_fraction": 0.08695652173913043,
+          "scaffold_recovery_rate": 0.046052631578947366,
+          "tanimoto_mean": 0.8823164730194657,
+          "tanimoto_median": 0.8709677419354839,
+          "tanimoto_std": 0.12069033978389314,
+          "tanimoto_min": 0.6363636363636364,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 31,
+          "n_unique_scaffolds": 21,
+          "scaffold_diversity": 0.6774193548387096,
+          "n_novel_scaffolds": 4,
+          "novel_scaffold_fraction": 0.19047619047619047,
+          "scaffold_recovery_rate": 0.03728070175438596,
+          "tanimoto_mean": 0.8997231595597995,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.1363314560733632,
+          "tanimoto_min": 0.56,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL1862": {
+        "status": "SUCCESS",
+        "n_train": 3093,
+        "n_test": 1032,
+        "n_top": 103,
+        "hybrid_alpha": 0.7000000000000001,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 103,
+          "n_unique_scaffolds": 40,
+          "scaffold_diversity": 0.3883495145631068,
+          "n_novel_scaffolds": 2,
+          "novel_scaffold_fraction": 0.05,
+          "scaffold_recovery_rate": 0.042269187986651836,
+          "tanimoto_mean": 0.9560472646111781,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.08275715185095212,
+          "tanimoto_min": 0.7230769230769231,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 103,
+          "n_unique_scaffolds": 27,
+          "scaffold_diversity": 0.2621359223300971,
+          "n_novel_scaffolds": 0,
+          "novel_scaffold_fraction": 0.0,
+          "scaffold_recovery_rate": 0.030033370411568408,
+          "tanimoto_mean": 0.9873229872137774,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.048718737206211914,
+          "tanimoto_min": 0.7536231884057971,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 103,
+          "n_unique_scaffolds": 38,
+          "scaffold_diversity": 0.36893203883495146,
+          "n_novel_scaffolds": 4,
+          "novel_scaffold_fraction": 0.10526315789473684,
+          "scaffold_recovery_rate": 0.03781979977753059,
+          "tanimoto_mean": 0.9539048677563333,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.08226606131285456,
+          "tanimoto_min": 0.75,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL4005": {
+        "status": "SUCCESS",
+        "n_train": 5833,
+        "n_test": 1945,
+        "n_top": 194,
+        "hybrid_alpha": 1.0,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 194,
+          "n_unique_scaffolds": 130,
+          "scaffold_diversity": 0.6701030927835051,
+          "n_novel_scaffolds": 47,
+          "novel_scaffold_fraction": 0.36153846153846153,
+          "scaffold_recovery_rate": 0.034917963819941104,
+          "tanimoto_mean": 0.8892852964054722,
+          "tanimoto_median": 0.8799786628733997,
+          "tanimoto_std": 0.10017847551976053,
+          "tanimoto_min": 0.5714285714285714,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 194,
+          "n_unique_scaffolds": 113,
+          "scaffold_diversity": 0.5824742268041238,
+          "n_novel_scaffolds": 29,
+          "novel_scaffold_fraction": 0.25663716814159293,
+          "scaffold_recovery_rate": 0.0353386621792175,
+          "tanimoto_mean": 0.8888224298127678,
+          "tanimoto_median": 0.8758561643835616,
+          "tanimoto_std": 0.0808650826071353,
+          "tanimoto_min": 0.7142857142857143,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 194,
+          "n_unique_scaffolds": 130,
+          "scaffold_diversity": 0.6701030927835051,
+          "n_novel_scaffolds": 47,
+          "novel_scaffold_fraction": 0.36153846153846153,
+          "scaffold_recovery_rate": 0.034917963819941104,
+          "tanimoto_mean": 0.889285296405472,
+          "tanimoto_median": 0.8799786628733997,
+          "tanimoto_std": 0.10017847551976053,
+          "tanimoto_min": 0.5714285714285714,
+          "tanimoto_max": 1.0
+        }
+      },
+      "CHEMBL240": {
+        "status": "SUCCESS",
+        "n_train": 9984,
+        "n_test": 3328,
+        "n_top": 332,
+        "hybrid_alpha": 0.9500000000000001,
+        "docking_method": "vina",
+        "regression": {
+          "method": "Regression",
+          "n_hits": 332,
+          "n_unique_scaffolds": 157,
+          "scaffold_diversity": 0.47289156626506024,
+          "n_novel_scaffolds": 44,
+          "novel_scaffold_fraction": 0.2802547770700637,
+          "scaffold_recovery_rate": 0.022699879469666534,
+          "tanimoto_mean": 0.9023089243532193,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.12396744890202073,
+          "tanimoto_min": 0.4155844155844156,
+          "tanimoto_max": 1.0
+        },
+        "classification": {
+          "method": "Classification",
+          "n_hits": 332,
+          "n_unique_scaffolds": 166,
+          "scaffold_diversity": 0.5,
+          "n_novel_scaffolds": 31,
+          "novel_scaffold_fraction": 0.18674698795180722,
+          "scaffold_recovery_rate": 0.027119325030132584,
+          "tanimoto_mean": 0.9297617269989559,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.10029449846425212,
+          "tanimoto_min": 0.6170212765957447,
+          "tanimoto_max": 1.0
+        },
+        "hybrid": {
+          "method": "Hybrid",
+          "n_hits": 332,
+          "n_unique_scaffolds": 156,
+          "scaffold_diversity": 0.46987951807228917,
+          "n_novel_scaffolds": 43,
+          "novel_scaffold_fraction": 0.27564102564102566,
+          "scaffold_recovery_rate": 0.022699879469666534,
+          "tanimoto_mean": 0.9041589579198327,
+          "tanimoto_median": 1.0,
+          "tanimoto_std": 0.12031235484866769,
+          "tanimoto_min": 0.4155844155844156,
+          "tanimoto_max": 1.0
+        }
+      }
+    },
+    "exp7_dude_evaluation": {
+      "aa2ar": {
+        "status": "SUCCESS",
+        "chembl_target": "CHEMBL251",
+        "n_actives": 482,
+        "n_decoys": 2000,
+        "n_valid": 2482,
+        "n_actives_valid": 482,
+        "regression": {
+          "method": "Regression",
+          "ef1": 5.149377593360996,
+          "ef5": 5.149377593360996,
+          "ef10": 4.839174123881418,
+          "bedroc_20": 0.907275911377045,
+          "auc_roc": 0.9047033195020748,
+          "auc_pr": 0.8226670345847182
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 5.149377593360996,
+          "ef5": 5.149377593360996,
+          "ef10": 5.025296205569165,
+          "bedroc_20": 0.9392230011323103,
+          "auc_roc": 0.9337297717842324,
+          "auc_pr": 0.8695610880049551
+        },
+        "has_docking": true,
+        "hybrid": {
+          "method": "Hybrid(a=0.85)",
+          "ef1": 5.149377593360996,
+          "ef5": 5.149377593360996,
+          "ef10": 4.880534586478695,
+          "bedroc_20": 0.9109142734157057,
+          "auc_roc": 0.9082479253112034,
+          "auc_pr": 0.8290640328948744
+        },
+        "optimal_alpha": 0.8500000000000001
+      },
+      "esr1": {
+        "status": "SUCCESS",
+        "chembl_target": "CHEMBL1862",
+        "n_actives": 383,
+        "n_decoys": 2000,
+        "n_valid": 2383,
+        "n_actives_valid": 383,
+        "regression": {
+          "method": "Regression",
+          "ef1": 1.2962358572671888,
+          "ef5": 0.46664490861618796,
+          "ef10": 0.911161606781957,
+          "bedroc_20": 0.0,
+          "auc_roc": 0.5655261096605744,
+          "auc_pr": 0.1853241036997253
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 0.2592471714534378,
+          "ef5": 0.570343777197563,
+          "ef10": 0.5206637753039755,
+          "bedroc_20": 0.0,
+          "auc_roc": 0.5165391644908617,
+          "auc_pr": 0.15709775231232379
+        },
+        "has_docking": true,
+        "hybrid": {
+          "method": "Hybrid(a=0.15)",
+          "ef1": 4.66644908616188,
+          "ef5": 3.5257615317667534,
+          "ef10": 2.55125249898948,
+          "bedroc_20": 0.38307603295726245,
+          "auc_roc": 0.7236370757180156,
+          "auc_pr": 0.36419726387941276
+        },
+        "optimal_alpha": 0.15000000000000002
+      },
+      "hivpr": {
+        "status": "SUCCESS",
+        "chembl_target": "CHEMBL243",
+        "n_actives": 536,
+        "n_decoys": 2000,
+        "n_valid": 2536,
+        "n_actives_valid": 536,
+        "regression": {
+          "method": "Regression",
+          "ef1": 4.73134328358209,
+          "ef5": 4.73134328358209,
+          "ef10": 4.545069925960748,
+          "bedroc_20": 0.9062580374281354,
+          "auc_roc": 0.7982294776119403,
+          "auc_pr": 0.7517903839309908
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 4.73134328358209,
+          "ef5": 4.73134328358209,
+          "ef10": 4.73134328358209,
+          "bedroc_20": 0.9266104906218942,
+          "auc_roc": 0.7560872201492538,
+          "auc_pr": 0.7520081005335996
+        },
+        "has_docking": true,
+        "hybrid": {
+          "method": "Hybrid(a=0.95)",
+          "ef1": 4.73134328358209,
+          "ef5": 4.73134328358209,
+          "ef10": 4.582324597485016,
+          "bedroc_20": 0.9075674836323224,
+          "auc_roc": 0.7985988805970149,
+          "auc_pr": 0.7530567309376903
+        },
+        "optimal_alpha": 0.9500000000000001
+      },
+      "pparg": {
+        "status": "SUCCESS",
+        "chembl_target": "CHEMBL4005",
+        "n_actives": 484,
+        "n_decoys": 2000,
+        "n_valid": 2484,
+        "n_actives_valid": 484,
+        "regression": {
+          "method": "Regression",
+          "ef1": 0.0,
+          "ef5": 0.08211570247933885,
+          "ef10": 0.2267250821467689,
+          "bedroc_20": 0.0,
+          "auc_roc": 0.29985537190082645,
+          "auc_pr": 0.13186092479416694
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 0.20528925619834712,
+          "ef5": 0.6569256198347108,
+          "ef10": 0.6801752464403067,
+          "bedroc_20": 0.0,
+          "auc_roc": 0.4569287190082645,
+          "auc_pr": 0.17581193577454468
+        },
+        "has_docking": true,
+        "hybrid": {
+          "method": "Hybrid(a=0.00)",
+          "ef1": 0.6158677685950413,
+          "ef5": 0.5748099173553719,
+          "ef10": 0.6595638753360549,
+          "bedroc_20": 0.0,
+          "auc_roc": 0.49262964876033055,
+          "auc_pr": 0.19405416480621418
+        },
+        "optimal_alpha": 0.0
+      },
+      "vgfr2": {
+        "status": "SUCCESS",
+        "chembl_target": "CHEMBL279",
+        "n_actives": 409,
+        "n_decoys": 2000,
+        "n_valid": 2409,
+        "n_actives_valid": 409,
+        "regression": {
+          "method": "Regression",
+          "ef1": 5.88997555012225,
+          "ef5": 5.88997555012225,
+          "ef10": 5.88997555012225,
+          "bedroc_20": 0.9828650679864319,
+          "auc_roc": 0.9848924205378973,
+          "auc_pr": 0.9756319976674558
+        },
+        "classification": {
+          "method": "Classification",
+          "ef1": 5.88997555012225,
+          "ef5": 5.88997555012225,
+          "ef10": 5.88997555012225,
+          "bedroc_20": 0.9816950956827697,
+          "auc_roc": 0.983611858190709,
+          "auc_pr": 0.9729953906156246
+        },
+        "has_docking": true,
+        "hybrid": {
+          "method": "Hybrid(a=0.95)",
+          "ef1": 5.88997555012225,
+          "ef5": 5.88997555012225,
+          "ef10": 5.88997555012225,
+          "bedroc_20": 0.9829258265558206,
+          "auc_roc": 0.9855684596577017,
+          "auc_pr": 0.9761821845732147
+        },
+        "optimal_alpha": 0.9500000000000001
+      }
+    },
+    "posthoc_statistical_tests": {
+      "n_targets": 10,
+      "reg_vs_hyb_bedroc": {
+        "statistic": 7.0,
+        "p_value": 1.0,
+        "n_nonzero_pairs": 5,
+        "mean_diff": -0.0053543892177131845
+      },
+      "clf_vs_reg_bedroc": {
+        "statistic": 27.0,
+        "p_value": 1.0,
+        "n_nonzero_pairs": 10
+      },
+      "mean_brier": 0.08402065713521858,
+      "mean_brier_skill": 0.5767021559798658
+    }
+  }
+}

@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\caption{Table F2: DUD-E external transfer benchmark. BEDROC$_{\alpha=20}$ shown. alpha = ChEMBL-optimised docking weight.}
+\label{tab:dude}
+\centering\small
+\begin{tabular}{llcrrrrrrr}
+\toprule
+DUD-E & Target & Family & $N_{act}$ & $N_{dec}$ & $\alpha$ & Reg BEDROC & Clf BEDROC & Hyb BEDROC & Reg AUC \\
+\midrule
+HIVPR & HIV-1 Protease & Protease & 536 & 2000 & 0.95 & 0.906 & 0.927 & 0.908 & 0.798 \\
+VGFR2 & VEGFR2 & Kinase & 409 & 2000 & 0.95 & 0.983 & 0.982 & 0.983 & 0.985 \\
+AA2AR & Adenosine A2a & GPCR & 482 & 2000 & 0.85 & 0.907 & 0.939 & 0.911 & 0.905 \\
+ESR1 & Estrogen R.alpha & Nuclear receptor & 383 & 2000 & 0.15 & 0.000 & 0.000 & 0.383 & 0.566 \\
+PPARG & PPARgamma & Nuclear receptor & 484 & 2000 & 0.00 & 0.000 & 0.000 & 0.000 & 0.300 \\
+\bottomrule
+\end{tabular}
+\end{table}

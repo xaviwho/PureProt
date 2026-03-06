@@ -1,0 +1,50 @@
+\begin{table}[ht]
+\caption{Table C2: Early-recognition metrics on ChEMBL test sets. EF = enrichment factor; BEDROC computed at $\alpha{=}20$.}
+\label{tab:enrichment}
+\centering\small
+\begin{tabular}{llrrrrr}
+\toprule
+Target & Method & EF@1\% & EF@5\% & EF@10\% & BEDROC & AUC-ROC \\
+\midrule
+HIV-1 Protease & Regression & 1.29 & 1.29 & 1.29 & 0.882 & 0.940 \\
+HIV-1 Protease & Classification & 1.29 & 1.29 & 1.29 & 0.877 & 0.943 \\
+HIV-1 Protease & Hybrid(a=0.75) & 1.29 & 1.29 & 1.29 & 0.882 & 0.943 \\
+\midrule
+HIV-1 RT & Regression & 1.83 & 1.76 & 1.74 & 0.887 & 0.884 \\
+HIV-1 RT & Classification & 1.83 & 1.79 & 1.77 & 0.916 & 0.895 \\
+HIV-1 RT & Hybrid(a=1.00) & 1.83 & 1.76 & 1.74 & 0.887 & 0.884 \\
+\midrule
+VEGFR2 & Regression & 1.52 & 1.52 & 1.51 & 0.966 & 0.890 \\
+VEGFR2 & Classification & 1.47 & 1.51 & 1.51 & 0.952 & 0.902 \\
+VEGFR2 & Hybrid(a=0.85) & 1.52 & 1.51 & 1.50 & 0.958 & 0.883 \\
+\midrule
+Tankyrase-2 & Regression & 3.43 & 3.34 & 3.27 & 0.922 & 0.935 \\
+Tankyrase-2 & Classification & 3.43 & 3.38 & 3.36 & 0.948 & 0.953 \\
+Tankyrase-2 & Hybrid(a=1.00) & 3.43 & 3.34 & 3.27 & 0.922 & 0.935 \\
+\midrule
+Amyloid-beta APP & Regression & 1.44 & 1.44 & 1.44 & 0.742 & 0.944 \\
+Amyloid-beta APP & Classification & 1.44 & 1.44 & 1.44 & 0.720 & 0.946 \\
+Amyloid-beta APP & Hybrid(a=1.00) & 1.44 & 1.44 & 1.44 & 0.742 & 0.944 \\
+\midrule
+Adenosine A2a & Regression & 1.15 & 1.15 & 1.15 & 0.735 & 0.924 \\
+Adenosine A2a & Classification & 1.15 & 1.15 & 1.15 & 0.736 & 0.976 \\
+Adenosine A2a & Hybrid(a=1.00) & 1.15 & 1.15 & 1.15 & 0.735 & 0.924 \\
+\midrule
+Dopamine D2 & Regression & 1.95 & 1.95 & 1.89 & 0.848 & 0.943 \\
+Dopamine D2 & Classification & 1.95 & 1.95 & 1.89 & 0.851 & 0.946 \\
+Dopamine D2 & Hybrid(a=0.70) & 1.95 & 1.83 & 1.89 & 0.792 & 0.904 \\
+\midrule
+Estrogen R.alpha & Regression & 1.30 & 1.30 & 1.29 & 0.909 & 0.957 \\
+Estrogen R.alpha & Classification & 1.30 & 1.27 & 1.29 & 0.863 & 0.961 \\
+Estrogen R.alpha & Hybrid(a=0.70) & 1.30 & 1.30 & 1.30 & 0.917 & 0.929 \\
+\midrule
+PPARgamma & Regression & 1.50 & 1.50 & 1.50 & 0.959 & 0.922 \\
+PPARgamma & Classification & 1.43 & 1.49 & 1.50 & 0.936 & 0.938 \\
+PPARgamma & Hybrid(a=1.00) & 1.50 & 1.50 & 1.50 & 0.959 & 0.922 \\
+\midrule
+hERG & Regression & 4.75 & 4.84 & 4.79 & 0.804 & 0.912 \\
+hERG & Classification & 5.57 & 5.11 & 4.77 & 0.833 & 0.904 \\
+hERG & Hybrid(a=0.95) & 4.75 & 4.91 & 4.79 & 0.805 & 0.913 \\
+\bottomrule
+\end{tabular}
+\end{table}

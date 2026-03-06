@@ -1,0 +1,18 @@
+\begin{table}[ht]
+\caption{Table G1: Provenance audit method comparison. *File-based hashes can be overwritten if the attacker controls the filesystem.}
+\label{tab:provenance}
+\centering\small
+\begin{tabular}{lccc}
+\toprule
+Feature & No provenance & File hash only & PureChain \\
+\midrule
+Immutable record & No & No* & Yes \\
+Tamper detectable & No & Yes* & Yes \\
+Merkle audit trail & No & No & Yes \\
+Replay protection & No & No & Yes \\
+Cost per record & Free & Free & Free (zero-gas) \\
+Offline mode & N/A & Yes & Yes \\
+Multi-stage hashing & No & No & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}

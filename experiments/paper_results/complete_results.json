@@ -1,0 +1,1078 @@
+{
+  "paper_title": "Context-Aware Drug Discovery with Zero-Fee Blockchain-Verified Biomaterial Provenance",
+  "conference": "ICUFN 2026",
+  "generated_at": "2026-02-05T18:22:43.184288",
+  "experiments": {
+    "context_awareness": {
+      "experiment_category": "Context-Awareness Validation",
+      "total_tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "pass_rate": "100.0%",
+      "context_fields_captured": [
+        {
+          "name": "biomaterial_id",
+          "description": "BioPassport material identifier",
+          "example_value": "bio:cell_line:hela-001",
+          "affects_hash": true
+        },
+        {
+          "name": "biomaterial_credential_hash",
+          "description": "Hash of biomaterial credentials",
+          "example_value": "sha256:abc123...",
+          "affects_hash": true
+        },
+        {
+          "name": "model_hash",
+          "description": "Hash of AI model file",
+          "example_value": "sha256:def456...",
+          "affects_hash": true
+        },
+        {
+          "name": "parameters_hash",
+          "description": "Hash of screening parameters",
+          "example_value": "sha256:ghi789...",
+          "affects_hash": true
+        },
+        {
+          "name": "molecule_smiles",
+          "description": "SMILES string of screened molecule",
+          "example_value": "CC(=O)OC1=CC=CC=C1C(=O)O",
+          "affects_hash": true
+        },
+        {
+          "name": "screening_type",
+          "description": "Type of screening performed",
+          "example_value": "verified_consensus_ai",
+          "affects_hash": true
+        },
+        {
+          "name": "strict_mode",
+          "description": "Whether strict verification was used",
+          "example_value": "true/false",
+          "affects_hash": true
+        },
+        {
+          "name": "timestamp",
+          "description": "Execution timestamp",
+          "example_value": "2026-02-03T10:30:00",
+          "affects_hash": true
+        },
+        {
+          "name": "software_version",
+          "description": "PureProtX version",
+          "example_value": "1.0.0",
+          "affects_hash": true
+        }
+      ],
+      "individual_results": [
+        {
+          "experiment_name": "Identical contexts produce identical hashes",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hash_b": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hashes_match": true,
+          "expected_match": true,
+          "passed": true
+        },
+        {
+          "experiment_name": "Different biomaterial IDs produce different hashes",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hek293-002",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hash_b": "b308dc1c063261535d0b15d5c77531eb3feddf185ac579830aef679cc86135c5",
+          "hashes_match": false,
+          "expected_match": false,
+          "passed": true
+        },
+        {
+          "experiment_name": "Different parameters (exhaustiveness) produce different hashes",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 16
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hash_b": "838aed0f58d2844affceae58515ecf32a3db8fea53e74c6e872b28bc67ddac75",
+          "hashes_match": false,
+          "expected_match": false,
+          "passed": true
+        },
+        {
+          "experiment_name": "Different model versions produce different hashes",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "model_v1_abc123",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "model_v2_def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "dd1e40fb03cc5c9db8c00c148ee0e6504c2be80e005fae5819fe2a057b65aed7",
+          "hash_b": "a30b26a5eab2dde1360e995ac5fc492a75bd7bb71eb7f44575b7eee004afccfc",
+          "hashes_match": false,
+          "expected_match": false,
+          "passed": true
+        },
+        {
+          "experiment_name": "Different molecules produce different hashes",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hash_b": "ce1eefd8c33d37751627aa1cce5b426f5841d9c3bb9429bb11f693871d96c983",
+          "hashes_match": false,
+          "expected_match": false,
+          "passed": true
+        },
+        {
+          "experiment_name": "Strict mode flag affects provenance hash",
+          "context_a": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": false,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "context_b": {
+            "biomaterial_id": "bio:cell_line:hela-001",
+            "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+            "model_hash": "abc123def456",
+            "parameters": {
+              "screening_type": "verified_consensus_ai",
+              "exhaustiveness": 8
+            },
+            "strict_mode": true,
+            "software_version": "PureProtX-1.0.0"
+          },
+          "hash_a": "d945d5a676d1d596f1ee12ab77127feb77d402689ccbdcbb829d9df3c33828b3",
+          "hash_b": "8b8d83fc3742229c3f7b37f64219192f182db50a4ed9c623fe44b494d62650f3",
+          "hashes_match": false,
+          "expected_match": false,
+          "passed": true
+        }
+      ],
+      "conclusion": "All 6 context-awareness tests passed. The system correctly produces identical hashes for identical contexts and distinct hashes when any contextual parameter changes. The system captures 9 distinct context fields in each provenance record."
+    },
+    "reproducibility": {
+      "experiment_category": "Deterministic Reproducibility",
+      "total_tests": 4,
+      "total_executions": 40,
+      "all_tests_passed": true,
+      "overall_match_rate": "100%",
+      "individual_results": [
+        {
+          "test_name": "Credential verification reproducibility",
+          "num_executions": 10,
+          "unique_hashes": 1,
+          "hash_match_rate": 100.0,
+          "all_hashes": [
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+            "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd"
+          ],
+          "passed": true,
+          "runs": [
+            {
+              "run_id": 1,
+              "timestamp": "2026-02-05T18:22:44.825922",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.6492137908935547
+            },
+            {
+              "run_id": 2,
+              "timestamp": "2026-02-05T18:22:44.826340",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.26416778564453125
+            },
+            {
+              "run_id": 3,
+              "timestamp": "2026-02-05T18:22:44.826609",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.1735687255859375
+            },
+            {
+              "run_id": 4,
+              "timestamp": "2026-02-05T18:22:44.826853",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.1633167266845703
+            },
+            {
+              "run_id": 5,
+              "timestamp": "2026-02-05T18:22:44.827048",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.11205673217773438
+            },
+            {
+              "run_id": 6,
+              "timestamp": "2026-02-05T18:22:44.827574",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.42891502380371094
+            },
+            {
+              "run_id": 7,
+              "timestamp": "2026-02-05T18:22:44.828386",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.14400482177734375
+            },
+            {
+              "run_id": 8,
+              "timestamp": "2026-02-05T18:22:44.828555",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.11134147644042969
+            },
+            {
+              "run_id": 9,
+              "timestamp": "2026-02-05T18:22:44.828719",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.11801719665527344
+            },
+            {
+              "run_id": 10,
+              "timestamp": "2026-02-05T18:22:44.828866",
+              "context_hash": "d5b957ff4142b71a752c49532039531b0c86e57b9ab12b5ccad8f93522bcfb05",
+              "audit_hash": "09773dfcec7fcfff518b6ece88507b4ae0855e48c9a5bcbd49579e862835dbdd",
+              "execution_time_ms": 0.10085105895996094
+            }
+          ]
+        },
+        {
+          "test_name": "Audit record creation reproducibility",
+          "num_executions": 10,
+          "unique_hashes": 1,
+          "hash_match_rate": 100.0,
+          "all_hashes": [
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+            "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09"
+          ],
+          "passed": true,
+          "runs": [
+            {
+              "run_id": 1,
+              "timestamp": "2026-02-05T18:22:44.830168",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.4284381866455078
+            },
+            {
+              "run_id": 2,
+              "timestamp": "2026-02-05T18:22:44.830461",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.23794174194335938
+            },
+            {
+              "run_id": 3,
+              "timestamp": "2026-02-05T18:22:44.830679",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.1723766326904297
+            },
+            {
+              "run_id": 4,
+              "timestamp": "2026-02-05T18:22:44.830877",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.16045570373535156
+            },
+            {
+              "run_id": 5,
+              "timestamp": "2026-02-05T18:22:44.831075",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.15997886657714844
+            },
+            {
+              "run_id": 6,
+              "timestamp": "2026-02-05T18:22:44.831275",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.1614093780517578
+            },
+            {
+              "run_id": 7,
+              "timestamp": "2026-02-05T18:22:44.831507",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.1957416534423828
+            },
+            {
+              "run_id": 8,
+              "timestamp": "2026-02-05T18:22:44.831740",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.19311904907226562
+            },
+            {
+              "run_id": 9,
+              "timestamp": "2026-02-05T18:22:44.832036",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.22721290588378906
+            },
+            {
+              "run_id": 10,
+              "timestamp": "2026-02-05T18:22:44.832270",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "3e0a4e01941bfdba19024970910519ad4ac0d9de12b3b91fea147f5aecadec09",
+              "execution_time_ms": 0.18715858459472656
+            }
+          ]
+        },
+        {
+          "test_name": "Hash computation reproducibility",
+          "num_executions": 10,
+          "unique_hashes": 1,
+          "hash_match_rate": 100.0,
+          "all_hashes": [
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+            "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80"
+          ],
+          "passed": true,
+          "runs": [
+            {
+              "run_id": 1,
+              "timestamp": "2026-02-05T18:22:44.832713",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.05793571472167969
+            },
+            {
+              "run_id": 2,
+              "timestamp": "2026-02-05T18:22:44.832763",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.030279159545898438
+            },
+            {
+              "run_id": 3,
+              "timestamp": "2026-02-05T18:22:44.832794",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.022172927856445312
+            },
+            {
+              "run_id": 4,
+              "timestamp": "2026-02-05T18:22:44.832820",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.019073486328125
+            },
+            {
+              "run_id": 5,
+              "timestamp": "2026-02-05T18:22:44.832861",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.031948089599609375
+            },
+            {
+              "run_id": 6,
+              "timestamp": "2026-02-05T18:22:44.832906",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.03504753112792969
+            },
+            {
+              "run_id": 7,
+              "timestamp": "2026-02-05T18:22:44.832945",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.0286102294921875
+            },
+            {
+              "run_id": 8,
+              "timestamp": "2026-02-05T18:22:44.832971",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.019073486328125
+            },
+            {
+              "run_id": 9,
+              "timestamp": "2026-02-05T18:22:44.832994",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.01811981201171875
+            },
+            {
+              "run_id": 10,
+              "timestamp": "2026-02-05T18:22:44.833018",
+              "context_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "audit_hash": "7495933cfca42db34f01133fc9185bad2d55ed9927a208e37eaf27d9e9a72f80",
+              "execution_time_ms": 0.01811981201171875
+            }
+          ]
+        },
+        {
+          "test_name": "Unified record workflow reproducibility",
+          "num_executions": 10,
+          "unique_hashes": 1,
+          "hash_match_rate": 100.0,
+          "all_hashes": [
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+            "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb"
+          ],
+          "passed": true,
+          "runs": [
+            {
+              "run_id": 1,
+              "timestamp": "2026-02-05T18:22:44.833555",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.1964569091796875
+            },
+            {
+              "run_id": 2,
+              "timestamp": "2026-02-05T18:22:44.833715",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.1323223114013672
+            },
+            {
+              "run_id": 3,
+              "timestamp": "2026-02-05T18:22:44.833863",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.12493133544921875
+            },
+            {
+              "run_id": 4,
+              "timestamp": "2026-02-05T18:22:44.833990",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10704994201660156
+            },
+            {
+              "run_id": 5,
+              "timestamp": "2026-02-05T18:22:44.834119",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.11014938354492188
+            },
+            {
+              "run_id": 6,
+              "timestamp": "2026-02-05T18:22:44.834243",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10514259338378906
+            },
+            {
+              "run_id": 7,
+              "timestamp": "2026-02-05T18:22:44.834367",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10657310485839844
+            },
+            {
+              "run_id": 8,
+              "timestamp": "2026-02-05T18:22:44.834486",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10251998901367188
+            },
+            {
+              "run_id": 9,
+              "timestamp": "2026-02-05T18:22:44.834606",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10180473327636719
+            },
+            {
+              "run_id": 10,
+              "timestamp": "2026-02-05T18:22:44.834727",
+              "context_hash": "70b9ab4819c343e67484d3519164698f231b5e87b0dfc6332c7df60551e30a37",
+              "audit_hash": "474ccbf630bb14efa5250270e5ac8879709d053638f7b11f9765a2d7cdbae5cb",
+              "execution_time_ms": 0.10347366333007812
+            }
+          ]
+        }
+      ],
+      "conclusion": "Across 40 re-executions (10 runs x 4 test categories), PureProtX achieved a 100% hash reproducibility rate. Identical inputs under identical context consistently produce identical provenance hashes, demonstrating deterministic behavior suitable for regulatory compliance and scientific reproducibility."
+    },
+    "blockchain_performance": {
+      "experiment_category": "Blockchain Verification Performance",
+      "num_samples": 50,
+      "workflow_definition": {
+        "name": "AUDIT PATH",
+        "description": "verify biomaterial -> create record -> anchor hash -> return receipt",
+        "includes": [
+          "credential verification (local)",
+          "audit record creation (local)",
+          "blockchain anchoring"
+        ],
+        "excludes": [
+          "AI inference",
+          "molecular docking"
+        ],
+        "molecule_to_tx_ratio": "1:1 (no batching)"
+      },
+      "blockchain_config": {
+        "network": "PureChain",
+        "chain_id": 900520900520,
+        "consensus": "PoA",
+        "gas_cost": 0,
+        "gas_cost_unit": "PCC (zero-fee)"
+      },
+      "performance_metrics": {
+        "verification_latency_us": {
+          "operation": "verification_latency_us",
+          "unit": "microseconds (\u00b5s)",
+          "num_samples": 50,
+          "min_us": 6.4,
+          "max_us": 34.2,
+          "mean_us": 8.4,
+          "median_us": 7.2,
+          "p50_us": 7.2,
+          "p95_us": 13.0,
+          "p99_us": 34.2,
+          "std_dev_us": 4.1,
+          "mean_ms": 0.008,
+          "p50_ms": 0.007
+        },
+        "audit_creation_latency_us": {
+          "operation": "audit_creation_latency_us",
+          "unit": "microseconds (\u00b5s)",
+          "num_samples": 50,
+          "min_us": 26.6,
+          "max_us": 85.1,
+          "mean_us": 32.5,
+          "median_us": 27.7,
+          "p50_us": 27.8,
+          "p95_us": 60.8,
+          "p99_us": 85.1,
+          "std_dev_us": 12.6,
+          "mean_ms": 0.033,
+          "p50_ms": 0.028
+        },
+        "tx_submit_latency_ms": {
+          "operation": "tx_submit_latency_ms",
+          "unit": "milliseconds (ms)",
+          "num_samples": 50,
+          "min_ms": 21.4,
+          "max_ms": 86.2,
+          "mean_ms": 32.1,
+          "median_ms": 26.1,
+          "p50_ms": 26.1,
+          "p95_ms": 70.2,
+          "p99_ms": 86.2,
+          "std_dev_ms": 15.2
+        },
+        "tx_finality_latency_ms": {
+          "operation": "tx_finality_latency_ms",
+          "unit": "milliseconds (ms)",
+          "num_samples": 50,
+          "min_ms": 493.2,
+          "max_ms": 3111.1,
+          "mean_ms": 2005.8,
+          "median_ms": 1944.1,
+          "p50_ms": 1954.2,
+          "p95_ms": 3062.8,
+          "p99_ms": 3111.1,
+          "std_dev_ms": 696.8
+        },
+        "anchoring_total_latency_ms": {
+          "operation": "anchoring_total_latency_ms",
+          "unit": "milliseconds (ms)",
+          "num_samples": 50,
+          "min_ms": 523.9,
+          "max_ms": 3135.0,
+          "mean_ms": 2037.9,
+          "median_ms": 1970.8,
+          "p50_ms": 1980.1,
+          "p95_ms": 3086.2,
+          "p99_ms": 3135.0,
+          "std_dev_ms": 695.5
+        },
+        "full_workflow_latency_ms": {
+          "operation": "full_workflow_latency_ms",
+          "unit": "milliseconds (ms)",
+          "num_samples": 50,
+          "min_ms": 659.4,
+          "max_ms": 3434.0,
+          "mean_ms": 2112.3,
+          "median_ms": 2107.8,
+          "p50_ms": 2126.9,
+          "p95_ms": 3241.9,
+          "p99_ms": 3434.0,
+          "std_dev_ms": 748.9
+        }
+      },
+      "latency_breakdown": {
+        "local_operations": {
+          "verification": "Local policy evaluation + SHA-256 hash check (no chain read)",
+          "audit_creation": "Canonical JSON serialization + SHA-256 hashing"
+        },
+        "blockchain_operations": {
+          "tx_submit": "Sign transaction + RPC send_raw_transaction call",
+          "tx_finality": "Wait for block inclusion + receipt confirmation"
+        }
+      },
+      "overhead_analysis": {
+        "workflow": "AUDIT PATH (excludes AI inference/docking)",
+        "local_compute_ms": 0.041,
+        "local_compute_pct": 0.0,
+        "blockchain_overhead_ms": 2037.9,
+        "blockchain_overhead_pct": 100.0,
+        "total_audit_path_ms": 2037.9,
+        "note": "AI inference (~100ms typical) and docking are separate workloads, not included here"
+      },
+      "throughput": {
+        "transactions_per_second": 0.47,
+        "molecules_per_minute": 28.4,
+        "molecule_to_tx_ratio": "1:1 (one blockchain transaction per molecule)",
+        "batching": "None (sequential processing)",
+        "mean_latency_ms": 2112.3,
+        "interpretation": "System processes 0.47 verified screenings/sec (~28/min). Each molecule results in exactly one blockchain transaction (no batching)."
+      },
+      "sample_transaction_receipt": {
+        "tx_hash": "2f4c2f73bb3a9c8688de491acb6b4082758ef935fab5a050774d3cd37e3d954c",
+        "block_number": 854851,
+        "status": "SUCCESS",
+        "gas_used": 158561,
+        "submit_latency_ms": 23.33,
+        "finality_latency_ms": 1207.47,
+        "total_latency_ms": 1230.8,
+        "timestamp": "2026-02-05T18:22:46.495985"
+      },
+      "conclusion": "On PureChain (Chain ID: 900520900520), local operations (verification + audit creation) completed in 7\u00b5s + 28\u00b5s (p50). Blockchain anchoring: tx submit p50=26ms, block finality p50=1954ms, total p50=1980ms. Blockchain represents 100.0% of audit path time. Throughput: 0.47 tx/s (1 molecule = 1 tx, no batching). Zero-fee execution confirmed."
+    },
+    "provenance_completeness": {
+      "experiment_category": "Provenance Completeness",
+      "captured_artifacts": [
+        {
+          "name": "Biomaterial ID",
+          "description": "BioPassport material identifier",
+          "hash_algorithm": "N/A (stored directly)",
+          "example_hash": "bio:cell_line:hela-001",
+          "on_chain": true
+        },
+        {
+          "name": "Biomaterial Credential Hash",
+          "description": "Hash of verified biomaterial credentials",
+          "hash_algorithm": "SHA-256",
+          "example_hash": "sha256:a1b2c3...",
+          "on_chain": true
+        },
+        {
+          "name": "Molecule SMILES",
+          "description": "Canonical SMILES representation",
+          "hash_algorithm": "N/A (stored directly)",
+          "example_hash": "CC(=O)OC1=CC=CC=C1C(=O)O",
+          "on_chain": true
+        },
+        {
+          "name": "AI Model Hash",
+          "description": "Hash of trained model file (.joblib)",
+          "hash_algorithm": "SHA-256",
+          "example_hash": "sha256:d4e5f6...",
+          "on_chain": true
+        },
+        {
+          "name": "Parameters Hash",
+          "description": "Hash of screening parameters",
+          "hash_algorithm": "SHA-256",
+          "example_hash": "sha256:g7h8i9...",
+          "on_chain": true
+        },
+        {
+          "name": "Results Hash",
+          "description": "Hash of screening results",
+          "hash_algorithm": "SHA-256",
+          "example_hash": "sha256:j0k1l2...",
+          "on_chain": true
+        },
+        {
+          "name": "Master Hash",
+          "description": "Hash of complete provenance record",
+          "hash_algorithm": "SHA-256",
+          "example_hash": "sha256:m3n4o5...",
+          "on_chain": true
+        }
+      ],
+      "num_artifacts": 7,
+      "sample_records": [
+        {
+          "record_id": "3b470af87ade9a6c",
+          "biomaterial_id": "bio:cell_line:hela-001",
+          "biomaterial_credential_hash": "c9f2b289b5b18240...",
+          "biomaterial_verification_status": "PASS",
+          "molecule_id": "aspirin",
+          "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+          "model_hash": "model_v1_abc123d...",
+          "parameters_hash": "1eb9b14704b139e2...",
+          "screening_results": {
+            "consensus_pic50": 6.54,
+            "verified": true
+          },
+          "results_hash": "943563ad0316b3bc...",
+          "master_hash": "6d33c75a774f895b...",
+          "blockchain_tx": "2f32d22f50d7f501...",
+          "timestamp": "2026-02-05T18:26:14.279611"
+        },
+        {
+          "record_id": "d81bccdefbb4f73f",
+          "biomaterial_id": "bio:cell_line:hek293-002",
+          "biomaterial_credential_hash": "b419737b1af4a152...",
+          "biomaterial_verification_status": "PASS",
+          "molecule_id": "ibuprofen",
+          "molecule_smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
+          "model_hash": "model_v1_abc123d...",
+          "parameters_hash": "1eb9b14704b139e2...",
+          "screening_results": {
+            "consensus_pic50": 5.82,
+            "verified": true
+          },
+          "results_hash": "ea1bd881fcadd678...",
+          "master_hash": "71d9984511e7a2b1...",
+          "blockchain_tx": "778079474fa1d3a8...",
+          "timestamp": "2026-02-05T18:26:15.550596"
+        },
+        {
+          "record_id": "9c946ffb7212e7a8",
+          "biomaterial_id": "bio:plasmid:pcmv-003",
+          "biomaterial_credential_hash": "5af21488b0cb7c66...",
+          "biomaterial_verification_status": "PASS",
+          "molecule_id": "caffeine",
+          "molecule_smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+          "model_hash": "model_v1_abc123d...",
+          "parameters_hash": "1eb9b14704b139e2...",
+          "screening_results": {
+            "consensus_pic50": 4.21,
+            "verified": true
+          },
+          "results_hash": "c8c3b6cafea9ef4c...",
+          "master_hash": "7bc036b902345a86...",
+          "blockchain_tx": "0cccf375a1d7cb33...",
+          "timestamp": "2026-02-05T18:26:17.378303"
+        }
+      ],
+      "verification_results": [
+        {
+          "record_id": "3b470af87ade9a6c",
+          "master_hash": "6d33c75a774f895b...",
+          "blockchain_tx": "2f32d22f50d7f501...",
+          "verification_status": "VERIFIED",
+          "hash_match": true,
+          "timestamp_valid": true,
+          "credential_valid": true
+        },
+        {
+          "record_id": "d81bccdefbb4f73f",
+          "master_hash": "71d9984511e7a2b1...",
+          "blockchain_tx": "778079474fa1d3a8...",
+          "verification_status": "VERIFIED",
+          "hash_match": true,
+          "timestamp_valid": true,
+          "credential_valid": true
+        },
+        {
+          "record_id": "9c946ffb7212e7a8",
+          "master_hash": "7bc036b902345a86...",
+          "blockchain_tx": "0cccf375a1d7cb33...",
+          "verification_status": "VERIFIED",
+          "hash_match": true,
+          "timestamp_valid": true,
+          "credential_valid": true
+        }
+      ],
+      "summary_table": [
+        {
+          "Input (Molecule)": "aspirin",
+          "Context (Biomaterial)": "hela-001",
+          "Master Hash": "6d33c75a774f895b...",
+          "Verification": "PASS"
+        },
+        {
+          "Input (Molecule)": "ibuprofen",
+          "Context (Biomaterial)": "hek293-002",
+          "Master Hash": "71d9984511e7a2b1...",
+          "Verification": "PASS"
+        },
+        {
+          "Input (Molecule)": "caffeine",
+          "Context (Biomaterial)": "pcmv-003",
+          "Master Hash": "7bc036b902345a86...",
+          "Verification": "PASS"
+        }
+      ],
+      "conclusion": "The system captures 7 distinct artifacts in each provenance record, all anchored on-chain via SHA-256 hashing. Each record links biomaterial credentials (from BioPassport) to drug screening results (from PureProtX), creating a complete, independently verifiable audit trail. The master hash enables single-point verification of the entire provenance chain."
+    },
+    "case_study": {
+      "experiment_category": "Drug Discovery Case Study",
+      "purpose": "Demonstrate real pipeline execution with provenance tracking",
+      "num_molecules": 5,
+      "molecules_screened": [
+        {
+          "molecule_id": "aspirin",
+          "molecule_name": "Aspirin (Acetylsalicylic acid)",
+          "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+          "biomaterial_id": "bio:cell_line:hela-001",
+          "biomaterial_verified": true,
+          "consensus_pic50": 5.1899999999999995,
+          "svr_pic50": 5.28,
+          "rf_pic50": 5.1,
+          "gb_pic50": 5.299999999999999,
+          "master_hash": "ea413ae86eb6cfbd...",
+          "blockchain_tx": "a45ca8eeef746cac...",
+          "logged": true,
+          "reproducible": true,
+          "verifiable": true
+        },
+        {
+          "molecule_id": "ibuprofen",
+          "molecule_name": "Ibuprofen",
+          "smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
+          "biomaterial_id": "bio:cell_line:hek293-002",
+          "biomaterial_verified": true,
+          "consensus_pic50": 4.83,
+          "svr_pic50": 4.760000000000001,
+          "rf_pic50": 4.75,
+          "gb_pic50": 4.88,
+          "master_hash": "80c3275dd2ed39af...",
+          "blockchain_tx": "2c8cd338a87b0941...",
+          "logged": true,
+          "reproducible": true,
+          "verifiable": true
+        },
+        {
+          "molecule_id": "caffeine",
+          "molecule_name": "Caffeine",
+          "smiles": "CN1C=NC2=C1C(=O)N(C(=O)N2C)C",
+          "biomaterial_id": "bio:cell_line:hela-001",
+          "biomaterial_verified": true,
+          "consensus_pic50": 4.9399999999999995,
+          "svr_pic50": 4.9799999999999995,
+          "rf_pic50": 4.85,
+          "gb_pic50": 4.999999999999999,
+          "master_hash": "5e2a77ddc6b0e7c4...",
+          "blockchain_tx": "e5338dd409fdbe69...",
+          "logged": true,
+          "reproducible": true,
+          "verifiable": true
+        },
+        {
+          "molecule_id": "acetaminophen",
+          "molecule_name": "Acetaminophen (Paracetamol)",
+          "smiles": "CC(=O)NC1=CC=C(C=C1)O",
+          "biomaterial_id": "bio:cell_line:hepg2-003",
+          "biomaterial_verified": true,
+          "consensus_pic50": 4.6899999999999995,
+          "svr_pic50": 4.68,
+          "rf_pic50": 4.6,
+          "gb_pic50": 4.799999999999999,
+          "master_hash": "984bd2b9eaba541c...",
+          "blockchain_tx": "6c84ae2cdce817cc...",
+          "logged": true,
+          "reproducible": true,
+          "verifiable": true
+        },
+        {
+          "molecule_id": "metformin",
+          "molecule_name": "Metformin",
+          "smiles": "CN(C)C(=N)NC(=N)N",
+          "biomaterial_id": "bio:cell_line:hek293-002",
+          "biomaterial_verified": true,
+          "consensus_pic50": 4.49,
+          "svr_pic50": 4.48,
+          "rf_pic50": 4.5,
+          "gb_pic50": 4.6,
+          "master_hash": "28cc2325d3819587...",
+          "blockchain_tx": "5a0ae264cd21d698...",
+          "logged": true,
+          "reproducible": true,
+          "verifiable": true
+        }
+      ],
+      "pipeline_capabilities": {
+        "biomaterial_verification": true,
+        "consensus_ai_prediction": true,
+        "blockchain_logging": true,
+        "deterministic_hashing": true,
+        "provenance_tracking": true,
+        "independent_verification": true,
+        "zero_fee_execution": true
+      },
+      "verification_summary": {
+        "total_molecules": 5,
+        "biomaterial_verified": 5,
+        "results_logged": 5,
+        "results_reproducible": 5,
+        "results_verifiable": 5,
+        "verification_rate": "100%",
+        "logging_rate": "100%",
+        "reproducibility_rate": "100%",
+        "verifiability_rate": "100%"
+      },
+      "conclusion": "The case study demonstrates successful execution of a context-aware drug screening pipeline on 5 molecules. All screening results were logged (100%), reproducible (100%), and independently verifiable (100%) via blockchain-anchored provenance records. Biomaterial verification succeeded for 100% of screenings, demonstrating the integration between BioPassport credential verification and PureProtX AI screening within a unified, auditable workflow."
+    }
+  },
+  "executive_summary": {
+    "context_awareness": {
+      "tests_passed": 6,
+      "total_tests": 6,
+      "context_fields_captured": 9
+    },
+    "reproducibility": {
+      "hash_match_rate": "100%",
+      "total_executions": 40
+    },
+    "blockchain_performance": {
+      "gas_cost": "0 PCC (zero-fee)",
+      "network": "PureChain",
+      "chain_id": 900520900520
+    },
+    "provenance": {
+      "artifacts_captured": 7
+    },
+    "case_study": {
+      "molecules_screened": 5,
+      "all_logged": true,
+      "all_reproducible": true,
+      "all_verifiable": true
+    }
+  },
+  "generated_figures": [
+    "paper_results\\figures\\fig1_architecture.pdf",
+    "paper_results\\figures\\fig2_context_awareness.pdf",
+    "paper_results\\figures\\fig3_reproducibility.pdf",
+    "paper_results\\figures\\fig4_blockchain_performance.pdf",
+    "paper_results\\figures\\fig5_latency_distribution.pdf",
+    "paper_results\\figures\\fig6_provenance.pdf",
+    "paper_results\\figures\\fig7_case_study.pdf",
+    "paper_results\\figures\\fig8_summary_dashboard.pdf"
+  ]
+}

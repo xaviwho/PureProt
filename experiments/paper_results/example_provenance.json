@@ -1,0 +1,18 @@
+{
+  "record_id": "3b470af87ade9a6c",
+  "biomaterial_id": "bio:cell_line:hela-001",
+  "biomaterial_credential_hash": "c9f2b289b5b18240...",
+  "biomaterial_verification_status": "PASS",
+  "molecule_id": "aspirin",
+  "molecule_smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+  "model_hash": "model_v1_abc123d...",
+  "parameters_hash": "1eb9b14704b139e2...",
+  "screening_results": {
+    "consensus_pic50": 6.54,
+    "verified": true
+  },
+  "results_hash": "943563ad0316b3bc...",
+  "master_hash": "6d33c75a774f895b...",
+  "blockchain_tx": "2f32d22f50d7f501...",
+  "timestamp": "2026-02-05T18:26:14.279611"
+}
