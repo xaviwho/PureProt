@@ -45,7 +45,7 @@ TARGETS = [
     ("CHEMBL243",  "HIV-1 Protease",              "Protease"),
     ("CHEMBL247",  "HIV-1 RT",                    "Reverse Transcriptase"),
     ("CHEMBL279",  "VEGFR2",                      "Kinase"),
-    ("CHEMBL3471", "Tankyrase-2",                 "Transferase"),
+    ("CHEMBL3471", "HIV-1 Integrase",             "Viral integrase"),
     ("CHEMBL2487", "Amyloid-beta APP",            "Membrane protein"),
     ("CHEMBL251",  "Adenosine A2a",               "GPCR"),
     ("CHEMBL217",  "Dopamine D2",                 "GPCR"),
