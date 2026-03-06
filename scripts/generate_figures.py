@@ -298,7 +298,7 @@ def fig_d1():
     mean_l  = plt.Line2D([0],[0], color=ORANGE, lw=2.0, ls="--",
                           label=f"Per-target mean ({pt_mean:.3f})")
     ax.legend(handles=[blue_p, red_p, loto_l, mean_l],
-              loc="upper left", framealpha=0.9, fontsize=TICK_FONT)
+              loc="lower right", framealpha=0.9, fontsize=TICK_FONT)
 
     fig.tight_layout()
     save(fig, "fig_D1_alpha_optimization.png")
