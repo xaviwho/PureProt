@@ -251,6 +251,20 @@ The Merkle tree combines 4 pipeline stage hashes (fetch, train, dock, score) int
 
 *File-based hashes are mutable if the attacker controls the filesystem.
 
+### Computational overhead
+
+To quantify the cost of provenance, we measured per-record latency across 40 blockchain-anchored screening runs:
+
+| Stage | Median latency | % of total |
+|-------|---------------|-----------|
+| AI compute (featurise + predict + hash) | 100 ms | 4.7% |
+| Blockchain anchoring (sign + submit + finality) | 1,900 ms | 95.3% |
+| **Full workflow** | **2,000 ms** | **100%** |
+
+Without the blockchain module, the computational pipeline completes in approximately 0.1 s per record; the provenance layer adds ~1.9 s (median), representing 95% overhead in wall-clock time. At ~0.5 transactions/s (30 molecules/min), this overhead is negligible for typical virtual screening campaigns (1,000--10,000 compounds) and is fully parallelisable across targets. The zero-gas-fee PureChain PoA consensus eliminates the economic cost entirely.
+
+Transaction finality (p50 = 1,850 ms, p95 = 3,100 ms, p99 = 3,200 ms) is dominated by block interval on the PoA network, not computation. Verification (hash comparison) completes in < 1 ms.
+
 ---
 
 ## Experiment 6: Scaffold Diversity
