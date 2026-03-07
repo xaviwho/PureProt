@@ -1,272 +1,285 @@
-# PureProtX: Modular CLI Protocol for Blockchain-Audited Consensus AI and Docking-Based Virtual Screening
+# PureProtX: Blockchain-Audited Consensus AI for Virtual Screening
 
-## Overview
+A modular CLI system for reproducible, blockchain-audited drug virtual screening. PureProtX fuses a 7-model consensus AI ensemble with AutoDock Vina docking scores via a per-target alpha parameter, and commits every pipeline stage hash to PureChain for tamper-proof provenance.
 
-PureProtX is a truly modular command-line interface (CLI) system that delivers on the promise of transparent, reproducible drug discovery with comprehensive blockchain auditing. Unlike traditional single-model approaches, PureProtX implements a **Consensus AI** system using ensemble methods (SVR + Random Forest + Gradient Boosting) for superior predictive accuracy.
+## Quick Start (Reproduce Paper Results)
 
-This system is designed for researchers who demand rigorous reproducibility and regulatory compliance. Every aspect of the screening process - from AI model files to protein structures and parameters - is cryptographically hashed and recorded on the Purechain blockchain, creating an unassailable audit trail.
+### Prerequisites
 
-## Key Features
+- **Python 3.12** (3.14 is not supported due to rdkit-pypi compatibility)
+- **Conda** (recommended) or pip
+- **AutoDock Vina** (included in `tools/` for Windows; Linux users install via Dockerfile)
+- **Git**
 
-### **Modular Architecture**
-- **AI Module**: Consensus AI with ensemble of SVR, Random Forest, and Gradient Boosting
-- **Docking Module**: Advanced molecular docking with multiple engine support
-- **Blockchain Module**: Comprehensive audit trail covering all components
-- **Data Module**: Seamless ChEMBL integration and dataset management
+### 1. Clone and set up environment
 
-### **Consensus AI System**
-- **True Ensemble**: Three different ML algorithms working in consensus
-- **Superior Accuracy**: Mathematically proven better performance than individual models
-- **Individual Tracking**: Monitor performance of each model in the ensemble
-- **Robust Predictions**: Reduced variance through ensemble averaging
+```bash
+git clone https://github.com/xaviwho/PureProt.git
+cd PureProt
+```
 
-### **Comprehensive Blockchain Auditing**
-- **Model Hashing**: SHA-256 hashes of AI model files for reproducibility
-- **Protein Hashing**: Cryptographic verification of protein structure files
-- **Parameter Tracking**: Complete audit of all screening parameters
-- **Zero Gas Fees**: Leverages Purechain network for cost-effective verification
-- **Regulatory Compliance**: Immutable audit trail for regulatory submissions
+**Option A: Conda (recommended)**
 
-### **Advanced Screening Capabilities**
-- **Hybrid Screening**: AI + molecular docking with consensus scoring
-- **Batch Processing**: High-throughput screening with comprehensive auditing
-- **Real-time Verification**: Instant blockchain verification of results
-- **Multi-target Support**: Pre-trained models for HIV-1 protease, BRAF, EGFR
+```bash
+conda env create -f environment.yml
+conda activate pureprotx
+```
+
+**Option B: pip**
+
+```bash
+python3.12 -m venv venv
+source venv/bin/activate        # Linux/macOS
+# venv\Scripts\activate          # Windows
+pip install -r requirements.txt
+```
+
+**Option C: Docker**
+
+```bash
+docker build -t pureprotx .
+docker run -it pureprotx
+```
+
+### 2. Blockchain wallet setup
+
+A pre-configured test wallet with a pre-funded PureChain account is included in the repository (`.env.example`) for immediate reproducibility. PureChain is a zero-gas-fee PoA network, so no cryptocurrency purchase is required.
+
+**For immediate use (test wallet):**
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and set `TEST_PRIVATE_KEY` to a valid PureChain private key. The repository `.env.example` contains a placeholder; the actual test key used for the paper experiments is documented in the data availability statement.
+
+**To generate your own wallet:**
+
+```python
+from web3 import Web3
+acct = Web3().eth.account.create()
+print(f"Address:     {acct.address}")
+print(f"Private key: {acct.key.hex()}")
+# Paste the private key (without 0x) into .env as TEST_PRIVATE_KEY
+```
+
+PureChain accounts are funded automatically on first use (zero-fee network). No faucet or token purchase is needed.
+
+**Interactive setup (alternative):**
+
+```bash
+python setup_env.py
+```
+
+### 3. Reproduce the 10-target benchmark
+
+```bash
+python experiments/run_experiments.py
+```
+
+This runs all 7 experiments from the paper:
+
+| Exp | Description | Output |
+|-----|-------------|--------|
+| 1 | Model training (4 reg + 3 clf) across 10 targets | R^2, RMSE, AUC-ROC per target |
+| 2 | Enrichment metrics (EF@k%, BEDROC, Brier) | Enrichment table |
+| 3 | Alpha optimisation + exhaustiveness sensitivity | Per-target alpha, Spearman rho |
+| 4 | Determinism validation (9/9 components) | PASS/FAIL per component |
+| 5 | Tamper detection and blockchain provenance | On-chain tx hashes |
+| 6 | Scaffold diversity analysis | Novel fraction per target |
+| 7 | DUD-E external benchmark (5 targets) | Transfer BEDROC |
+
+Results are written to `experiments/paper_results/`:
+- `revised_results.json` -- full structured results
+- `revised_summary.md` -- human-readable summary
+- `review_analyses.json` -- exhaustiveness sensitivity and chemical space overlap
+- `figures/` -- all paper figures (PNG, 300 DPI)
+
+### 4. Regenerate figures
+
+```bash
+python scripts/generate_figures.py
+```
+
+Produces single-panel, publication-quality figures in `experiments/paper_results/figures/`.
+
+## 10-Target Benchmark Panel
+
+8 protein families, 10 targets (including 3 HIV-1 antiviral targets covering distinct replication stages):
+
+| ChEMBL ID | Target | Family | N compounds |
+|-----------|--------|--------|-------------|
+| CHEMBL243 | HIV-1 Protease | Viral protease | 3,444 |
+| CHEMBL247 | HIV-1 Reverse Transcriptase | Viral polymerase | 10,308 |
+| CHEMBL3471 | HIV-1 Integrase | Viral integrase | 7,879 |
+| CHEMBL279 | VEGFR2 (KDR) | Kinase | 14,008 |
+| CHEMBL2487 | Amyloid-beta A4 (APP) | Membrane protein | 999 |
+| CHEMBL251 | Adenosine A2a receptor | GPCR | 2,126 |
+| CHEMBL217 | Dopamine D2 receptor | GPCR | 1,570 |
+| CHEMBL1862 | Estrogen Receptor alpha | Nuclear receptor | 5,156 |
+| CHEMBL4005 | PPARgamma | Nuclear receptor | 9,723 |
+| CHEMBL240 | hERG | Ion channel | 16,640 |
+
+## Consensus AI Architecture
+
+The ensemble comprises **4 regression models** and **3 classification models** (4+3 architecture):
+
+- **Regression**: SVR, Random Forest, Gradient Boosting, MLP
+- **Classification**: SVC, RF, GB
+- **Features**: 2,048-bit Morgan fingerprints (radius=2) + 10 physicochemical descriptors = 2,058 dimensions
+- **Consensus**: arithmetic mean of individual model predictions
+
+Hyperparameters are tuned on the validation set (no test leakage). SVR/SVC uses subsampling to 3,000 compounds for datasets exceeding that size.
+
+## Hybrid Scoring
+
+```
+f_hybrid(x) = alpha * f_AI(x) + (1 - alpha) * f_dock(x)
+```
+
+- `f_AI`: z-normalised consensus regression score
+- `f_dock`: z-normalised AutoDock Vina binding affinity (exhaustiveness=4)
+- `alpha`: optimised per-target on validation BEDROC; mean 0.895, LOTO 0.935
+
+Docking scores are real Vina scores cached in `docking_cache/` (both e=1 and e=4 variants).
 
 ## Project Structure
 
 ```
-.
-├── pureprot/                       # MODULAR CORE COMPONENTS
-│   ├── __init__.py                 # Package initialization
-│   ├── ai_model.py                 # Consensus AI Module (SVR+RF+GB)
-│   ├── blockchain.py               # Comprehensive Blockchain Auditor
-│   ├── docking.py                  # Advanced Docking Engine
-│   └── data.py                     # Data Management Module
-├── blockchain/                     # Legacy blockchain components
-│   ├── purechain_connector.py      # Web3 blockchain connector
-│   └── DrugScreeningVerifier.sol   # Smart contract for verification
-├── modeling/                       # Legacy modeling components
-│   ├── data_loader.py              # ChEMBL data fetching
-│   ├── model_trainer.py            # Model training utilities
-│   ├── molecular_modeling.py       # RDKit molecular modeling
-│   └── advanced_docking_engine.py  # Multi-engine docking support
-├── workflow/
-│   └── verification_workflow.py    # Legacy verification workflow
-├── docs/                           # Documentation
-│   ├── technical_guide.md          # Technical implementation guide
-│   └── Windows_Native_Docking_Guide.md # Windows docking setup
-├── PureProt.py                     # Main CLI entry point
-└── README.md                       # This file
+PureProt/
+├── pureprot/                          # Core library
+│   ├── ai_model.py                    # ConsensusAIModel (4+3 ensemble, HP tuning)
+│   ├── blockchain.py                  # BlockchainAuditor (hash, record, verify)
+│   ├── docking.py                     # DockingEngine wrapper
+│   ├── data.py                        # DataManager (ChEMBL fetch, splits)
+│   ├── evaluation.py                  # Normalisation, BEDROC, EF, Brier, LOTO alpha
+│   ├── ranking.py                     # Hybrid ranking and alpha grid search
+│   ├── scaffold.py                    # Bemis-Murcko scaffold diversity analysis
+│   └── targets.py                     # 10-target metadata and split configuration
+├── blockchain/
+│   ├── purechain_connector.py         # Web3 PureChain connector (zero-gas PoA)
+│   ├── DrugScreeningVerifier.sol      # Solidity verification contract
+│   └── deploy.py                      # Contract deployment script
+├── experiments/
+│   ├── run_experiments.py             # Main experiment runner (7 experiments)
+│   └── paper_results/                 # Output directory
+│       ├── revised_results.json       # Structured results
+│       ├── review_analyses.json       # Exhaustiveness + chemical space overlap
+│       ├── figures/                   # Publication figures (PNG + LaTeX tables)
+│       └── models/                    # Trained model files (not in git, ~1.5 GB)
+├── scripts/
+│   ├── generate_figures.py            # Figure generation (single-panel, 300 DPI)
+│   ├── run_vina_docking.py            # ChEMBL batch Vina docking (e=4)
+│   ├── run_dude_docking.py            # DUD-E batch Vina docking (e=4)
+│   └── analyze_review_issues.py       # DUD-E overlap + exhaustiveness analysis
+├── docking_cache/                     # Vina score caches (not in git)
+│   ├── CHEMBL243_vina_e4.json         # Per-target e=4 caches
+│   └── ...
+├── dude_data/                         # DUD-E actives/decoys (5 targets)
+├── structures/                        # PDB/PDBQT protein structures
+├── tools/                             # AutoDock Vina binaries (Windows)
+├── docs/
+│   └── methodology.md                 # Full methodology for all 7 experiments
+├── PureProt.py                        # CLI entry point
+├── Dockerfile                         # Reproducible container build
+├── environment.yml                    # Conda environment specification
+├── requirements.txt                   # pip requirements
+├── setup_env.py                       # Interactive wallet setup
+├── .env.example                       # Template for blockchain credentials
+└── .env                               # Local credentials (gitignored)
 ```
 
-### The "X" in PureProtX
+## CLI Usage
 
-The **"X"** represents the **eXtended** and **eXperimental** evolution from the original PureProt system:
-- **eXtended**: True modular architecture with interchangeable components
-- **eXperimental**: Cutting-edge Consensus AI and comprehensive blockchain auditing
-- **eXcellence**: Superior performance through ensemble methods and rigorous verification
-
-## Installation
-
-1.  **Clone the repository**
-
-2.  **Create a Python virtual environment**:
-    ```bash
-    python -m venv venv
-    # On Windows
-    venv\Scripts\activate
-    # On macOS/Linux
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Set up your blockchain wallet securely**:
-    
-    **Option A: Interactive Setup (Recommended)**
-    ```bash
-    python setup_env.py
-    ```
-    This will guide you through secure environment setup.
-    
-    **Option B: Manual Setup**
-    Copy the example file and edit it:
-    ```bash
-    cp .env.example .env
-    # Edit .env with your actual private key
-    ```
-    
-    **Security Requirements:**
-    - `.env` file is already in `.gitignore` - NEVER commit it
-    - Your private key is used for blockchain transactions
-    - Purechain network has zero gas fees
-    - Keep your private key secure and never share it
-
-## A Full Workflow Example
-
-Here is how you can use PureProt to perform a complete, end-to-end virtual screening:
-
-### Step 1: Fetch Data for a Target
-
-First, download and prepare training data for a specific biological target from ChEMBL. We'll use BRAF (CHEMBL4822) as an example.
+### End-to-end screening workflow
 
 ```bash
-python PureProt.py fetch-data "CHEMBL4822" --output "braf_data.csv"
-```
+# 1. Fetch ChEMBL bioactivity data for a target
+python PureProt.py fetch-data "CHEMBL243" --output "hiv1pr_data.csv"
 
-This command creates `braf_data.csv`, a file containing molecules and their known pIC50 values for the BRAF target.
+# 2. Train a consensus AI model
+python PureProt.py train-model "hiv1pr_data.csv" --output "hiv1pr_model.joblib"
 
-### Step 2: Train a Custom AI Model
+# 3. Screen a molecule (result is blockchain-audited)
+python PureProt.py screen "test-mol-01" \
+  --smiles "CC(C)(C)NC(=O)C1CC2CCCCC2CN1CC(O)C(CC1=CC=CC=C1)NC(=O)C(CC(N)=O)NC(=O)C1=CC2=CC=CC=C2N1" \
+  --model "hiv1pr_model.joblib"
 
-Next, train a new AI model on the data you just downloaded.
+# 4. Verify the result against the blockchain
+python PureProt.py verify "<job_id>"
 
-```bash
-python PureProt.py train-model "braf_data.csv" --output "braf_model.joblib"
-```
-
-This creates `braf_model.joblib`, a trained model file ready for screening.
-
-### Step 3: Screen a Molecule
-
-Now, use your custom-trained model to screen a new molecule. The result will be automatically recorded on the blockchain.
-
-```bash
-python PureProt.py screen "MyBrafTest-01" --smiles "CNC(=O)c1cc(c(cn1)Oc1ccc(cc1)F)NC(=O)C(C)(C)C" --model "braf_model.joblib"
-```
-
-Take note of the `job_id` returned in the output.
-
-### Step 4: Verify the Result
-
-Finally, use the `job_id` to verify that the result stored locally matches the immutable record on the blockchain.
-
-```bash
-python PureProt.py verify "<your_job_id_from_step_3>"
-```
-
-A successful verification will return `"verified": true`.
-
-### Step 5: View Job History
-
-You can view a summary of all your past screening jobs at any time:
-
-```bash
+# 5. View screening history
 python PureProt.py history
 ```
 
-## Molecular Docking Workflow
-
-PureProtX provides comprehensive molecular docking capabilities with blockchain audit trails:
-
-### Step 1: Prepare Protein Structure
-
-Convert your protein PDB file to PDBQT format for docking:
+### Molecular docking
 
 ```bash
-python PureProt.py prep-protein "1hpv.pdb" --output "1hpv_prepared.pdbqt"
-```
+# Prepare protein
+python PureProt.py prep-protein "structures/1hpv.pdb" --output "1hpv.pdbqt"
 
-### Step 2: Find Binding Site
+# Find binding site
+python PureProt.py find-binding-site "1hpv.pdbqt"
 
-Automatically detect the binding site coordinates:
-
-```bash
-python PureProt.py find-binding-site "1hpv_prepared.pdbqt"
-```
-
-This will output the center coordinates and suggested box size for docking.
-
-### Step 3: Single Molecule Docking
-
-Dock a single molecule with comprehensive parameter tracking:
-
-```bash
+# Dock a single molecule
 python PureProt.py dock "aspirin" \
   --smiles "CC(=O)OC1=CC=CC=C1C(=O)O" \
-  --receptor "1hpv_prepared.pdbqt" \
+  --receptor "1hpv.pdbqt" \
   --center 10.0 15.0 20.0 \
   --size 20.0 20.0 20.0 \
-  --exhaustiveness 8 \
-  --output "aspirin_docking.csv"
-```
+  --exhaustiveness 4
 
-### Step 4: Batch Docking
-
-Dock multiple molecules from a CSV file:
-
-```bash
+# Batch docking from CSV
 python PureProt.py dock-batch "molecules.csv" \
-  --receptor "1hpv_prepared.pdbqt" \
+  --receptor "1hpv.pdbqt" \
   --center 10.0 15.0 20.0 \
-  --size 20.0 20.0 20.0 \
-  --exhaustiveness 8 \
-  --output "batch_docking_scores.csv" \
-  --limit 100
-```
+  --size 20.0 20.0 20.0
 
-**Input CSV format:**
-```csv
-molecule_id,smiles
-aspirin,CC(=O)OC1=CC=CC=C1C(=O)O
-ibuprofen,CC(C)CC1=CC=C(C=C1)C(C)C(=O)O
-paracetamol,CC(=O)NC1=CC=C(C=C1)O
-```
-
-### Step 5: Hybrid AI+Docking Screening
-
-Combine consensus AI predictions with molecular docking:
-
-```bash
+# Hybrid AI + docking screening
 python PureProt.py hybrid-screen "molecules.csv" \
-  --model "braf_consensus_model.joblib" \
-  --protein "1hpv_prepared.pdbqt" \
+  --model "hiv1pr_model.joblib" \
+  --protein "1hpv.pdbqt" \
   --center "10.0,15.0,20.0" \
   --size "20.0,20.0,20.0"
 ```
 
-### Blockchain Audit Features
+### Blockchain operations
 
-All docking operations include comprehensive blockchain auditing:
+```bash
+# Test PureChain connection
+python PureProt.py connect
 
-- **Receptor File Hash**: SHA-256 of the PDBQT structure
-- **Parameter Tracking**: Center coordinates, box size, exhaustiveness
-- **Result Verification**: Immutable docking scores and poses
-- **Deterministic JSON**: All results appended to `pureprot_deterministic_results.json`
-- **Master Hash**: Complete audit trail for reproducibility
+# View system info
+python PureProt.py info
+```
 
-## CLI Command Reference
+## Blockchain Provenance
 
-### Core Commands
--   `info`: Displays project information and command usage.
--   `connect`: Tests the connection to the Purechain blockchain.
--   `fetch-data <target_id>`: Fetches and prepares data for a ChEMBL target.
--   `train-model <dataset_path>`: Trains a Consensus AI model (SVR+RF+GB ensemble).
+All screening results are hashed and committed to **PureChain** (Chain ID 900520900520), a zero-fee Proof-of-Authority network. The audit trail includes:
 
-### Screening Commands
--   `screen <molecule_id>`: Screens a single molecule with Consensus AI.
--   `batch <csv_path>`: Screens a batch of molecules with comprehensive audit.
+- **Merkle tree**: 4 pipeline stage hashes (fetch, train, dock, score) combined into a single root
+- **Tamper detection**: any post-hoc modification produces a different hash, detectable on-chain
+- **Selective verification**: verify any single stage without re-running the full pipeline
 
-### Docking Commands
--   `prep-protein <pdb_path>`: Prepares protein structure for docking (PDB → PDBQT).
--   `find-binding-site <protein_path>`: Auto-detects binding site coordinates.
--   `dock <molecule_id>`: Docks single molecule with blockchain audit.
--   `dock-batch <csv_path>`: Docks multiple molecules from CSV with audit.
--   `hybrid-screen <csv_path>`: Hybrid AI+docking screening with consensus scoring.
+| Property | PureChain |
+|----------|-----------|
+| Consensus | Proof of Authority |
+| Gas fees | Zero |
+| Chain ID | 900520900520 |
+| RPC endpoint | `https://purechainnode.com:8547` |
+| Currency | PCC |
 
-### Verification Commands
--   `verify <job_id>`: Verifies a screening result from the blockchain.
--   `history`: Shows the history of all screening jobs.
+## Reproducibility
 
-For more details on any command, run `python PureProt.py [command] --help`.
-- Performance optimizations for batch screening
+| Component | Version |
+|-----------|---------|
+| Python | 3.12.10 |
+| scikit-learn | 1.8.0 |
+| RDKit | 2025.09.4 |
+| Web3.py | 7.14.1 |
+| AutoDock Vina | 1.2.5 (Windows) / 1.2.7 (Docker) |
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
+All random seeds fixed at `random_state=42`. Determinism validated: 9/9 components PASS, 100% hash reproducibility across 40 re-executions.
 
 ## License
 
@@ -274,5 +287,6 @@ MIT License
 
 ## Acknowledgements
 
-- This project was developed for APCC conference submission
-- Thanks to Purechain for providing blockchain infrastructure
+- PureChain for providing zero-fee blockchain infrastructure
+- ChEMBL for open bioactivity data
+- DUD-E for external validation benchmarks
