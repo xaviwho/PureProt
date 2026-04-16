@@ -1,0 +1,11 @@
+job_id,latency_ms,pipeline_ms,blockchain_committed,block_number
+bench_0,7360.5,7357.1,True,1012518
+bench_1,9752.6,9748.2,True,1012521
+bench_3,11621.5,11615.7,True,1012523
+bench_2,13651.8,13646.9,True,1012525
+bench_4,15618.2,8257.2,True,1012527
+bench_5,17624.9,7871.7,True,1012529
+bench_6,19690.6,8068.9,True,1012531
+bench_7,20581.9,6930.3,True,1012532
+bench_8,22633.9,7015.4,True,1012534
+bench_9,24612.1,6986.4,True,1012536

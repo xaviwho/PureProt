@@ -1,0 +1,56 @@
+##
+## PureProtX IoT Ingestion Stack
+##
+## Provides an MQTT broker (Mosquitto) and a PureProtX MQTT bridge
+## service for IoT device integration.
+##
+## Usage:
+##   docker-compose -f docker/docker-compose.iot.yml up
+##
+
+version: "3.9"
+
+services:
+  # ------------------------------------------------------------------
+  # Eclipse Mosquitto MQTT Broker
+  # ------------------------------------------------------------------
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: pureprot-mosquitto
+    ports:
+      - "1883:1883"     # MQTT
+      - "9001:9001"     # WebSocket (optional)
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - poa_net
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -t '$$SYS/#' -C 1 -i healthcheck -W 3 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # PureProtX MQTT Bridge
+  # ------------------------------------------------------------------
+  pureprot-mqtt-bridge:
+    image: pureprot:latest
+    container_name: pureprot-mqtt-bridge
+    entrypoint: ["python", "-m", "iot.mqtt_bridge", "--mode", "bridge", "--broker-host", "mosquitto"]
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - MQTT_BROKER_PORT=1883
+      - GANACHE_RPC_URL=http://validator-1:8545
+      - PYTHONUNBUFFERED=1
+    networks:
+      - poa_net
+    restart: unless-stopped
+
+networks:
+  poa_net:
+    external: true
+    name: poa_net

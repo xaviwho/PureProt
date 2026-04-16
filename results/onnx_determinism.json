@@ -1,0 +1,128 @@
+{
+  "determinism": {
+    "clf_gb_clf": {
+      "model": "clf_gb_clf",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 0.441
+    },
+    "clf_rf_clf": {
+      "model": "clf_rf_clf",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 0.949
+    },
+    "clf_svc": {
+      "model": "clf_svc",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 738.36
+    },
+    "reg_gradient_boosting": {
+      "model": "reg_gradient_boosting",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 0.23
+    },
+    "reg_random_forest": {
+      "model": "reg_random_forest",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 1.325
+    },
+    "reg_svr": {
+      "model": "reg_svr",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 1200.22
+    },
+    "scaler": {
+      "model": "scaler",
+      "n_runs": 40,
+      "n_samples": 200,
+      "bitwise_identical": true,
+      "unique_output_hashes": 1,
+      "inference_latency_ms": 1.094
+    }
+  },
+  "concordance": {
+    "clf_gb_clf": {
+      "model": "clf_gb_clf",
+      "concordance": true,
+      "label_agreement": 200,
+      "label_total": 200,
+      "label_accuracy": 1.0,
+      "n_samples": 200,
+      "note": "Classifier: compared hard labels (calibration not preserved in ONNX)"
+    },
+    "clf_rf_clf": {
+      "model": "clf_rf_clf",
+      "concordance": true,
+      "label_agreement": 200,
+      "label_total": 200,
+      "label_accuracy": 1.0,
+      "n_samples": 200,
+      "note": "Classifier: compared hard labels (calibration not preserved in ONNX)"
+    },
+    "clf_svc": {
+      "model": "clf_svc",
+      "concordance": true,
+      "label_agreement": 200,
+      "label_total": 200,
+      "label_accuracy": 1.0,
+      "n_samples": 200,
+      "note": "Classifier: compared hard labels (calibration not preserved in ONNX)"
+    },
+    "reg_gradient_boosting": {
+      "model": "reg_gradient_boosting",
+      "concordance": true,
+      "max_abs_diff": 8.123532095893893e-07,
+      "mean_abs_diff": 2.794581522724826e-07,
+      "tolerance": 0.0001,
+      "n_samples": 200
+    },
+    "reg_random_forest": {
+      "model": "reg_random_forest",
+      "concordance": true,
+      "max_abs_diff": 1.9204263850269854e-06,
+      "mean_abs_diff": 6.431930223405046e-07,
+      "tolerance": 0.0001,
+      "n_samples": 200
+    },
+    "reg_svr": {
+      "model": "reg_svr",
+      "concordance": true,
+      "max_abs_diff": 0.0002124833595109621,
+      "mean_abs_diff": 5.5856038516686194e-05,
+      "tolerance": 0.0005,
+      "n_samples": 200
+    },
+    "scaler": {
+      "model": "scaler",
+      "concordance": true,
+      "max_abs_diff": 1.52587890625e-05,
+      "mean_abs_diff": 4.0316606554130556e-07,
+      "tolerance": 0.0001,
+      "n_samples": 200
+    }
+  },
+  "summary": {
+    "n_models": 7,
+    "all_deterministic": true,
+    "all_concordant": true,
+    "n_determinism_runs": 40,
+    "n_test_samples": 200
+  }
+}

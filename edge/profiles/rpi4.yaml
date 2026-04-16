@@ -1,0 +1,6 @@
+name: rpi4
+description: "Raspberry Pi 4 Model B (4GB)"
+cpu_quota: 400000     # Docker cpu_quota units (400000 = 4 cores)
+cpu_period: 100000
+mem_limit: "4g"
+reference_hardware: "Raspberry Pi 4 Model B"

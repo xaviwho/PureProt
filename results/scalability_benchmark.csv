@@ -1,0 +1,4 @@
+N,strategy_a_total_s,strategy_b_total_s,strategy_a_per_record_ms,strategy_b_per_record_ms,speedup_factor,crossover
+10,18.5199,0.9927,1851.9881,99.2717,18.66,True
+50,94.0737,1.9413,1881.473,38.827,48.46,False
+100,187.9944,1.9663,1879.9435,19.6628,95.61,False

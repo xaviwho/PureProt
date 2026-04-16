@@ -1,0 +1,208 @@
+{
+  "V_B_edge": {
+    "table": [
+      {
+        "Metric": "Latency @ N=1000 (s)",
+        "server": "10.3",
+        "rpi4": "10.2",
+        "jetson_nano": "11.1",
+        "constrained": "9.60"
+      },
+      {
+        "Metric": "Peak memory (MB)",
+        "server": "337.6",
+        "rpi4": "337.9",
+        "jetson_nano": "337.2",
+        "constrained": "336.9"
+      },
+      {
+        "Metric": "Throughput (cpm)",
+        "server": "6,595.7",
+        "rpi4": "6,620.9",
+        "jetson_nano": "6,072.0",
+        "constrained": "7,053.0"
+      },
+      {
+        "Metric": "Blockchain commit (ms)",
+        "server": "1,820.0",
+        "rpi4": "2,298.3",
+        "jetson_nano": "2,744.0",
+        "constrained": "1,601.8"
+      },
+      {
+        "Metric": "Pipeline success rate (%)",
+        "server": "100",
+        "rpi4": "100",
+        "jetson_nano": "100",
+        "constrained": "100"
+      }
+    ],
+    "figure": "paper_tables/fig_vb_edge_throughput.png",
+    "simulated": false
+  },
+  "V_C_validators": {
+    "latency_table": [
+      {
+        "Measurement": "Baseline (20 txs)",
+        "Median (ms)": "1970.3",
+        "P95 (ms)": "2315.0",
+        "Min (ms)": "794.2",
+        "Max (ms)": "2843.2"
+      },
+      {
+        "Measurement": "Sustained (50 txs)",
+        "Median (ms)": "1973.6",
+        "P95 (ms)": "2233.2",
+        "Min (ms)": "813.3",
+        "Max (ms)": "2355.9"
+      }
+    ],
+    "integrity_table": [
+      {
+        "Quantity": "Hashes committed & verified",
+        "Value": "20/20 (100%)"
+      },
+      {
+        "Quantity": "Long-term re-verify (first tx)",
+        "Value": "PASS"
+      },
+      {
+        "Quantity": "Blocks elapsed during test",
+        "Value": "134"
+      },
+      {
+        "Quantity": "Block range",
+        "Value": "1011678 -> 1011812"
+      }
+    ],
+    "simulated": false
+  },
+  "V_D_mqtt": {
+    "breakdown": [
+      {
+        "Stage": "Per-message pipeline (inference + blockchain)",
+        "Median (ms)": "2009",
+        "P95 (ms)": "7121"
+      },
+      {
+        "Stage": "End-to-end including queue wait",
+        "Median (ms)": "19706",
+        "P95 (ms)": "27747"
+      }
+    ],
+    "message_rate_per_s": 0.05,
+    "blockchain_commit_pct": 100.0,
+    "n_messages": 10
+  },
+  "V_E_scalability": {
+    "table": [
+      {
+        "N": 10,
+        "Strategy A (ms/record)": 1720.09,
+        "Strategy B (ms/record)": 199.276,
+        "Speedup (x)": 8.6
+      },
+      {
+        "N": 100,
+        "Strategy A (ms/record)": 1990.23,
+        "Strategy B (ms/record)": 21.19,
+        "Speedup (x)": 93.9
+      }
+    ],
+    "crossover_n": 10,
+    "figure": "scalability_figure.png"
+  },
+  "V_F_onnx": {
+    "determinism": [
+      {
+        "Model": "clf_gb_clf",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "0.5"
+      },
+      {
+        "Model": "clf_rf_clf",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "1.0"
+      },
+      {
+        "Model": "clf_svc",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "742.0"
+      },
+      {
+        "Model": "reg_gradient_boosting",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "0.3"
+      },
+      {
+        "Model": "reg_random_forest",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "1.4"
+      },
+      {
+        "Model": "reg_svr",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "1199.0"
+      },
+      {
+        "Model": "scaler",
+        "Runs": 40,
+        "Unique output hashes": 1,
+        "Bitwise identical": "YES",
+        "Inference latency (ms)": "1.9"
+      }
+    ],
+    "concordance": [
+      {
+        "Model": "clf_gb_clf",
+        "Concordance metric": "100.0% label agreement",
+        "Within tolerance": "YES"
+      },
+      {
+        "Model": "clf_rf_clf",
+        "Concordance metric": "100.0% label agreement",
+        "Within tolerance": "YES"
+      },
+      {
+        "Model": "clf_svc",
+        "Concordance metric": "100.0% label agreement",
+        "Within tolerance": "YES"
+      },
+      {
+        "Model": "reg_gradient_boosting",
+        "Concordance metric": "max_diff = 8.12e-07",
+        "Within tolerance": "YES"
+      },
+      {
+        "Model": "reg_random_forest",
+        "Concordance metric": "max_diff = 1.92e-06",
+        "Within tolerance": "YES"
+      },
+      {
+        "Model": "reg_svr",
+        "Concordance metric": "max_diff = 2.12e-04",
+        "Within tolerance": "NO"
+      },
+      {
+        "Model": "scaler",
+        "Concordance metric": "max_diff = 1.53e-05",
+        "Within tolerance": "YES"
+      }
+    ],
+    "n_models": 7,
+    "n_deterministic": 7,
+    "n_concordant": 6
+  }
+}

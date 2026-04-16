@@ -1,0 +1,6 @@
+name: server
+description: "Server baseline (no resource caps)"
+cpu_quota: 0          # 0 = unlimited
+cpu_period: 100000
+mem_limit: "0"        # 0 = unlimited
+reference_hardware: "Cloud/on-premise server (no constraints)"

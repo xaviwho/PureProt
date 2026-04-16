@@ -1232,6 +1232,116 @@ def generate_summary_table(results: Dict[str, Any]) -> str:
 
 
 # ============================================================
+# IoT Benchmark Suite (Modules 1-5)
+# ============================================================
+
+def run_iot_benchmarks() -> Dict[str, Any]:
+    """
+    Runs all five new IoT modules in sequence:
+    1. Edge profiling (all 4 tiers, 4 batch sizes)
+    2. Multi-node validator failure/recovery test
+    3. MQTT throughput benchmark
+    4. ONNX export + determinism verification
+    5. Blockchain scalability benchmark
+
+    Saves a combined results/iot_benchmark_summary.json
+    with all key metrics for paper tables.
+    """
+    print("\n" + "=" * 70)
+    print("IoT BENCHMARK SUITE")
+    print("=" * 70)
+
+    iot_results = {}
+    results_dir = os.path.join(PROJECT_ROOT, 'results')
+    os.makedirs(results_dir, exist_ok=True)
+
+    # --- 1. Edge profiling ---
+    print("\n--- [1/5] Edge Node Profiling ---")
+    try:
+        from edge.edge_profile import run_full_edge_benchmark
+        edge_df = run_full_edge_benchmark(targets=["CHEMBL243"])
+        iot_results['edge_profiling'] = {
+            'status': 'SUCCESS',
+            'n_profiles': 4,
+            'n_results': len(edge_df),
+            'csv_path': 'results/edge_benchmark.csv',
+        }
+    except Exception as e:
+        traceback.print_exc()
+        iot_results['edge_profiling'] = {'status': 'ERROR', 'error': str(e)}
+
+    # --- 2. Multi-node validator failure/recovery ---
+    print("\n--- [2/5] Validator Failure/Recovery Test ---")
+    try:
+        from blockchain.failure_test import test_gap_condition_recovery
+        failure_results = test_gap_condition_recovery()
+        iot_results['validator_recovery'] = {
+            'status': 'SUCCESS',
+            **failure_results,
+        }
+    except Exception as e:
+        traceback.print_exc()
+        iot_results['validator_recovery'] = {'status': 'ERROR', 'error': str(e)}
+
+    # --- 3. MQTT throughput benchmark ---
+    print("\n--- [3/5] MQTT Throughput Benchmark ---")
+    try:
+        from iot.mqtt_bridge import benchmark_mqtt_throughput
+        mqtt_results = benchmark_mqtt_throughput(n_messages=50, compounds_per_message=20)
+        iot_results['mqtt_throughput'] = {
+            'status': 'SUCCESS',
+            **mqtt_results,
+        }
+    except Exception as e:
+        traceback.print_exc()
+        iot_results['mqtt_throughput'] = {'status': 'ERROR', 'error': str(e)}
+
+    # --- 4. ONNX export + determinism verification ---
+    print("\n--- [4/5] ONNX Export & Determinism Verification ---")
+    try:
+        from export.onnx_export import export_all_models
+        from export.verify_onnx import run_full_verification
+        manifest = export_all_models()
+        verification = run_full_verification()
+        iot_results['onnx_determinism'] = {
+            'status': 'SUCCESS',
+            'n_models_exported': len(manifest),
+            'all_deterministic': verification['summary']['all_deterministic'],
+            'all_concordant': verification['summary']['all_concordant'],
+        }
+    except Exception as e:
+        traceback.print_exc()
+        iot_results['onnx_determinism'] = {'status': 'ERROR', 'error': str(e)}
+
+    # --- 5. Blockchain scalability benchmark ---
+    print("\n--- [5/5] Blockchain Scalability Benchmark ---")
+    try:
+        from experiments.scalability_benchmark import benchmark_anchoring_scalability
+        scalability_df = benchmark_anchoring_scalability(
+            batch_sizes=[10, 50, 100, 500, 1000, 5000, 10000],
+        )
+        crossover_rows = scalability_df[scalability_df['crossover']]
+        crossover_n = int(crossover_rows.iloc[0]['N']) if not crossover_rows.empty else None
+        iot_results['blockchain_scalability'] = {
+            'status': 'SUCCESS',
+            'n_batch_sizes': len(scalability_df),
+            'crossover_n': crossover_n,
+            'csv_path': 'results/scalability_benchmark.csv',
+        }
+    except Exception as e:
+        traceback.print_exc()
+        iot_results['blockchain_scalability'] = {'status': 'ERROR', 'error': str(e)}
+
+    # --- Save combined summary ---
+    summary_path = os.path.join(results_dir, 'iot_benchmark_summary.json')
+    with open(summary_path, 'w') as f:
+        json.dump(_make_json_safe(iot_results), f, indent=2, default=str)
+    print(f"\n  IoT benchmark summary saved to: {summary_path}")
+
+    return iot_results
+
+
+# ============================================================
 # Main
 # ============================================================
 

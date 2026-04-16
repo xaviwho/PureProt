@@ -1,0 +1,6 @@
+name: constrained
+description: "Minimal sensor gateway (1 core, 512MB)"
+cpu_quota: 100000     # Docker cpu_quota units (100000 = 1 core)
+cpu_period: 100000
+mem_limit: "512m"
+reference_hardware: "Constrained IoT sensor gateway"

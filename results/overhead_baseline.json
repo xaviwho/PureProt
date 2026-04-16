@@ -1,0 +1,24 @@
+{
+  "CHEMBL243": {
+    "target": "CHEMBL243",
+    "n_compounds": 1000,
+    "n_repeats": 5,
+    "pipeline_only_median_s": 3.3084,
+    "pipeline_only_p95_s": 3.3666,
+    "pipeline_with_blockchain_median_s": 4.668,
+    "pipeline_with_blockchain_p95_s": 5.0135,
+    "blockchain_overhead_s": 1.3596,
+    "blockchain_overhead_pct": 41.1
+  },
+  "CHEMBL240": {
+    "target": "CHEMBL240",
+    "n_compounds": 1000,
+    "n_repeats": 5,
+    "pipeline_only_median_s": 14.3361,
+    "pipeline_only_p95_s": 15.0604,
+    "pipeline_with_blockchain_median_s": 15.0339,
+    "pipeline_with_blockchain_p95_s": 16.2762,
+    "blockchain_overhead_s": 0.6979,
+    "blockchain_overhead_pct": 4.9
+  }
+}

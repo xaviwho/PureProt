@@ -21,3 +21,8 @@ dependencies:
     - python-dotenv==1.2.1
     - meeko==0.7.1
     - gemmi==0.7.4
+    - paho-mqtt>=2.0.0
+    - skl2onnx>=1.17.0
+    - onnxruntime>=1.18.0
+    - docker>=7.0.0
+    - pyyaml>=6.0

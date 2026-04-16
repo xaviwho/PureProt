@@ -1,0 +1,54 @@
+{
+  "chain_id": 900520900520,
+  "rpc_url": "https://purechainnode.com",
+  "wallet": "0xdE8a93d3C9149Fa2aeECE2C0CB80Ad1Daeb2f895",
+  "validators": {
+    "count": 4,
+    "addresses": [
+      "0x03df376cd39dd1706a903126dbc382846db16929",
+      "0x5b7a1a9b6b4500c3f1ff359dc217f374aa59ddb1",
+      "0x82293aec2dd5816a1d88b9a15b645e018b5b7e1e",
+      "0xc6a79c2d19944574372c64b6bf28551832b2b1f9"
+    ],
+    "connected_peers": 5
+  },
+  "baseline_latencies": {
+    "n": 20,
+    "median_ms": 1903.6,
+    "p95_ms": 2755.6,
+    "min_ms": 1096.3,
+    "max_ms": 3111.2,
+    "mean_ms": 1902.7
+  },
+  "hash_integrity": {
+    "committed": 20,
+    "verified": 20,
+    "integrity_pct": 100.0
+  },
+  "sustained_latencies": {
+    "n": 50,
+    "median_ms": 1988.1,
+    "p95_ms": 2224.2,
+    "min_ms": 864.5,
+    "max_ms": 2647.0,
+    "mean_ms": 1971.7
+  },
+  "signer_rotation": {
+    "blocks_analysed": 3,
+    "unique_signers": 3,
+    "signer_addresses": [
+      "0x03df376cd39dd1706a903126dbc382846db16929",
+      "0x82293aec2dd5816a1d88b9a15b645e018b5b7e1e",
+      "0xc6a79c2d19944574372c64b6bf28551832b2b1f9"
+    ]
+  },
+  "long_term_verify": {
+    "first_tx": "b46e3df0c5f652784a876b03481b8ff424c2f654f0a682d7cd0098053c13ccf4",
+    "verified_ok": true,
+    "blocks_elapsed": 136
+  },
+  "block_range": {
+    "first": 1012544,
+    "last": 1012680
+  }
+}

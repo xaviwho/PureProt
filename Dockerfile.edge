@@ -1,0 +1,45 @@
+# PureProtX Edge Profiling Image
+#
+# A lean image purpose-built for edge_profile.py benchmarking.  Contains
+# only what is needed to load a joblib model, run consensus inference,
+# and commit a digest to PureChain.  No RDKit, no Vina -- those are not
+# exercised by the synthetic-feature edge workload.
+#
+# Build:
+#   docker build -t pureprot-edge:latest -f Dockerfile.edge .
+#
+# Test:
+#   docker run --rm pureprot-edge:latest --target CHEMBL243 --n 100
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install packages: core ML + RDKit for real molecular featurization
+RUN pip install --no-cache-dir \
+    numpy==2.4.2 \
+    pandas==3.0.0 \
+    scikit-learn==1.8.0 \
+    joblib==1.5.3 \
+    web3==7.14.1 \
+    python-dotenv==1.2.1 \
+    rdkit==2024.9.6
+
+# Copy minimum project files
+COPY pureprot/ /app/pureprot/
+COPY blockchain/ /app/blockchain/
+COPY edge/ /app/edge/
+COPY local_deployment_info.json /app/
+COPY .env /app/
+
+# Study compound datasets (for real RDKit featurization)
+COPY chembl243_prepared_data.csv /app/
+COPY chembl247_data.csv /app/
+COPY chembl279_prepared_data.csv /app/
+COPY chembl3471_data.csv /app/
+COPY modeling/data/ /app/modeling/data/
+
+# Pre-trained models (large -- copied last so layer cache holds for code edits)
+COPY experiments/paper_results/models/ /app/experiments/paper_results/models/
+
+ENTRYPOINT ["python", "-u", "-m", "edge.edge_workload"]

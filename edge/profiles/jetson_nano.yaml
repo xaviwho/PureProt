@@ -1,0 +1,6 @@
+name: jetson_nano
+description: "NVIDIA Jetson Nano (2GB)"
+cpu_quota: 400000     # Docker cpu_quota units (400000 = 4 cores)
+cpu_period: 100000
+mem_limit: "2g"
+reference_hardware: "NVIDIA Jetson Nano"

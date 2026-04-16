@@ -19,3 +19,12 @@ seaborn==0.13.2
 # Blockchain Interaction
 py-solc-x==1.1.1
 web3==6.19.0
+
+# IoT & Edge (new modules)
+paho-mqtt>=2.0.0
+docker>=7.0.0
+pyyaml>=6.0
+
+# ONNX Cross-Platform Determinism
+skl2onnx>=1.17.0
+onnxruntime>=1.18.0

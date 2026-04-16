@@ -1,0 +1,14 @@
+{
+  "target": "CHEMBL243",
+  "n_compounds": 10,
+  "original_score_0": 6.7739,
+  "tampered_score_0": 6.7749,
+  "modification": "predictions[0]: 6.7739 -> 6.7749",
+  "original_hash": "e4c401767fd9b4eacad16e10a4274e0094553f262914f0323360d17a01f7bfc1",
+  "tampered_hash": "059c0b80ec1ce56b366d9f28d068e1cf23fadf4e1deff1b5a5110f359eb832f1",
+  "hashes_diverge": true,
+  "tx_hash": "160c4a7fc7d59ed3847a907dec948cc2ba892f035d28c5cddbb224012cc476ce",
+  "block_number": 1011971,
+  "onchain_original_verified": true,
+  "onchain_tamper_rejected": true
+}

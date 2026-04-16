@@ -71,6 +71,7 @@ class PurechainConnector:
         self.contract = None
         self.wallet_address = None
         self.tx_lock = threading.Lock()
+        self._local_nonce = None  # managed nonce for thread-safe tx submission
         self.dev_mode = (self.chain_id == 1337) or ('127.0.0.1' in self.rpc_url) or ('localhost' in self.rpc_url)
         self.is_purechain = 'purechainnode.com' in self.rpc_url
         
@@ -79,6 +80,16 @@ class PurechainConnector:
             self.w3 = Web3(Web3.HTTPProvider(self.rpc_url))
             if not self.w3.is_connected():
                 raise ConnectionError(f"Failed to connect to blockchain at {self.rpc_url}")
+
+            # PureChain is PoA -- inject extraData middleware so web3.py can
+            # parse blocks whose extraData exceeds the 32-byte PoW limit.
+            if self.is_purechain or self.chain_id == 900520900520:
+                try:
+                    from web3.middleware import ExtraDataToPOAMiddleware  # web3.py >= 6.11
+                    self.w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
+                except ImportError:
+                    from web3.middleware import geth_poa_middleware  # legacy
+                    self.w3.middleware_onion.inject(geth_poa_middleware, layer=0)
             
             # Handle wallet address based on mode
             if self.dev_mode:
@@ -177,7 +188,14 @@ class PurechainConnector:
         with self.tx_lock:
             try:
 
-                nonce = self.w3.eth.get_transaction_count(self.wallet_address)
+                # Thread-safe nonce management: seed from chain on first call,
+                # then increment locally.  This avoids 'pending' nonce races
+                # when multiple threads submit through the same connector.
+                if self._local_nonce is None:
+                    self._local_nonce = self.w3.eth.get_transaction_count(
+                        self.wallet_address, 'pending')
+                nonce = self._local_nonce
+                self._local_nonce += 1
                 tx_params = {
                     'from': self.wallet_address,
                     'nonce': nonce,
