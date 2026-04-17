@@ -66,7 +66,7 @@ def fig_vb_edge():
         ax.legend(fontsize=8, title="Batch size")
         ax.grid(True, alpha=0.3, axis="y")
 
-    fig.suptitle("Fig. V-B: Edge Deployment Throughput", fontsize=13, y=1.02)
+    fig.suptitle("Edge Deployment Throughput", fontsize=13, y=1.02)
     fig.tight_layout()
     path = os.path.join(OUT, "fig_vb_edge_throughput.png")
     fig.savefig(path, dpi=150, bbox_inches="tight")
@@ -105,7 +105,7 @@ def fig_vc_consensus():
     ax.set_ylabel("Consensus Latency (ms)", fontsize=11)
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=10)
-    ax.set_title(f"Fig. V-C: PureChain PoA2 Consensus Latency ({n_val} validators)",
+    ax.set_title(f"PureChain PoA2 Consensus Latency ({n_val} validators)",
                  fontsize=12)
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3, axis="y")
@@ -147,7 +147,7 @@ def fig_vd_mqtt():
     ax.set_ylabel("Time (seconds)", fontsize=11)
     ax.set_xticks(x)
     ax.set_xticklabels([f"{i}" for i in jobs], fontsize=9)
-    ax.set_title("Fig. V-D: MQTT Per-Message Latency (Sequential vs Async)",
+    ax.set_title("MQTT Per-Message Latency (Sequential vs Async)",
                  fontsize=12)
 
     # Custom legend
@@ -191,7 +191,7 @@ def fig_ve_scalability():
     ax.set_yscale("log")
     ax.set_xlabel("Batch Size (N compounds)", fontsize=12)
     ax.set_ylabel("Per-Record Anchoring Latency (ms)", fontsize=12)
-    ax.set_title("Fig. V-E: Blockchain Scalability — Individual vs Merkle Batch\n"
+    ax.set_title("Blockchain Scalability: Individual vs Merkle Batch\n"
                  "(Real PureChain Mainnet)", fontsize=12)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3, which="both")
@@ -232,7 +232,7 @@ def fig_vf_onnx():
     ax.set_yticks(range(len(models)))
     ax.set_yticklabels(labels, fontsize=10)
     ax.set_xlabel("Inference Latency per Run (ms)", fontsize=11)
-    ax.set_title("Fig. V-F: ONNX Inference Latency (40 runs, all bitwise-identical)",
+    ax.set_title("ONNX Inference Latency (40 runs, all bitwise-identical)",
                  fontsize=12)
     ax.set_xscale("log")
     ax.grid(True, alpha=0.3, axis="x", which="both")
@@ -279,7 +279,7 @@ def fig_vg_tamper():
             f"Tamper rejected: {d['onchain_tamper_rejected']}",
             fontsize=9, transform=ax.transAxes)
 
-    ax.set_title("Fig. V-G: Tamper Detection — SHA-256 Hash Divergence", fontsize=12,
+    ax.set_title("Tamper Detection: SHA-256 Hash Divergence", fontsize=12,
                  pad=10)
     fig.tight_layout()
     path = os.path.join(OUT, "fig_vg_tamper.png")
@@ -318,7 +318,7 @@ def fig_vh_overhead():
     ax.set_ylabel("Median Wall-Clock Time (s)", fontsize=11)
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=10)
-    ax.set_title("Fig. V-H: Blockchain Anchoring Overhead", fontsize=12)
+    ax.set_title("Blockchain Anchoring Overhead", fontsize=12)
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3, axis="y")
 
