@@ -1,0 +1,34 @@
+Unable to find image 'python:3.12' locally
+3.12: Pulling from library/python
+90d1f3b8a822: Pulling fs layer
+65956eab0c1c: Pulling fs layer
+15215efaca49: Pulling fs layer
+2b87fe8d0f10: Pulling fs layer
+9e002cae30c4: Pulling fs layer
+b890c9407285: Pulling fs layer
+b453535073b6: Pulling fs layer
+90d1f3b8a822: Download complete
+15215efaca49: Download complete
+3e75c1b2f545: Download complete
+2b87fe8d0f10: Download complete
+dcc2691db608: Download complete
+b453535073b6: Download complete
+9e002cae30c4: Download complete
+b890c9407285: Download complete
+b890c9407285: Pull complete
+b453535073b6: Pull complete
+9e002cae30c4: Pull complete
+65956eab0c1c: Download complete
+65956eab0c1c: Pull complete
+15215efaca49: Pull complete
+90d1f3b8a822: Pull complete
+2b87fe8d0f10: Pull complete
+Digest: sha256:7ad6d21a25a94b2c00e685e82c2fd298de814353d9ee0e3f7f2cd4fca063df60
+Status: Downloaded newer image for python:3.12
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+deps ok x86_64 ort 1.19.2 rdkit 2025.09.4
+[edge] device=x86-server x86_64 ORT 1.19.2 rdkit 2025.09.4 cpus=12
+  N=  100 valid=  100 feat=   211.4ms infer=  937.1ms total=  1148.4ms thr=   87.1 cps  peakRSS=390.1MB commit=1651.7ms blk=1710397
+  N=  500 valid=  500 feat=  1000.1ms infer= 4650.1ms total=  5650.2ms thr=   88.5 cps  peakRSS=419.8MB commit=1835.4ms blk=1710416
+  N= 1000 valid= 1000 feat=  2162.4ms infer= 9353.5ms total= 11515.9ms thr=   86.8 cps  peakRSS=445.7MB commit=1664.1ms blk=1710453
+[edge] wrote /work/results/edge/edge_x86.json

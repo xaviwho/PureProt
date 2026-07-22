@@ -1,0 +1,18 @@
+{
+  "experiment": "A3 provenance baselines (R2.5)",
+  "python_version": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 165 Stepping 5, GenuineIntel",
+  "machine": "AMD64",
+  "cryptography_version": "49.0.0",
+  "batch_sizes": [
+    10,
+    100,
+    1000,
+    10000
+  ],
+  "repeats_per_measurement": 5,
+  "timing": "best-of-N wall clock, single-thread, time.perf_counter",
+  "storage_medium": "x86 dev box local SSD (not the Jetson SD card)",
+  "note": "Local mechanisms measured on this x86 host. PoA2/PureChain figures are reused, not re-measured; see provenance_comparison.md."
+}

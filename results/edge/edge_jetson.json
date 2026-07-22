@@ -1,0 +1,62 @@
+{
+  "manifest": {
+    "device": "jetson",
+    "storage": "SD",
+    "platform": "Linux-5.15.148-tegra-aarch64-with-glibc2.35",
+    "machine": "aarch64",
+    "processor": "aarch64",
+    "cpu_count": 6,
+    "python": "3.12.10",
+    "onnxruntime": "1.19.2",
+    "numpy": "2.5.1",
+    "rdkit": "2025.09.4",
+    "n_compounds_available": 3444
+  },
+  "results": [
+    {
+      "N": 100,
+      "n_valid": 100,
+      "featurize_ms": 458.1,
+      "infer_ms": 1285.5,
+      "hash_ms": 2.364,
+      "total_ms": 1743.6,
+      "throughput_cps": 57.4,
+      "throughput_cpm": 3441.0,
+      "peak_rss_mb": 386.3,
+      "commit_ms": 1115.0,
+      "tx": "111e80e089af8b298a3897c0e9ab403d17914800c15c253ecd18e0aa3164d2d5",
+      "block": 1708399,
+      "end_to_end_ms": 2858.6
+    },
+    {
+      "N": 500,
+      "n_valid": 500,
+      "featurize_ms": 2289.7,
+      "infer_ms": 6376.4,
+      "hash_ms": 11.826,
+      "total_ms": 8666.1,
+      "throughput_cps": 57.7,
+      "throughput_cpm": 3462.0,
+      "peak_rss_mb": 415.4,
+      "commit_ms": 175.6,
+      "tx": "75d4fb4afcc0b8c2e0a3c68055f269b729df0475de316bf0890c8c390f54ee91",
+      "block": 1708419,
+      "end_to_end_ms": 8841.7
+    },
+    {
+      "N": 1000,
+      "n_valid": 1000,
+      "featurize_ms": 4628.3,
+      "infer_ms": 12749.7,
+      "hash_ms": 28.168,
+      "total_ms": 17378.0,
+      "throughput_cps": 57.5,
+      "throughput_cpm": 3453.0,
+      "peak_rss_mb": 458.9,
+      "commit_ms": 296.4,
+      "tx": "89515cb2de33173a69c0f6c8fac9bbe3db2b3aebcb77713f3617e9c44faf7b66",
+      "block": 1708439,
+      "end_to_end_ms": 17674.4
+    }
+  ]
+}

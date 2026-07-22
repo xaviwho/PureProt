@@ -100,3 +100,9 @@ results/paper_sections/figures/section_4_5_blockchain_performance.svg
 results/study_results/SUMMARY_REPORT.md
 test_blockchain_50_molecules.py
 train_true_consensus_model.py
+
+# geth binary (A4 testnet, not committed)
+tools/geth/geth.exe
+
+# determinism/edge experiment venvs (not committed)
+experiments/.det_venvs/

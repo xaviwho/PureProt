@@ -1,0 +1,72 @@
+{
+  "phases": [
+    {
+      "phase": "baseline_4of4",
+      "duration_s": 20,
+      "start_height": 341,
+      "end_height": 351,
+      "blocks_produced": 10,
+      "block_rate_per_s": 0.5,
+      "live_nodes": 4,
+      "distinct_signers_observed": 4,
+      "signers_observed": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ]
+    },
+    {
+      "phase": "kill1_3of4",
+      "duration_s": 20,
+      "start_height": 352,
+      "end_height": 361,
+      "blocks_produced": 9,
+      "block_rate_per_s": 0.45,
+      "live_nodes": 3,
+      "distinct_signers_observed": 3,
+      "signers_observed": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9"
+      ]
+    },
+    {
+      "phase": "kill2_2of4",
+      "duration_s": 25,
+      "start_height": 364,
+      "end_height": 364,
+      "blocks_produced": 0,
+      "block_rate_per_s": 0.0,
+      "live_nodes": 2,
+      "distinct_signers_observed": 3,
+      "signers_observed": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9"
+      ]
+    },
+    {
+      "phase": "recovered_4of4",
+      "duration_s": 20,
+      "start_height": 369,
+      "end_height": 379,
+      "blocks_produced": 10,
+      "block_rate_per_s": 0.5,
+      "live_nodes": 4,
+      "distinct_signers_observed": 4,
+      "signers_observed": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ]
+    }
+  ],
+  "recovery": {
+    "height_at_restart": 364,
+    "recovery_time_s": 1.04,
+    "recovered": true,
+    "height_after": 365
+  }
+}

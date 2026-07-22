@@ -1,0 +1,39 @@
+[
+  {
+    "ort_version": "1.16.3",
+    "status": "install_failed",
+    "detail": "ERROR: Could not find a version that satisfies the requirement onnxruntime==1.16.3 (from versions: 1.17.0, 1.17.1, 1.17.3, 1.18.0, 1.18.1, 1.19.0, 1.19.2, 1.20.0, 1.20.1, 1.21.0, 1.21.1, 1.22.0, 1.22.1, 1.23.0, 1.23.1, 1.23.2, 1.24.1, 1.24.2, 1.24.3, 1.24.4, 1.25.0, 1.25.1, 1.26.0, 1.27.0) | ERROR: No matching distribution found for onnxruntime==1.16.3",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.16.3.json"
+  },
+  {
+    "ort_version": "1.17.3",
+    "status": "ok",
+    "detail": "",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.17.3.json",
+    "numpy_pinned_lt2": true
+  },
+  {
+    "ort_version": "1.18.0",
+    "status": "ok",
+    "detail": "",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.18.0.json"
+  },
+  {
+    "ort_version": "1.19.2",
+    "status": "ok",
+    "detail": "",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.19.2.json"
+  },
+  {
+    "ort_version": "1.20.1",
+    "status": "ok",
+    "detail": "",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.20.1.json"
+  },
+  {
+    "ort_version": "1.22.0",
+    "status": "ok",
+    "detail": "",
+    "json": "D:\\Downloads\\PureProt\\results\\determinism\\harness_ort1.22.0.json"
+  }
+]

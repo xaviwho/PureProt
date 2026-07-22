@@ -1,0 +1,52 @@
+{
+  "manifest": {
+    "onnxruntime_version": "1.20.1",
+    "numpy_version": "2.5.1",
+    "note": "ONNX vs sklearn(float64) max abs diff on fixed seed-42 input, n=64."
+  },
+  "results": {
+    "reg_svr": {
+      "float32": {
+        "exported": true,
+        "max_abs_diff_vs_sklearn": 0.0001248723218161274,
+        "mean_abs_diff_vs_sklearn": 5.692274559816746e-05
+      },
+      "float64": {
+        "exported": false,
+        "error": "NotImplemented: [ONNXRuntimeError] : 9 : NOT_IMPLEMENTED : Could not find an implementation for SVMRegressor(1) node with name 'SVM'"
+      }
+    },
+    "reg_random_forest": {
+      "float32": {
+        "exported": false,
+        "error": "ValueError: Unable to create node 'TreeEnsembleRegressor' with name='TreeEnsembleRegressor' and attributes={'n_targets': 1,\n 'nodes_falsenodeids': [1636,\n                        747,\n                 "
+      },
+      "float64": {
+        "exported": false,
+        "error": "ValueError: Unable to create node 'TreeEnsembleRegressor' with name='TreeEnsembleRegressor' and attributes={'n_targets': 1,\n 'nodes_falsenodeids': [1636,\n                        747,\n                 "
+      }
+    },
+    "reg_gradient_boosting": {
+      "float32": {
+        "exported": false,
+        "error": "ValueError: Unable to create node 'TreeEnsembleRegressor' with name='TreeEnsembleRegressor' and attributes={'base_values': array([7.389625], dtype=float32),\n 'n_targets': 1,\n 'nodes_falsenodeids': [41"
+      },
+      "float64": {
+        "exported": false,
+        "error": "ValueError: Unable to create node 'TreeEnsembleRegressor' with name='TreeEnsembleRegressor' and attributes={'base_values': array([7.3896253]),\n 'n_targets': 1,\n 'nodes_falsenodeids': [418,\n           "
+      }
+    },
+    "scaler": {
+      "float32": {
+        "exported": true,
+        "max_abs_diff_vs_sklearn": 1.6516124873078297e-05,
+        "mean_abs_diff_vs_sklearn": 5.483016727393766e-07
+      },
+      "float64": {
+        "exported": true,
+        "max_abs_diff_vs_sklearn": 0.0,
+        "mean_abs_diff_vs_sklearn": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,137 @@
+[matrix] base python: C:\Users\Xavie\AppData\Local\Programs\Python\Python312\python.exe (3.12.10)
+
+===== ORT 1.16.3 =====
+[1.16.3] install FAILED: ERROR: Could not find a version that satisfies the requirement onnxruntime==1.16.3 (from versions: 1.17.0, 1.17.1, 1.17.3, 1.18.0, 1.18.1, 1.19.0, 1.19.2, 1.20.0, 1.20.1, 1.21.0, 1.21.1, 1.22.0, 1.22.1, 1.23.0, 1.23.1, 1.23.2, 1.24.1, 1.24.2, 1.24.3, 1.24.4, 1.25.0, 1.25.1, 1.26.0, 1.27.0) | ERROR: No matching distribution found for onnxruntime==1.16.3
+
+===== ORT 1.17.3 =====
+[1.17.3] OK
+[harness] ORT 1.17.3 numpy 1.26.4 AMD64 py3.12.10
+  clf_gb_clf               t=1: OK  hash=d16546211cf9bc50 (0.6 ms)
+  clf_gb_clf               t=2: OK  hash=d16546211cf9bc50 (0.3 ms)
+  clf_gb_clf               t=4: OK  hash=d16546211cf9bc50 (0.2 ms)
+  clf_rf_clf               t=1: OK  hash=ae1fd128caf85aaf (1.2 ms)
+  clf_rf_clf               t=2: OK  hash=ae1fd128caf85aaf (0.7 ms)
+  clf_rf_clf               t=4: OK  hash=ae1fd128caf85aaf (0.4 ms)
+  clf_svc                  t=1: OK  hash=ae1fd128caf85aaf (230.2 ms)
+  clf_svc                  t=2: OK  hash=ae1fd128caf85aaf (231.6 ms)
+  clf_svc                  t=4: OK  hash=ae1fd128caf85aaf (230.5 ms)
+  reg_gradient_boosting    t=1: OK  hash=d1b666d948151014 (0.3 ms)
+  reg_gradient_boosting    t=2: OK  hash=9eed58f74e38e714 (0.2 ms)
+  reg_gradient_boosting    t=4: OK  hash=d4a62df077bccd29 (0.1 ms)
+  reg_random_forest        t=1: OK  hash=55ffe003aa1118fb (2.0 ms)
+  reg_random_forest        t=2: OK  hash=3c79dd777f5ca60a (1.1 ms)
+  reg_random_forest        t=4: OK  hash=b1d3632fe0f9ce9f (0.5 ms)
+  reg_svr                  t=1: OK  hash=b7d5c5be81faf814 (373.0 ms)
+  reg_svr                  t=2: OK  hash=b7d5c5be81faf814 (374.6 ms)
+  reg_svr                  t=4: OK  hash=b7d5c5be81faf814 (374.7 ms)
+  scaler                   t=1: OK  hash=482d3916b942fd78 (1.2 ms)
+  scaler                   t=2: OK  hash=482d3916b942fd78 (0.6 ms)
+  scaler                   t=4: OK  hash=482d3916b942fd78 (0.5 ms)
+[harness] wrote D:\Downloads\PureProt\results\determinism\harness_ort1.17.3.json
+
+===== ORT 1.18.0 =====
+[1.18.0] OK
+[harness] ORT 1.18.0 numpy 1.26.4 AMD64 py3.12.10
+  clf_gb_clf               t=1: OK  hash=d16546211cf9bc50 (0.5 ms)
+  clf_gb_clf               t=2: OK  hash=d16546211cf9bc50 (0.3 ms)
+  clf_gb_clf               t=4: OK  hash=d16546211cf9bc50 (0.2 ms)
+  clf_rf_clf               t=1: OK  hash=ae1fd128caf85aaf (1.4 ms)
+  clf_rf_clf               t=2: OK  hash=ae1fd128caf85aaf (0.7 ms)
+  clf_rf_clf               t=4: OK  hash=ae1fd128caf85aaf (0.4 ms)
+  clf_svc                  t=1: OK  hash=ae1fd128caf85aaf (229.9 ms)
+  clf_svc                  t=2: OK  hash=ae1fd128caf85aaf (230.0 ms)
+  clf_svc                  t=4: OK  hash=ae1fd128caf85aaf (230.1 ms)
+  reg_gradient_boosting    t=1: OK  hash=d1b666d948151014 (0.2 ms)
+  reg_gradient_boosting    t=2: OK  hash=9eed58f74e38e714 (0.2 ms)
+  reg_gradient_boosting    t=4: OK  hash=d4a62df077bccd29 (0.1 ms)
+  reg_random_forest        t=1: OK  hash=55ffe003aa1118fb (1.8 ms)
+  reg_random_forest        t=2: OK  hash=3c79dd777f5ca60a (0.9 ms)
+  reg_random_forest        t=4: OK  hash=b1d3632fe0f9ce9f (0.4 ms)
+  reg_svr                  t=1: OK  hash=b7d5c5be81faf814 (372.2 ms)
+  reg_svr                  t=2: OK  hash=b7d5c5be81faf814 (372.3 ms)
+  reg_svr                  t=4: OK  hash=b7d5c5be81faf814 (372.0 ms)
+  scaler                   t=1: OK  hash=482d3916b942fd78 (1.2 ms)
+  scaler                   t=2: OK  hash=482d3916b942fd78 (0.6 ms)
+  scaler                   t=4: OK  hash=482d3916b942fd78 (0.5 ms)
+[harness] wrote D:\Downloads\PureProt\results\determinism\harness_ort1.18.0.json
+
+===== ORT 1.19.2 =====
+[1.19.2] OK
+[harness] ORT 1.19.2 numpy 2.5.1 AMD64 py3.12.10
+  clf_gb_clf               t=1: OK  hash=d16546211cf9bc50 (0.6 ms)
+  clf_gb_clf               t=2: OK  hash=d16546211cf9bc50 (0.3 ms)
+  clf_gb_clf               t=4: OK  hash=d16546211cf9bc50 (0.2 ms)
+  clf_rf_clf               t=1: OK  hash=ae1fd128caf85aaf (1.1 ms)
+  clf_rf_clf               t=2: OK  hash=ae1fd128caf85aaf (0.6 ms)
+  clf_rf_clf               t=4: OK  hash=ae1fd128caf85aaf (0.3 ms)
+  clf_svc                  t=1: OK  hash=ae1fd128caf85aaf (222.8 ms)
+  clf_svc                  t=2: OK  hash=ae1fd128caf85aaf (222.6 ms)
+  clf_svc                  t=4: OK  hash=ae1fd128caf85aaf (223.2 ms)
+  reg_gradient_boosting    t=1: OK  hash=d1b666d948151014 (0.2 ms)
+  reg_gradient_boosting    t=2: OK  hash=9eed58f74e38e714 (0.2 ms)
+  reg_gradient_boosting    t=4: OK  hash=d4a62df077bccd29 (0.1 ms)
+  reg_random_forest        t=1: OK  hash=55ffe003aa1118fb (1.4 ms)
+  reg_random_forest        t=2: OK  hash=3c79dd777f5ca60a (0.8 ms)
+  reg_random_forest        t=4: OK  hash=b1d3632fe0f9ce9f (0.4 ms)
+  reg_svr                  t=1: OK  hash=b7d5c5be81faf814 (363.1 ms)
+  reg_svr                  t=2: OK  hash=b7d5c5be81faf814 (363.6 ms)
+  reg_svr                  t=4: OK  hash=b7d5c5be81faf814 (364.2 ms)
+  scaler                   t=1: OK  hash=482d3916b942fd78 (1.1 ms)
+  scaler                   t=2: OK  hash=482d3916b942fd78 (0.6 ms)
+  scaler                   t=4: OK  hash=482d3916b942fd78 (0.3 ms)
+[harness] wrote D:\Downloads\PureProt\results\determinism\harness_ort1.19.2.json
+
+===== ORT 1.20.1 =====
+[1.20.1] OK
+[harness] ORT 1.20.1 numpy 2.5.1 AMD64 py3.12.10
+  clf_gb_clf               t=1: OK  hash=d16546211cf9bc50 (0.5 ms)
+  clf_gb_clf               t=2: OK  hash=d16546211cf9bc50 (0.3 ms)
+  clf_gb_clf               t=4: OK  hash=d16546211cf9bc50 (0.2 ms)
+  clf_rf_clf               t=1: OK  hash=ae1fd128caf85aaf (1.1 ms)
+  clf_rf_clf               t=2: OK  hash=ae1fd128caf85aaf (0.6 ms)
+  clf_rf_clf               t=4: OK  hash=ae1fd128caf85aaf (0.3 ms)
+  clf_svc                  t=1: OK  hash=ae1fd128caf85aaf (222.6 ms)
+  clf_svc                  t=2: OK  hash=ae1fd128caf85aaf (235.2 ms)
+  clf_svc                  t=4: OK  hash=ae1fd128caf85aaf (223.4 ms)
+  reg_gradient_boosting    t=1: OK  hash=d1b666d948151014 (0.2 ms)
+  reg_gradient_boosting    t=2: OK  hash=9eed58f74e38e714 (0.2 ms)
+  reg_gradient_boosting    t=4: OK  hash=d4a62df077bccd29 (0.1 ms)
+  reg_random_forest        t=1: OK  hash=55ffe003aa1118fb (1.4 ms)
+  reg_random_forest        t=2: OK  hash=3c79dd777f5ca60a (0.8 ms)
+  reg_random_forest        t=4: OK  hash=b1d3632fe0f9ce9f (0.4 ms)
+  reg_svr                  t=1: OK  hash=b7d5c5be81faf814 (361.4 ms)
+  reg_svr                  t=2: OK  hash=b7d5c5be81faf814 (363.3 ms)
+  reg_svr                  t=4: OK  hash=b7d5c5be81faf814 (363.2 ms)
+  scaler                   t=1: OK  hash=482d3916b942fd78 (1.1 ms)
+  scaler                   t=2: OK  hash=482d3916b942fd78 (0.6 ms)
+  scaler                   t=4: OK  hash=482d3916b942fd78 (0.4 ms)
+[harness] wrote D:\Downloads\PureProt\results\determinism\harness_ort1.20.1.json
+
+===== ORT 1.22.0 =====
+[1.22.0] OK
+[harness] ORT 1.22.0 numpy 2.5.1 AMD64 py3.12.10
+  clf_gb_clf               t=1: OK  hash=d16546211cf9bc50 (0.5 ms)
+  clf_gb_clf               t=2: OK  hash=d16546211cf9bc50 (0.3 ms)
+  clf_gb_clf               t=4: OK  hash=d16546211cf9bc50 (0.2 ms)
+  clf_rf_clf               t=1: OK  hash=ae1fd128caf85aaf (1.1 ms)
+  clf_rf_clf               t=2: OK  hash=ae1fd128caf85aaf (0.6 ms)
+  clf_rf_clf               t=4: OK  hash=ae1fd128caf85aaf (0.3 ms)
+  clf_svc                  t=1: OK  hash=ae1fd128caf85aaf (218.9 ms)
+  clf_svc                  t=2: OK  hash=ae1fd128caf85aaf (216.2 ms)
+  clf_svc                  t=4: OK  hash=ae1fd128caf85aaf (215.5 ms)
+  reg_gradient_boosting    t=1: OK  hash=d1b666d948151014 (0.2 ms)
+  reg_gradient_boosting    t=2: OK  hash=9eed58f74e38e714 (0.2 ms)
+  reg_gradient_boosting    t=4: OK  hash=d4a62df077bccd29 (0.1 ms)
+  reg_random_forest        t=1: OK  hash=55ffe003aa1118fb (1.4 ms)
+  reg_random_forest        t=2: OK  hash=3c79dd777f5ca60a (0.7 ms)
+  reg_random_forest        t=4: OK  hash=b1d3632fe0f9ce9f (0.4 ms)
+  reg_svr                  t=1: OK  hash=b7d5c5be81faf814 (357.4 ms)
+  reg_svr                  t=2: OK  hash=b7d5c5be81faf814 (357.0 ms)
+  reg_svr                  t=4: OK  hash=b7d5c5be81faf814 (358.8 ms)
+  scaler                   t=1: OK  hash=482d3916b942fd78 (1.1 ms)
+  scaler                   t=2: OK  hash=482d3916b942fd78 (0.6 ms)
+  scaler                   t=4: OK  hash=482d3916b942fd78 (0.4 ms)
+[harness] wrote D:\Downloads\PureProt\results\determinism\harness_ort1.22.0.json
+[aggregate] wrote determinism_matrix.md + .csv (5 ORT versions)
+
+[matrix] done. successful ORT versions: ['1.17.3', '1.18.0', '1.19.2', '1.20.1', '1.22.0']

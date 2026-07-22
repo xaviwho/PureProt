@@ -73,7 +73,9 @@ class ConsensusAIModel:
             Descriptors.NumRotatableBonds(mol),
             Descriptors.NumAromaticRings(mol),
             Descriptors.NumSaturatedRings(mol),
-            Descriptors.FractionCsp3(mol),
+            # rdkit 2023+ renamed FractionCsp3 -> FractionCSP3; support both so
+            # featurization works under the pinned rdkit 2025.9.4 and older builds.
+            (getattr(Descriptors, "FractionCSP3", None) or Descriptors.FractionCsp3)(mol),
             Descriptors.BalabanJ(mol)
         ])
         

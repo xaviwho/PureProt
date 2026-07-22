@@ -1,0 +1,368 @@
+{
+  "manifest": {
+    "experiment": "A1 determinism harness",
+    "onnxruntime_version": "1.18.0",
+    "numpy_version": "1.26.4",
+    "python_version": "3.12.10",
+    "platform": "Linux-6.18.34+rpt-rpi-v8-aarch64-with-glibc2.41",
+    "machine": "aarch64",
+    "system": "Linux",
+    "onnx_dir": "/home/xavi/pureprotx/det/models_onnx",
+    "n_samples": 64,
+    "runs_per_cell": 40,
+    "thread_sweep": [
+      1,
+      2,
+      4
+    ],
+    "input_seed": 42,
+    "n_features": 2058,
+    "available_providers": [
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "results": {
+    "clf_gb_clf": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d",
+        "all_hashes_sample": [
+          "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d"
+        ],
+        "latency_ms_mean": 1.106
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d",
+        "all_hashes_sample": [
+          "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d"
+        ],
+        "latency_ms_mean": 0.745
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d",
+        "all_hashes_sample": [
+          "d16546211cf9bc505120dc17e3b66eb9b472c653cf7f78eab82226da7744329d"
+        ],
+        "latency_ms_mean": 0.599
+      }
+    },
+    "clf_rf_clf": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 3.738
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 2.258
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 1.791
+      }
+    },
+    "clf_svc": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 432.262
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 432.301
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec",
+        "all_hashes_sample": [
+          "ae1fd128caf85aaf5af91075ffc018dc15569e7c71c2c1fe9c4c1f75c5f661ec"
+        ],
+        "latency_ms_mean": 432.349
+      }
+    },
+    "reg_gradient_boosting": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d1b666d94815101464219f29e0ec5dc25f5c551b0a9aaa318a6f5f475555ec15",
+        "all_hashes_sample": [
+          "d1b666d94815101464219f29e0ec5dc25f5c551b0a9aaa318a6f5f475555ec15"
+        ],
+        "latency_ms_mean": 0.926
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "9eed58f74e38e71430a2baa81fe3cd0344f767234d5ab7c64274e1491a86e2c1",
+        "all_hashes_sample": [
+          "9eed58f74e38e71430a2baa81fe3cd0344f767234d5ab7c64274e1491a86e2c1"
+        ],
+        "latency_ms_mean": 0.702
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d4a62df077bccd29fd244b1899c2cf6f2f35dee7582d4738485806b603a87178",
+        "all_hashes_sample": [
+          "d4a62df077bccd29fd244b1899c2cf6f2f35dee7582d4738485806b603a87178"
+        ],
+        "latency_ms_mean": 0.579
+      }
+    },
+    "reg_random_forest": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "55ffe003aa1118fb7d71164607d2ced799597ff1762288b720b102b367755bad",
+        "all_hashes_sample": [
+          "55ffe003aa1118fb7d71164607d2ced799597ff1762288b720b102b367755bad"
+        ],
+        "latency_ms_mean": 5.956
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "3c79dd777f5ca60a201a3f64e20e8d1c981f64f7eef6b182ace18505eeb2dbf2",
+        "all_hashes_sample": [
+          "3c79dd777f5ca60a201a3f64e20e8d1c981f64f7eef6b182ace18505eeb2dbf2"
+        ],
+        "latency_ms_mean": 3.832
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "b1d3632fe0f9ce9f97b74ed2a3ade3f0f12c4017565b8ce48f2df25b07ea5701",
+        "all_hashes_sample": [
+          "b1d3632fe0f9ce9f97b74ed2a3ade3f0f12c4017565b8ce48f2df25b07ea5701"
+        ],
+        "latency_ms_mean": 3.633
+      }
+    },
+    "reg_svr": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7",
+        "all_hashes_sample": [
+          "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7"
+        ],
+        "latency_ms_mean": 699.782
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7",
+        "all_hashes_sample": [
+          "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7"
+        ],
+        "latency_ms_mean": 698.708
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          1
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7",
+        "all_hashes_sample": [
+          "d01eff08cd0b3270297d67523cf3cb25a47a1de7947fab875c70a9510bdaf1b7"
+        ],
+        "latency_ms_mean": 698.609
+      }
+    },
+    "scaler": {
+      "threads_1": {
+        "threads": 1,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          2058
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4",
+        "all_hashes_sample": [
+          "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4"
+        ],
+        "latency_ms_mean": 1.613
+      },
+      "threads_2": {
+        "threads": 2,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          2058
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4",
+        "all_hashes_sample": [
+          "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4"
+        ],
+        "latency_ms_mean": 1.096
+      },
+      "threads_4": {
+        "threads": 4,
+        "input_dtype": "float32",
+        "output_shape": [
+          64,
+          2058
+        ],
+        "runs": 40,
+        "unique_hashes": 1,
+        "bitwise_identical": true,
+        "canonical_hash": "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4",
+        "all_hashes_sample": [
+          "482d3916b942fd78bab4077e69aeef9c08744c1f80862e7221389eeba5dbe4f4"
+        ],
+        "latency_ms_mean": 0.904
+      }
+    }
+  }
+}

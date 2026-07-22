@@ -1,0 +1,23 @@
+=== A4 Part 1: Clique failure injection (real geth v1.13.15 testnet) ===
+chain id 900520900520, 4 signers, period 2s
+live nodes at start: 4/4, height 341
+
+Phase 0: baseline (4/4 signers), 20s ...
+Phase 1: after killing 1 signer (3/4), 20s ...
+  >>> docker kill pc-node2 (abrupt crash)
+Phase 2: after killing a 2nd signer (2/4), 25s ...
+  >>> docker kill pc-node3 (abrupt crash)
+Phase 3: recovery after restart ...
+  >>> docker start pc-node2 pc-node3 (recovery)
+Phase 3b: restored steady state (4/4), 20s ...
+
+--- SUMMARY (real measured block production) ---
+phase             live  blocks  blk/s   signers 
+baseline_4of4     4     10      0.5     4       
+kill1_3of4        3     9       0.45    3       
+kill2_2of4        2     0       0.0     3       
+recovered_4of4    4     10      0.5     4       
+
+recovery: recovered=True time=1.04s (height 364 -> 365)
+
+Wrote results/a4_testnet/failure_injection.json + failure_timeseries.csv

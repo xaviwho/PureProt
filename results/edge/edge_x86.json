@@ -1,0 +1,62 @@
+{
+  "manifest": {
+    "device": "x86-server",
+    "storage": "SSD",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "processor": "unknown",
+    "cpu_count": 12,
+    "python": "3.12.13",
+    "onnxruntime": "1.19.2",
+    "numpy": "2.5.1",
+    "rdkit": "2025.09.4",
+    "n_compounds_available": 3444
+  },
+  "results": [
+    {
+      "N": 100,
+      "n_valid": 100,
+      "featurize_ms": 211.4,
+      "infer_ms": 937.1,
+      "hash_ms": 5.673,
+      "total_ms": 1148.4,
+      "throughput_cps": 87.1,
+      "throughput_cpm": 5225.0,
+      "peak_rss_mb": 390.1,
+      "commit_ms": 1651.7,
+      "tx": "e1e386260edfe909d25f1b81faa256ae5dedd540f5407071eafe83d3920f6f0d",
+      "block": 1710397,
+      "end_to_end_ms": 2800.1
+    },
+    {
+      "N": 500,
+      "n_valid": 500,
+      "featurize_ms": 1000.1,
+      "infer_ms": 4650.1,
+      "hash_ms": 20.077,
+      "total_ms": 5650.2,
+      "throughput_cps": 88.5,
+      "throughput_cpm": 5310.0,
+      "peak_rss_mb": 419.8,
+      "commit_ms": 1835.4,
+      "tx": "bf2f3487b2db7c10b614bbc6b0013fbf549ad6b4df0d22037f480d8f9e294486",
+      "block": 1710416,
+      "end_to_end_ms": 7485.6
+    },
+    {
+      "N": 1000,
+      "n_valid": 1000,
+      "featurize_ms": 2162.4,
+      "infer_ms": 9353.5,
+      "hash_ms": 35.233,
+      "total_ms": 11515.9,
+      "throughput_cps": 86.8,
+      "throughput_cpm": 5210.0,
+      "peak_rss_mb": 445.7,
+      "commit_ms": 1664.1,
+      "tx": "572b3e270d35d184d770b0b84b91d7c1a319aa7ad21b781a80f7aa9602070934",
+      "block": 1710453,
+      "end_to_end_ms": 13180.0
+    }
+  ]
+}

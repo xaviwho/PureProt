@@ -1,0 +1,179 @@
+{
+  "framing": "External control layer over stock geth v1.13.15 Clique; gap condition is the paper's PROPOSED mechanism, not a PureChain node feature. Local testnet, no mainnet contact.",
+  "params": {
+    "reliability_window_W": 6,
+    "gap_threshold": 0.5,
+    "clique_period_s": 2,
+    "chain_id": 900520900520
+  },
+  "gap_detection_latency_s": 18.64,
+  "promotion_latency_s": 33.14,
+  "authorized_after_healing": [
+    "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+    "0x716671ea17ffef981181ac78688046284994b745",
+    "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+    "0xdc624395ebc1ba927928a37667d77a5b9a2847de"
+  ],
+  "payoff_second_fault": {
+    "blocks_in_16s": 13,
+    "block_rate_per_s": 0.812,
+    "stalled": false,
+    "contrast": "Part 1 (static set) stalled at 2/4; here the healed set survives a 2nd fault without stalling."
+  },
+  "events": [
+    {
+      "t_s": 0.04,
+      "event": "baseline: 4 authorised, standbys idle",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 17.14,
+      "event": "fault injected: node2 killed",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 35.78,
+      "event": "GAP CONDITION FIRED: R(node2)=0.0 < 0.5",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 39.97,
+      "event": "vote: promote node5 (add signer)",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 50.28,
+      "event": "node5 promoted AND sealing; promotion latency 33.14s from fault",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xdc624395ebc1ba927928a37667d77a5b9a2847de",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 54.46,
+      "event": "vote: evict node2 (remove signer)",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xdc624395ebc1ba927928a37667d77a5b9a2847de",
+        "0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 62.54,
+      "event": "post-promotion authorised set: ['0x3bb53d673cee3828a15fff17f45b2fcc14063723', '0x716671ea17ffef981181ac78688046284994b745', '0xd309f3d3ecf268e2d765986e11bdb4801ab609d9', '0xdc624395ebc1ba927928a37667d77a5b9a2847de']",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xdc624395ebc1ba927928a37667d77a5b9a2847de"
+      ],
+      "live": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 67.0,
+      "event": "fault injected: node3 killed",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xdc624395ebc1ba927928a37667d77a5b9a2847de"
+      ],
+      "live": [
+        1,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "t_s": 91.22,
+      "event": "after 2nd fault: 13 blocks in ~16s (rate 0.812/s) -- stalled=False",
+      "authorized": [
+        "0x3bb53d673cee3828a15fff17f45b2fcc14063723",
+        "0x716671ea17ffef981181ac78688046284994b745",
+        "0xd309f3d3ecf268e2d765986e11bdb4801ab609d9",
+        "0xdc624395ebc1ba927928a37667d77a5b9a2847de"
+      ],
+      "live": [
+        1,
+        4,
+        5,
+        6
+      ]
+    }
+  ]
+}

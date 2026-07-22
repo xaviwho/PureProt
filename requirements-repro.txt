@@ -1,0 +1,27 @@
+# PureProtX — reproducibility-pinned environment (determinism + edge experiments)
+#
+# These are the EXACT versions verified together during A1/B0/B1 (x86_64 +
+# Jetson Orin Nano + Raspberry Pi 4, Python 3.12.10). Use this file for the
+# verifiable-determinism / edge-throughput pipeline. The legacy requirements.txt
+# is intentionally left unchanged (older modules may depend on web3 6.x / sklearn
+# 1.2 APIs — reconciling it needs a full-codebase test run; see ENV_PINNING_NOTE.md).
+#
+# Python: 3.12.10  (scikit-learn 1.8 requires Python >= 3.11)
+#
+# NOTE on onnxruntime: the paper pins 1.18.0, but 1.18.0 is compiled against
+# numpy<2 and cannot coexist with the numpy-2-pickled joblib models. A1 proved
+# ONNX output is BYTE-IDENTICAL from ORT 1.17 through 1.22, so we pin 1.19.2 here
+# (numpy-2 native) to remove the ABI conflict WITHOUT changing any result. If you
+# must keep 1.18.0, use numpy==1.26.4 and re-pickle the models under numpy<2.
+
+onnxruntime==1.19.2
+numpy==2.5.1
+scipy==1.18.0
+scikit-learn==1.8.0
+skl2onnx==1.17.0
+onnx==1.17.0
+rdkit==2025.9.4
+joblib==1.5.3
+web3==7.14.1
+paho-mqtt==2.0.0
+cryptography==49.0.0

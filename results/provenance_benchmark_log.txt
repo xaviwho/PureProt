@@ -1,0 +1,19 @@
+﻿=== A3 Provenance Baseline Benchmark (R2.5) ===
+Platform: Windows-11-10.0.26200-SP0
+Python 3.12.10, cryptography 49.0.0
+  benchmarking N=10 ...
+  benchmarking N=100 ...
+  benchmarking N=1000 ...
+  benchmarking N=10000 ...
+
+--- Per-record write latency (measured local vs reused PoA2) ---
+  Ed25519 signed log :     52.3 us/record
+  IPFS CID (local)   :      7.4 us/record
+  Merkle root build  :      1.1 us/record
+  PoA2 individual    :   1904.0 ms/record  (reused, V-C)
+  PoA2 Merkle-batch  :     21.2 ms/record  (reused, V-E N=100)
+
+Wrote:
+  results/provenance_comparison.csv
+  results/provenance_comparison.md
+  results/provenance_manifest.json

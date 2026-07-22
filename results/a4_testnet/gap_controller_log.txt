@@ -1,0 +1,27 @@
+=== A4 Part 2: gap-condition controller (external layer on real Clique) ===
+mesh peering all 6 nodes ...
+authorized signers at start (4): ['0x3bb53d673cee3828a15fff17f45b2fcc14063723', '0x716671ea17ffef981181ac78688046284994b745', '0xd309f3d3ecf268e2d765986e11bdb4801ab609d9', '0xe2c299d8a098080a756bcac9e56c99b2ed4ece2f']
+live nodes: [1, 2, 3, 4, 5, 6] (standbys 5,6 synced but NOT authorised)
+
+  [  0.0s] baseline: 4 authorised, standbys idle
+attribution check: block 2543 signed by node 2
+Phase A: baseline reliabilities (16s) ...
+Phase B: FAULT -- docker kill pc-node2 ...
+  [ 17.1s] fault injected: node2 killed
+Phase C: controller monitoring reliability for gap condition ...
+  [ 35.8s] GAP CONDITION FIRED: R(node2)=0.0 < 0.5
+Phase D: promoting standby node5, evicting node2 (voting on live signers [1, 3, 4]) ...
+  [ 40.0s] vote: promote node5 (add signer)
+  [ 50.3s] node5 promoted AND sealing; promotion latency 33.14s from fault
+  [ 54.5s] vote: evict node2 (remove signer)
+  [ 62.5s] post-promotion authorised set: ['0x3bb53d673cee3828a15fff17f45b2fcc14063723', '0x716671ea17ffef981181ac78688046284994b745', '0xd309f3d3ecf268e2d765986e11bdb4801ab609d9', '0xdc624395ebc1ba927928a37667d77a5b9a2847de']
+Phase E: payoff -- kill a 2nd active signer (node3); expect NO stall ...
+  [ 67.0s] fault injected: node3 killed
+  [ 91.2s] after 2nd fault: 13 blocks in ~16s (rate 0.812/s) -- stalled=False
+
+--- SUMMARY ---
+gap detection latency : 18.64 s
+promotion latency     : 33.14 s
+healed signer set     : ['0x3bb53d673cee3828a15fff17f45b2fcc14063723', '0x716671ea17ffef981181ac78688046284994b745', '0xd309f3d3ecf268e2d765986e11bdb4801ab609d9', '0xdc624395ebc1ba927928a37667d77a5b9a2847de']
+2nd-fault payoff      : 13 blocks/16s, stalled=False
+Wrote results/a4_testnet/gap_controller.json + gap_controller_timeseries.csv
