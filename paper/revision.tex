@@ -332,23 +332,7 @@ directly in Section~\ref{sec:provenance-baselines}.}
 
 \begin{figure*}[!htbp]
 \centering
-\begin{tikzpicture}[node distance=4mm, every node/.style={font=\small},
-box/.style={draw=blue, rounded corners, align=center, text width=12.5cm,
-inner sep=5pt, text=blue}, >=Stealth]
-\node[box] (ingest) {IoT nodes $\rightarrow$ MQTT broker $\rightarrow$ nonce-managed bridge};
-\node[box, below=of ingest] (infer) {Inference: 3 regressors (SVR, RF, GB) + 3 classifiers\\
-ONNX artifacts + scaler; replay only within validated pinned configurations\\
-Offline Vina scores $\rightarrow$ oriented normalization $\rightarrow$ hybrid ranking};
-\node[box, below=of infer] (hash) {Canonical outputs $\rightarrow$ SHA-256 $\rightarrow$ Merkle batch root};
-\node[box, below=of hash] (chain) {Production PureChain: stock go-ethereum Clique\\
-Transaction submission $\rightarrow$ receipt and on-chain digest};
-\node[box, below=of chain] (verify) {Independent verification: reproduce supported configuration\\
-Recompute digest $\rightarrow$ compare with anchored record};
-\node[box, dashed, below=of verify] (control) {Separate local four-signer testnet only:\\
-Proposed PoA$^2$ reliability/gap controller $\rightarrow$ Clique signer voting};
-\foreach \a/\b in {ingest/infer,infer/hash,hash/chain,chain/verify}
-\draw[->,blue] (\a) -- (\b);
-\end{tikzpicture}
+\includegraphics[width=0.60\textwidth]{images/System_Architecture.png}
 \caption{\rev{R1.1, R1.2, R1.3, R2.1, R2.4}{PureProtX architecture.
 Production Clique anchoring and independent verification are distinct
 from the proposed PoA$^2$ controller evaluated on the local testnet.
