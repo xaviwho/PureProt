@@ -1,0 +1,73 @@
+{
+  "generator": "scripts/generate_revision_latency_figures.py",
+  "scope": "Regenerated from archived runs; no new benchmark or live-chain verification.",
+  "input_sha256": {
+    "results\\scalability_benchmark.csv": "c2e402f973beeb4cec80f6f6f3022d493542d32cf6a130fc955defb67dd7d6dd",
+    "results\\provenance_comparison.csv": "82ee0f0f742d3817c0dd902a621de07d335e277bbb3525fac2ca34c1cfb496c2",
+    "results\\provenance_manifest.json": "04e5aba362dba94dd21840814d25ec1101a760ea591c578851251ab9d063086d"
+  },
+  "checks": [
+    "Positive finite times",
+    "Unique scalability batch sizes",
+    "Totals agree with per-record times within CSV rounding",
+    "Speedups agree with ratios within CSV rounding"
+  ],
+  "scalability_plot_rows": [
+    {
+      "N": 10.0,
+      "strategy_a_total_s": 18.5199,
+      "strategy_b_total_s": 0.9927,
+      "strategy_a_per_record_ms": 1851.9881,
+      "strategy_b_per_record_ms": 99.2717,
+      "speedup_factor": 18.66
+    },
+    {
+      "N": 50.0,
+      "strategy_a_total_s": 94.0737,
+      "strategy_b_total_s": 1.9413,
+      "strategy_a_per_record_ms": 1881.473,
+      "strategy_b_per_record_ms": 38.827,
+      "speedup_factor": 48.46
+    },
+    {
+      "N": 100.0,
+      "strategy_a_total_s": 187.9944,
+      "strategy_b_total_s": 1.9663,
+      "strategy_a_per_record_ms": 1879.9435,
+      "strategy_b_per_record_ms": 19.6628,
+      "speedup_factor": 95.61
+    }
+  ],
+  "provenance_plot_N": 100,
+  "provenance_plot_values_ms_per_record": {
+    "Merkle root build": 0.0010959999781334773,
+    "Local content address": 0.0073999999949592166,
+    "Ed25519 signed log": 0.052348999997775536,
+    "Clique batch (N=100)": 19.6628,
+    "Clique individual": 1879.9435
+  },
+  "local_measurement_protocol": {
+    "experiment": "A3 provenance baselines (R2.5)",
+    "python_version": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 165 Stepping 5, GenuineIntel",
+    "machine": "AMD64",
+    "cryptography_version": "49.0.0",
+    "batch_sizes": [
+      10,
+      100,
+      1000,
+      10000
+    ],
+    "repeats_per_measurement": 5,
+    "timing": "best-of-N wall clock, single-thread, time.perf_counter",
+    "storage_medium": "x86 dev box local SSD (not the Jetson SD card)",
+    "note": "Local mechanisms measured on this x86 host. PoA2/PureChain figures are reused, not re-measured; see provenance_comparison.md."
+  },
+  "limitations": [
+    "Scalability has one archived run per batch size; no uncertainty bars.",
+    "Local timings are best-of-five from a separate measurement protocol.",
+    "Content addressing measures local CID calculation, not IPFS network I/O.",
+    "These checks validate plotted data, not original live transaction execution."
+  ]
+}

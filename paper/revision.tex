@@ -1425,26 +1425,14 @@ real PureChain transactions.
 
 \begin{figure}[!t]
 \centering
-\begin{tikzpicture}[x=5.8cm,y=1.5cm, every node/.style={font=\scriptsize},text=blue]
-\draw[->,blue] (0,-0.1) -- (1.13,-0.1) node[below left] {Batch size $N$ (log)};
-\draw[->,blue] (0,-0.1) -- (0,2.65) node[above right] {ms/record (log)};
-\foreach \y/\v in {0/10,1/100,2/1000}
- {\draw[blue!30] (0,\y) -- (1.05,\y); \node[left] at (0,\y) {\v};}
-\foreach \x/\v in {0/10,0.699/50,1/100}
- \node[below] at (\x,-0.1) {\v};
-\draw[blue,thick] (0,2.268) -- (0.699,2.275) -- (1,2.274);
-\draw[blue,dashed,thick] (0,0.997) -- (0.699,0.589) -- (1,0.294);
-\foreach \x/\y in {0/2.268,0.699/2.275,1/2.274} \fill[blue] (\x,\y) circle (1.5pt);
-\foreach \x/\y in {0/0.997,0.699/0.589,1/0.294} \draw[blue] (\x,\y) circle (2pt);
-\node[above] at (0.5,2.3) {Individual commits};
-\node[above] at (0.5,0.85) {Merkle batch};
-\end{tikzpicture}
+\includegraphics[width=\columnwidth]{images/fig_ve_scalability.png}
 \caption{\rev{R1.4, R2.2}{Per-record blockchain anchoring latency
 versus batch size (log--log scale), reconciled to the archived
 \texttt{results/scalability\_benchmark.csv}. Speedups at
 $N{=}10,50,100$ are 18.7, 48.5, and 95.6, respectively.
 Batching is already beneficial at the smallest tested size;
-the exact crossover below $N{=}10$ was not measured.}}
+the exact crossover below $N{=}10$ was not measured. One archived
+run per size is plotted; no error bars are inferred.}}
 
 \label{fig:scalability}
 \end{figure}
@@ -1466,29 +1454,19 @@ Section~\ref{sec:provenance-baselines}.}
 
 \begin{figure}[!htbp]
 \centering
-\resizebox{\columnwidth}{!}{%
-\begin{tikzpicture}[x=0.67cm,y=0.65cm,every node/.style={font=\footnotesize},text=blue]
-\foreach \y/\rowtext/\x/\lattext in {
-4/{Merkle root build}/0.0414/{0.0011},
-3/{Local content address}/0.8692/{0.0074},
-2/{Ed25519 signed log}/1.7185/{0.0523},
-1/{Clique batch ($N{=}100$)}/4.2936/{19.66},
-0/{Clique individual}/6.2741/{1,879.94}}
-{\node[left,align=right,text width=3cm] at (0,\y) {\rowtext};
- \draw[blue,line width=3pt] (0,\y) -- (\x,\y);
- \node[right] at (\x,\y) {\lattext};}
-\draw[->,blue] (0,-0.6) -- (7.1,-0.6);
-\foreach \x/\ticktext in {0/0.001,2/0.1,4/10,6/1000}
- \node[below] at (\x,-0.6) {\ticktext};
-\node[below] at (3.5,-1.1) {Per-record write latency (ms, log scale)};
-\end{tikzpicture}}
+\includegraphics[width=\columnwidth]{images/fig3_provenance_cost.png}
 \caption{\rev{R2.2, R2.4}{Per-record write latency of
 provenance mechanisms (log scale): Merkle root build, IPFS CID,
 Ed25519 signed log, and on-chain anchoring (Merkle-batched and
 individual commit). Local mechanisms are microseconds; on-chain
 anchoring incurs a consensus round-trip. The on-chain approach
 is not competitive on cost; its advantage is the trust model
-(Table~\ref{tab:trustmatrix}).}}
+(Table~\ref{tab:trustmatrix}). At $N{=}100$, local operations
+use archived best-of-five timings; chain timings come from the
+separate archived scalability run. Local CID computation excludes
+IPFS persistence and network retrieval. Both latency figures are
+generated directly from these CSVs by
+\texttt{scripts/generate\_revision\_latency\_figures.py}.}}
 \label{fig:provcost}
 \end{figure}
 
