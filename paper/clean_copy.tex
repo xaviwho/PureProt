@@ -916,7 +916,7 @@ does not establish a consensus protocol or a finality guarantee.}
 \centering
 \begin{tikzpicture}[node distance=3mm,
 box/.style={draw=blue, rounded corners, align=center, text width=7.3cm,
-inner sep=4pt, font=\footnotesize, text=blue}, >=Stealth]
+inner sep=4pt, font=\footnotesize, text=black}, >=Stealth]
 \node[box] (out) {Pipeline output $\rightarrow$ canonical serialization $\rightarrow$ SHA-256};
 \node[box, below=of out] (root) {Individual digest or one Merkle root for $N$ records};
 \node[box, below=of root] (tx) {Submit transaction to production Clique network\\
