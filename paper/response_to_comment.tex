@@ -5,6 +5,8 @@
 \usepackage[table]{xcolor}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx,booktabs,array}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=black,pdftitle={PureProtX: Response to the Associate Editor and Reviewers}}
 \newenvironment{excerpt}{\begin{quote}\small\sloppy}{\end{quote}}
@@ -55,19 +57,24 @@ Reviewer~1's four unnumbered requests are numbered in their original order.
 
 \begin{table}[!htbp]
 \centering
-\caption{Summary of major differences between the previous manuscript and the revised version.}
+\caption{Structural counts for the previous manuscript source and the revised manuscript.}
 \begin{tabular}{lcc}
 \toprule
 Paper changes & Previous manuscript & Revised manuscript \\
 \midrule
-Number of pages & 16 & 20 \\
-Number of figures & 7 & 10 \\
-Number of tables & 9 & 17 \\
-Number of algorithms & 0 & 1 \\
-Number of references & 35 & 42 \\
+Number of pages & --- & 18 \\
+Number of figures & 13 & 13 \\
+Number of numbered tables & 13 & 13 \\
+Number of algorithms & 3 & 3 \\
+Number of references & 34 & 34 \\
 \bottomrule
 \end{tabular}
 \end{table}
+\noindent\small Source counts compare the previous manuscript at commit
+\texttt{762d36a} with the revised source. The unnumbered abbreviation
+table is excluded. The revised PDF has 18 pages; the previous PDF page
+count has not been independently established and is therefore not stated.
+\normalsize
 
 \newpage
 
@@ -235,9 +242,13 @@ only. The conclusion explicitly identifies production failure injection and
 larger signer sets as future work. The production anchoring transactions
 are not described as controller-deployment evidence.
 
+\clearpage
 \loc{(a) Page 5, Figure 1: architecture separates production and testnet roles}
 \begin{excerpt}
 \mshead{III-A}{Architecture Overview}
+\begin{center}
+\includegraphics[width=\linewidth]{images/System_Architecture.png}
+\end{center}
 \textbf{Figure 1 caption.}
 
 \textcolor{blue}{PureProtX architecture.
@@ -402,7 +413,8 @@ latency without assigning a percentage overhead. Figure~7 is generated
 directly from \nolinkurl{results/scalability_benchmark.csv}; the local
 baseline points in Figure~8 come from
 \nolinkurl{results/provenance_comparison.csv}. The plotting script checks
-the archived arithmetic and records input hashes. The captions distinguish
+the archived arithmetic and records input hashes. The revised figures
+are reproduced in excerpt~(c) below, rather than only described in captions. The captions distinguish
 one-run chain timings from best-of-five local timings; no additional runs
 or confidence intervals are claimed.
 
@@ -458,6 +470,42 @@ so a percentage cannot be inferred. The previous $<0.01\%$
 claim is withdrawn. Batching lowers per-record anchoring
 latency in the evaluated regime; whether its end-to-end
 percentage is negligible depends on measured compute time.}
+\end{excerpt}
+
+
+\clearpage
+\loc{(c) Page 12, Figures 7--8: regenerated plots from the archived measurements}
+\begin{excerpt}
+\mshead{V-D}{Blockchain Scalability and Merkle Efficiency}
+\begin{center}
+\includegraphics[width=0.86\linewidth]{images/fig_ve_scalability.png}
+\end{center}
+\textbf{Figure 7.}
+\textcolor{blue}{Per-record blockchain anchoring latency versus
+batch size (log--log scale), reconciled to the archived
+\texttt{results/scalability\_benchmark.csv}. Speedups at
+$N{=}10,50,100$ are 18.7, 48.5, and 95.6, respectively.
+Batching is already beneficial at the smallest tested size;
+the exact crossover below $N{=}10$ was not measured. One archived
+run per size is plotted; no error bars are inferred.}
+
+\medskip
+\begin{minipage}{\linewidth}
+\mshead{V-E}{Comparison with Alternative Provenance Mechanisms}
+\begin{center}
+\includegraphics[width=0.86\linewidth]{images/fig3_provenance_cost.png}
+\end{center}
+\textbf{Figure 8.}
+\textcolor{blue}{Per-record write latency of provenance mechanisms
+(log scale): Merkle root build, IPFS CID, Ed25519 signed log, and
+on-chain anchoring (Merkle-batched and individual commit). Local
+mechanisms are microseconds; on-chain anchoring incurs a consensus
+round-trip. The on-chain approach is not competitive on cost; its
+advantage is the trust model (Table~VII). At $N{=}100$, local
+operations use archived best-of-five timings; chain timings come
+from the separate archived scalability run. Local CID computation
+excludes IPFS persistence and network retrieval.}
+\end{minipage}
 \end{excerpt}
 
 \review{2.3}{In Eqs. (3)--(4), the normalized docking scores are combined with AI activity scores. Since more negative Vina binding energies generally indicate more favorable binding, whereas higher AI activity scores indicate stronger predicted activity, the score directions require clarification. Please explain the normalization, score orientation, and ranking convention used in the implementation.}
@@ -556,9 +604,27 @@ Section~III-G likewise distinguishes the production protocol from the
 proposed policy equations, as explained under R1.2. We have made the same
 distinction in the architecture and abstract to avoid contradictory labels.
 
+\clearpage
 \loc{(a) Page 8, Figure 2: corrected description of the production anchoring protocol}
 \begin{excerpt}
 \mshead{III-G}{Clique Provenance and Proposed PoA$^2$ Control}
+\begin{minipage}{\linewidth}
+\begin{center}
+\begin{tikzpicture}[node distance=3mm,
+box/.style={draw=blue, rounded corners, align=center, text width=7.3cm,
+inner sep=4pt, font=\footnotesize, text=blue}, >=Stealth]
+\node[box] (out) {Pipeline output $\rightarrow$ canonical serialization $\rightarrow$ SHA-256};
+\node[box, below=of out] (root) {Individual digest or one Merkle root for $N$ records};
+\node[box, below=of root] (tx) {Submit transaction to production Clique network\\
+Authorized signer seals a block; wait for transaction receipt};
+\node[box, below=of tx] (check) {Read anchored digest; re-execute within supported pinned\\
+configuration; compare $H_{\mathrm{local}}$ with $H_{\mathrm{chain}}$};
+\node[box, below=of check] (cost) {$N{=}100$: 100 individual commits = 187.9944~s\\
+One batch anchor = 1.9663~s = 19.66~ms/record};
+\foreach \a/\b in {out/root,root/tx,tx/check}
+\draw[->,blue] (\a) -- (\b);
+\end{tikzpicture}
+\end{center}
 \textbf{Figure 2 caption.}
 
 \textcolor{blue}{Production
@@ -567,6 +633,7 @@ measurement is transaction-to-receipt latency, not weighted-signature
 PoA$^2$ finality. The proposed controller is a separate local-testnet
 experiment. Batching amortizes anchoring cost; a percentage overhead
 also requires a matched compute-time denominator.}
+\end{minipage}
 \end{excerpt}
 
 \loc{(b) Page 11, Table VI: corrected measurement label}
