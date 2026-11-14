@@ -907,7 +907,7 @@ live permissioned ledger (Chain ID 900520900520)
 \textcolor{black}{built on a Proof-of-Authority (Clique) network, over
 which the PoA$^2$ reliability and gap-condition mechanism is
 defined~\cite{kim2025proof, ajakwe2025ebctc}.}
-PureChain operates with four active validators (\textcolor{red}{Table~\ref{tab:validators}}),
+PureChain operates with four active validators (\textcolor{black}{Table~\ref{tab:validators}}),
 \textcolor{black}{whose addresses were recovered from block-seal
 attribution.} \rev{R2.4}{The measured ${\sim}2$~s transaction-to-receipt
 latency describes anchoring on this Clique network; latency alone
@@ -1210,11 +1210,11 @@ Fig.~\ref{fig:cli}.
 \section{\textbf{experimental setup}}
 \label{sec:experiments}
 \textcolor{black}{Software components were developed and validated in a pinned
-software environment (\textcolor{red}{Table~\ref{tab:system-setup}}) to fix dependency versions for reproducibility.
+software environment (\textcolor{black}{Table~\ref{tab:system-setup}}) to fix dependency versions for reproducibility.
 Edge-performance and cross-architecture determinism experiments were then run
 on real hardware---an uncapped x86\_64 server reference, an NVIDIA Jetson
-Orin Nano, and a Raspberry Pi~4 (\textcolor{red}{Table~\ref{tab:edge-tiers}})---rather than in resource-capped
-containers.} \textcolor{red}{Table~\ref{tab:system-setup}} summarises the complete system configuration, software
+Orin Nano, and a Raspberry Pi~4 (\textcolor{black}{Table~\ref{tab:edge-tiers}})---rather than in resource-capped
+containers.} \textcolor{black}{Table~\ref{tab:system-setup}} summarises the complete system configuration, software
 stack, blockchain parameters, \textcolor{black}{edge hardware,} and dataset
 specification. Blockchain operations used the PureChain
 deployment (Chain ID 900520900520, zero-gas \textcolor{black}{permissioned
@@ -1573,7 +1573,7 @@ C:GB         & \texttt{2f59eaa7edf951c47555331b}
 
 \textcolor{black}{Within a fixed configuration, \rev{R2.1}{all six predictive models and the scaler are}
 bitwise-deterministic across 40 independent runs and concordant with sklearn
-outputs within characterised tolerances (\textcolor{red}{Table~\ref{tab:onnx}}). All ONNX model hashes
+outputs within characterised tolerances (\textcolor{black}{Table~\ref{tab:onnx}}). All ONNX model hashes
 are anchored on-chain, enabling any edge node to verify it is running the
 authorised model version by comparing its local ONNX binary hash against the
 immutable on-chain record. The extent to which this determinism holds across
